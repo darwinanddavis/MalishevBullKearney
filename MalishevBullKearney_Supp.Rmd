@@ -1290,9 +1290,22 @@ $$
         {e + g}
 $$
 
+******
+
+![Figure S1. Distributions of home range area (km2) of real animals (pink) and simulated optimising (orange) and satisficing (blue) movement strategies under (A) dense and (B) sparse resource distribution (food and shade). Insets (L–R): Home range polygons in space showing overlap of simulated satisficing (blue) and optimising (orange) movement strategies, and examples of (upper) dense and (lower) sparse resource distributions in the study site.](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S1.png)  
+
+![Figure S2. Rates of Tb change (ºC 2 min–1) comparing (A) observed active (orange; #11885) and passive (blue; #11533) movement and (B) simulated optimising (orange) and satisficing (blue) movement for the morning hours (heating period; 06:00–12:00). (C) Observed active (orange) and passive (blue) movement and (D) simulated optimising (orange) and satisficing (blue) movement for the afternoon hours (cooling period; 12:00–18:00) throughout the breeding season. Animal graphics represent the most probable activity state of the animal (from Fig. 2).](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S2.png)  
 
 
+# References  
+Auburn, Z. M., Bull, C. M. and Kerr G. D. (2009) The visual perceptual range of a lizard, Tiliqua rugosa, J. Ethol. 27:75-81.
 
+Brown, G. W. (1991) Ecological feeding analysis of south-eastern Australian Scincids  (Reptilia--Lacertilia), Aust. J. Zool. 39:9-29.
 
+Kearney, M. R., Simpson, S. J., Raubenheimer, D. & Kooijman, S. A. L. M. (2012) Balancing heat, water and nutrients under environmental change: a thermodynamic niche framework. Functional Ecology, 27(4), 950–966.
+
+Kooijman, S.A.L.M., (2010). Dynamic Energy Budget Theory, Cambridge, UK: Cambridge University Press.
+
+Pamula, Y. (1997) Ecological and physiological aspects of reproduction in the viviparous skink Tiliqua rugosa, Ph.D. thesis, Flinders University, South Australia, Australia. 
 
 
