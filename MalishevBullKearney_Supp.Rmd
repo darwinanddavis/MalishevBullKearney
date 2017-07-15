@@ -1,0 +1,1298 @@
+---
+title: Appendices for ‘An individual-based model of ectotherm movement integrating
+  metabolic and microclimatic constraints’
+output:
+  html_document:
+    code_folding: hide
+    depth: 3
+    number_sections: no
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+  word_document:
+    highlight: tango
+    keep_md: yes
+    toc: yes
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
+</script>
+
+###Matthew Malishev^1,2^*, C. Michael Bull^3^ & Michael R. Kearney^2^  
+
+#####_^1^ Centre of Excellence for Biosecurity Risk Analysis, ^2^ School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia_ 
+
+#####_^3^ School of Biological Sciences, Flinders University, Adelaide, 5001, Australia_ 
+
+#####*Corresponding author: matthew.malishev@gmail.com  
+
+******
+
+# Appendix 1
+Netlogo IBM decision making model (.nlogo). Available on [Github](https://github.com/darwinanddavis/Sleepy_IBM/blob/master/Sleepy%20IBM_v.6.1.1_two%20strategies.nlogo). 
+
+### space and time scales
+```{RNetLogo error=F, message=F, warning=F}
+; Spatial scale: 1500 * 1500 m
+; 1 patch = 2 m
+; 1 tick = 2 min
+; 1 day = 720 ticks
+; 1 tick = 2 bites possible for small food; 4 bites possible for large food
+
+```
+
+### interface
+```{RNetLogo error=F, message=F, warning=F}
+; Energy cost of individual
+; =========================
+; Movement-cost:    Cost (J) of moving one patch (2 m). Calculated from DEB model.
+; Maintenance-cost: Cost (J) of paying maintenance. Calculated from DEB model.
+
+; Energy gain of individual
+; =================
+; Low-food gain:  Energy gain (J) from small food items (Brown 1991).
+; kap_X:          Conversion efficiency of assimilated energy from food (J) (Kooijman 2010).
+
+; Food patch growth
+; =================
+; Large-food-initial: Initial energy level (J) of large food items at setup. Parameterised from literature.
+; Small-food-initial: Initial energy level (J) of small food items at setup. Parameterised from literature.
+
+; Individual attributes
+; ===================
+; Maximum-reserve: Maximum reserve level (J). Appears in 'to setup' and 'to make decision'.
+; Minimum-reserve: Define the critical starvation period. Individuals can survive without food for two hours in this state (reasonable estimate). 
+
+```
+
+###globals 
+```{RNetLogo error=F, message=F, warning=F}
+globals
+[
+  in-shade?          ; Reports TRUE if turtle is in shade
+  in-food?           ; Reports TRUE if turtle is in a food patch
+  min-energy         ; Minimum food unit level for individual to lose interest and move away from patch. This eliminates the incentive for individuals to return immediately to the previously visited food patch after vacating it.
+  reserve-level      ; Reserve level of individual.
+  min-vision         ; Minimum (normal) vision range of individuals (Auburn et al. 2009).
+  max-vision         ; Maximum vision range of individuals activated by starvation mode. See 'to starving' procedure (Auburn et al. 2009)
+  ctmincount         ; Counter for time spent under min_T_b_
+  feedcount          ; Counter for time spent in feeding state.
+  restcount          ; Counter for the time spent resting in shade
+  searchcount        ; Counter for time spent searching for food.
+  starvecount        ; Counter for time spent in starvation state.
+  shadecount         ; Counter for time spent searching for shade following a feeding bout.
+  transcount         ; Counter for frequency of transitions between any of the three activity states--searching, feeding, resting.
+  zenith             ; Zenith angle of sun (update-sun procedure).
+  tempXY             ; XY coords for drawing homerange 
+  gutfull            ; Reports gut level of DEB model
+  movelist           ; List of cumulative movement costs
+  fh_                 ; String for working dir to export results
+  ]
+```
+
+###turtles-own
+```{RNetLogo error=F, message=F, warning=F}
+turtles-own
+[
+  activity-state     ; Individual is either under a Searching, Feeding, or Resting state for each tick. The transition between the various activity states defines the global behavioural repertoire.
+  energy-gain        ; Converted energy gained from food
+  T_b_               ; Body temperature (T_b) of individual (Celsius)
+  T_b_basking_       ; Basking body temperature of individual (Celsius)
+  T_opt_range        ; Foraging body temperature range of individual (Celsius)
+  T_opt              ; Median foraging body temperature of individual (Celsius)
+  T_opt_lower_        ; Lower foraging body temperature of individual (Celsius)
+  T_opt_upper_        ; Upper foraging body temperature of individual (Celsius)
+  min-T_b_           ; Lower critical body temperature (min-T_b) of individual (Celsius)
+  max-T_b_           ; Upper critical body temperature (max-T_b) of individual (Celsius)
+  vision-range       ; Vision (no. of patches) range of individual.
+  has-been-starving? ; Results reporter only variable for reporting stavation time only if individual has starved
+  has-been-feeding?  ; Results reporter only variable for reporting feeding time only if individual has been feeding
+  X                  ; List of x coords for homerange
+  Y                  ; List of y coords for homerange
+  gutthresh_         ; Threshold for gutlevel to motivate turtle to move
+  V_pres_            ; DEB structural volume
+  wetgonad_          ; DEB wet mass reproductive organ volume
+  wetstorage_        ; DEB wet mass storage
+  wetfood_           ; DEB converted food mass
+  ]
+```
+
+### patches-own
+```{RNetLogo error=F, message=F, warning=F}
+patches-own
+[
+  patch-type    ; Defines type of patches in environment as either Food or Shade.
+  food-level    ; *> Interface <* Defines the initial and updated level of energy (J) in food patches. Food level increases (plant growth; see 'Food patch growth' in Interface) and decreases (feeding by individual) with each tick.
+  shade-level   ; *> Interface <* Defines the initial and updated level of shade in shade patches. Shade levels remain constant throughout simulation.
+  ]
+```
+
+###breeds
+```{RNetLogo error=F, message=F, warning=F}
+breed
+[homeranges homerange]
+```
+
+### setup
+```{RNetLogo error=F, message=F, warning=F}
+to setup
+  ca
+  if Food-patches + Shade-patches > count patches
+  [ user-message (word "Lower the sum of shade and food patches to < " count patches ".")
+    stop ]
+  random-seed 1                          ; Outcomment to generate seed for spatial configuration of all patches in the landscape (food and shade). For reproducibility. NB: turtle movement is still stochastic. See below random-seed primitive for complete function.
+  set min-energy Small-food-initial
+  set min-vision 5                         ; 10m (Auburn et al. 2009)
+
+  ask patches
+  [set patch-type "Sun"
+    set pcolor (random 1 + blue)]
+
+  let NumFoodPatches Food-patches / 10
+  ask n-of NumFoodPatches patches [
+    ask n-of 10 patches in-radius 4 [ ; Sets 10 random food patches within a 5-patch radius of Food-patches
+    let food-amount random 100
+    ifelse food-amount < 50
+    [set food-level (Small-food-initial) + random-float 1 * 10 ^ -5] ; Makes only one food patch attractive to turtle
+    [set food-level (Large-food-initial) + random-float 1 * 10 ^ -5]
+      set pcolor PatchColor
+      set patch-type "Food"
+      ]
+  ]
+
+ifelse Shade-density = "Random"[ ; chooser for setting Random or Clumped shade patches (similar to food patch arrangement)
+  let NumShadePatches Shade-patches
+  ask n-of NumShadePatches patches [
+    let shade-amount random 100
+    ifelse shade-amount < 50
+    [set shade-level (Low-shade + random-float 1 * 10 ^ -5) ; Makes only one shade patch attractive to turtle
+      set pcolor black + 2]
+    [set shade-level (High-shade + random-float 1 * 10 ^ -5)
+      set pcolor black]
+      set patch-type "Shade"
+      ]
+]
+[
+    let NumShadePatches Shade-patches / 10
+    ask n-of NumShadePatches patches [
+    ask n-of 10 patches in-radius 4 [ ; Sets 10 random food patches within a 5-patch radius of Food-patches
+    let shade-amount random 100
+    ifelse shade-amount < 50
+    [set shade-level (Low-shade + random-float 1 * 10 ^ -5) ; Makes only one shade patch attractive to turtle
+      set pcolor black + 2]
+    [set shade-level (High-shade + random-float 1 * 10 ^ -5)
+      set pcolor black]
+      set patch-type "Shade"
+      ]
+]
+]; close else shade loop
+
+ask patch 0 0 [set patch-type "Shade"
+  set pcolor black]
+
+set movelist (list 0)
+;  ask one-of patches with [patch-type = "Shade"]
+;  [sprout 1]
+crt 1
+
+ random-seed new-seed ; Outcomment to generate seed for spatial configuration of all patches in the landscape (food and shade).
+
+  ask turtle 0
+  [
+    setxy 0 0 ;random-xcor random-ycor
+    set reserve-level Maximum-reserve
+    set T_b_basking_ 14
+    set T_opt_range (list 26 27 28 29 30 31 32 33 34 35 )        ; From Pamula thesis
+    set T_opt_upper last T_opt_range
+    set T_opt_lower first T_opt_range
+    set T_opt median T_opt_range
+    set min-T_b_ min-T_b
+    set max-T_b_ max-T_b
+    set V_pres_ V_pres
+    set wetgonad_ wetgonad
+    set wetstorage_ wetstorage
+    set wetfood_ wetfood
+    set activity-state "S"
+    set vision-range min-vision
+    if [patch-type] of patch-here = "Shade"
+    [set in-shade? TRUE]
+     if [patch-type] of patch-here = "Food"
+    [set in-food? TRUE]
+    set shape "lizard"
+    set size 2
+    set color red
+    pen-down
+    set X (list xcor)
+    set Y (list ycor)
+    ]
+setup-spatial-plot
+set fh_ fh
+reset-ticks
+end
+```
+
+### go
+```{RNetLogo error=F, message=F, warning=F}
+to go
+  tick
+  if not any? turtles
+  [
+    get-homerange
+    print "All turtles dead. Check output of model results."
+    repeat 3 [beep wait 0.2]
+    stop
+    save-world
+    ]
+  if (ticks * 2 / 60 / 24) = No.-of-days
+  [
+    ask turtle 0
+    [report-results]
+    stop
+    save-world
+    ]
+  ifelse show-plots?
+  []
+  [clear-all-plots]
+  ask turtle 0
+  [
+    report-patch-type
+    ask turtles with [reserve-level > Minimum-reserve]
+    [set vision-range min-vision]
+    update-T_b
+    make-decision
+    set X lput xcor X ; populate X list with turtle X coords to generate home range
+    set Y lput ycor Y ; populate Y list with turtle Y coords to generate home range
+  ]
+  if any? turtles with [reserve-level <= 0]
+  [ask turtle 0 [report-results]
+    stop
+    ]
+  ask patches with [patch-type = "Food"]
+    [update-food-levels]
+end
+
+
+```
+
+### update _T~b~_
+```{RNetLogo error=F, message=F, warning=F}
+to update-T_b
+  ask turtles with [T_b >= max-T_b]
+    [stop]
+  if T_b <= min-T_b
+    [set ctmincount ctmincount + 1]
+    if (ctmincount * 2 / 60) = ctminthresh
+    [stop]
+end
+```
+
+### make-decision
+```{RNetLogo error=F, message=F, warning=F}
+to make-decision
+
+;-------------------------------------------------------------------------------------
+;-------------------------------------Optimising-------------------------------------
+;-------------------------------------------------------------------------------------
+  ifelse (strategy = "Optimising")
+  [; start optimising loop
+    ifelse (T_b > T_opt_upper) or (T_b < T_opt_lower)
+  [
+    ask turtle 0
+    [;set label "Resting"
+      set activity-state "R"
+        if [patch-type] of patch-here != "Shade"
+      [shade-search]
+      if ([patch-type] of patch-here = "Shade") and (T_b < T_b_basking_)
+      [set in-shade? TRUE]
+      ]
+    if (activity-state = "R") and (T_b >= T_b_basking_) and (T_b < T_opt_upper) ; Basking behaviour
+    [set in-shade? FALSE
+ ;      set transcount transcount + 1 ; Outcomment to include basking behaviour as activity state
+ ;      plotxy xcor ycor
+    ]
+ set restcount restcount + 1
+    ]
+     [; else optimising loop
+        if (activity-state = "R")
+    [
+        set restcount restcount + 1
+       ; set label "Resting"
+      if ((T_b <= T_opt_upper) and (T_b >= T_opt_lower)); and reserve-level < search-energy
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "S"]
+     ; [set activity-state "R"]
+    ]
+
+                               
+    if (activity-state = "F"); 
+    [                          
+      ifelse (gutfull < gutthresh) ;and ([patch-type] of patch-here = "Food") ; if gut is not full, keep feeding
+      [
+      ask turtle 0
+      [handle-food
+        ;set label "Feeding"
+        set has-been-feeding? TRUE]
+      if [patch-type] of patch-here != "Food" ; if patch isn not food, search for food
+      [set activity-state "S"
+        set transcount transcount + 1
+        plotxy xcor ycor
+        set energy-gain 0]
+      if reserve-level >= Maximum-reserve ; 
+      [set transcount transcount + 1
+        plotxy xcor ycor
+;        ifelse (strategy = "Optimising")
+;        [set activity-state "S"]
+        set activity-state "R"
+        stop]
+      ]
+      [;set label "Gut is full" ; otherwise, turtle moves during active hours of the day
+        socialise
+        set searchcount searchcount + 1
+        plotxy xcor ycor
+        ]
+    ]
+
+    if (activity-state = "S")
+    [
+      ask turtle 0
+      [search
+       ; set label "Searching for food"
+       ]
+      set searchcount searchcount + 1
+      if ([patch-type] of patch-here = "Food") and (gutfull < gutthresh)
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "F"]
+      ]
+  ]
+  ]; end optimising loop
+
+
+;-------------------------------------------------------------------------------------
+;-------------------------------------Satisficing-------------------------------------
+;-------------------------------------------------------------------------------------
+
+  [; else satisfice, i.e. move only when gutfull is below the gut threshold
+  ifelse (T_b > T_opt_upper) or (T_b < T_opt_lower) or (gutfull >= gutthresh); 'gutfull' is DEB.R input
+  [
+    ask turtle 0
+    [;set label "Resting"
+      set activity-state "R"
+      ifelse gutfull >= gutthresh and T_b < T_opt_upper and T_b > T_opt_lower
+      [;set label "Full gut"
+        stop ]
+      [if [patch-type] of patch-here != "Shade"
+      [shade-search]]
+      if ([patch-type] of patch-here = "Shade") and (T_b < T_b_basking_)
+      [set in-shade? TRUE]
+      ]
+    if (activity-state = "R") and (T_b >= T_b_basking_) and (T_b < T_opt_upper) ; Basking behaviour
+    [set in-shade? FALSE
+ ;      set transcount transcount + 1 ; Outcomment to include basking behaviour as activity state
+ ;      plotxy xcor ycor
+    ]
+ set restcount restcount + 1
+    ]
+
+  [
+        if (activity-state = "R")
+    [
+        set restcount restcount + 1
+       ; set label "Resting"
+      if ((T_b <= T_opt_upper) and (T_b >= T_opt_lower)); and reserve-level < search-energy
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "S"]
+     ; [set activity-state "R"]
+    ]
+
+                              
+    if (activity-state = "F")
+    [                         
+      ifelse (gutfull < gutthresh) ;and ([patch-type] of patch-here = "Food") ; if gut is not full, keep feeding, else stop.
+      [
+      ask turtle 0
+      [handle-food
+        ;set label "Feeding"
+        set has-been-feeding? TRUE]
+      if [patch-type] of patch-here != "Food"
+      [set activity-state "S"
+        set transcount transcount + 1
+        plotxy xcor ycor
+        set energy-gain 0]
+      if reserve-level >= Maximum-reserve ; Turtle will fight between feeding and resting if DEB model not activated i.e. reserve incurs no cost.
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "R"
+        stop]
+      ]
+      [;set label "Gut is full"
+        stop]
+    ]
+
+    if (activity-state = "S")
+    [
+      ask turtle 0
+      [search
+       ; set label "Searching for food"
+       ]
+      set searchcount searchcount + 1
+      if ([patch-type] of patch-here = "Food")  ;and ([food-level] of patch-here > min-energy)
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "F"]
+      ]
+    ]
+  ]; end satisficing loop
+end
+```
+
+### search
+```{RNetLogo error=F, message=F, warning=F}
+to search
+  set reserve-level reserve-level - Movement-cost 
+  set movelist lput Movement-cost movelist
+  bounce
+  let local-food-patches patches with [(distance myself < [vision-range] of turtle 0) and (patch-type = "Food")]
+  ifelse any? local-food-patches
+  [let my-food-patch local-food-patches with-min [distance myself] ;with-max [food-level]
+  face one-of my-food-patch]
+  [lt random 180 - 90 ]
+  fd 1
+  if [patch-type] of patch-here = "Food"
+  [set activity-state "F"]
+end
+```
+
+### bounce
+```{RNetLogo error=F, message=F, warning=F}
+to bounce
+; Turtles turn a random angle ~180 when encountering a wall
+  ask turtle 0
+ [ if abs pxcor = abs max-pxcor or
+      abs pycor = abs max-pycor
+    [lt random-float 180 ]
+ ]
+end
+```
+
+### handle food
+```{RNetLogo error=F, message=F, warning=F}
+to handle-food
+  set energy-gain Low-food-gain
+  ;set in-food? TRUE
+  set feedcount feedcount + 1
+  set-current-plot "Spatial coordinates of transition between activity states"
+  set-current-plot-pen "Feeding"
+  ifelse [pcolor] of patch-here = 45
+  [set-plot-pen-color 45]
+  [set-plot-pen-color 55]
+  plotxy xcor ycor
+end
+```
+
+### shade search
+```{RNetLogo error=F, message=F, warning=F}
+to shade-search
+  set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
+  set movelist lput Movement-cost movelist
+  let local-shade-patches patches with [(distance myself < [vision-range] of turtle 0) and (patch-type = "Shade")]
+  ifelse any? local-shade-patches
+  [let my-shade-patch local-shade-patches with-min [distance myself] with-max [shade-level]
+    face one-of my-shade-patch
+    set shadecount shadecount + 1]
+  [lt random 180 - 90]
+  fd 1
+end
+```
+
+### rest
+```{RNetLogo error=F, message=F, warning=F}
+to rest
+  ifelse strategy = "Optimising"
+  [set activity-state "S"]
+  [set activity-state "R"]
+end
+```
+
+### socialise
+```{RNetLogo error=F, message=F, warning=F}
+to socialise
+  set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
+  set movelist lput Movement-cost movelist
+  bounce
+  lt random 180 - 90
+  fd 1
+  if gutfull < gutthresh
+  [set activity-state "S"]
+end
+```
+
+### update food levels
+```{RNetLogo error=F, message=F, warning=F}
+to update-food-levels
+  let food-deplete food-level - Low-food-gain
+  if (count turtles-here with [activity-state = "F"] > 0) and (gutfull < gutthresh)
+; [ifelse food-level < Large-food-initial
+  [set food-level food-deplete ; yellow food
+    set in-food? TRUE
+    print "In food"]
+;  [set food-level food-level - (Low-food-gain * 2)] ; green food
+;  ]
+  if food-level < Small-food-initial
+    [set patch-type "Sun"]
+set pcolor PatchColor
+end
+```
+
+### report patch color
+```{RNetLogo error=F, message=F, warning=F}
+to-report PatchColor
+  let PatColor 0
+  ifelse food-level >= Large-food-initial
+  [set PatColor green]
+  [ifelse food-level >= Small-food-initial
+    [set PatColor yellow]
+    [set PatColor brown]
+  ]
+  report PatColor
+end
+```
+
+### report patch type
+```{RNetLogo error=F, message=F, warning=F}
+to report-patch-type
+ifelse [patch-type] of patch-here = "Food"
+    [set in-food? TRUE]
+    [
+      ifelse [patch-type] of patch-here = "Shade"
+      [set in-shade? TRUE]
+      [set in-shade? FALSE
+        set in-food? FALSE]
+    ]
+end
+```
+
+### report results
+```{RNetLogo error=F, message=F, warning=F}
+to report-results
+    output-print (word "Number of real days:,, " precision (ticks * 2 / 60 / 24) 5)
+    output-print ""
+    output-print (word "Time spent searching for food (mins/days):, " (searchcount * 2) " , " precision (searchcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent feeding (mins/days):, " (feedcount * 2) " , " precision (feedcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent searching for shade  (mins/days):, " (shadecount * 2) " , " precision (shadecount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent resting in shade (mins/days):, " (restcount * 2) " , " precision (restcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent in critical starvation (mins/days):, " (starvecount * 2) " , " precision (starvecount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Number of transitions between activity states:, " transcount)
+    output-print ""
+    ifelse has-been-feeding? = TRUE
+    [output-print (word "Proportion of feeding to searching:, " precision (feedcount / searchcount) 3)]
+    [output-print (word "Proportion of feeding to searching:, " 0)]
+    output-print ""
+    ifelse has-been-starving? = TRUE
+    [output-print (word "Proportion of feeding to starving:, " precision (feedcount / starvecount) 3)]
+    [output-print (word "Proportion of feeding to starving:, " 0)]
+    output-print ""
+    output-print (word "Patches with pcolor = brown (eaten): " patches with [pcolor = 35])
+    stop;die
+end
+```
+
+### to save world
+```{RNetLogo error=F, message=F, warning=F}
+to save-world ; This procedure saves the model world. The file output procedure then outputs the saved model world as a .txt file to the local dir.
+  let world user-new-file
+  if ( world != false )
+  [
+    file-write world
+    ask patches
+    [
+      file-write pxcor
+      file-write pycor
+       if patch-type = "Food"
+       [file-write pxcor and pycor and (patch-type = "Food") and food-level]
+       if patch-type = "Shade"
+       [file-write pxcor and pycor and (patch-type = "Shade") and shade-level]
+    ]
+    file-close
+  ]
+end
+```
+
+### spatial plot
+```{RNetLogo error=F, message=F, warning=F}
+
+to setup-spatial-plot
+  set-current-plot "Spatial coordinates of transition between activity states"
+  set-plot-x-range min-pxcor max-pxcor
+  set-plot-y-range min-pycor max-pycor
+  clear-plot
+end
+
+```
+
+### get home range
+```{RNetLogo error=F, message=F, warning=F}
+to get-homerange
+draw-homerange
+end
+
+```
+
+### draw home range
+```{RNetLogo error=F, message=F, warning=F}
+to draw-homerange
+  clear-drawing
+  if any? turtles [
+    ask turtle 0
+  [pu
+   hatch-homeranges 1
+   [hide-turtle
+ ;  set ID [ID] of myself
+     set color red
+     ]
+   ; draw the homerange
+   foreach tempXY
+   [ask homeranges
+     [move-to patch (item 0 ?) (item 1 ?)
+       pd
+       ]
+     ]
+   ; close the homerange polygon
+   ask homeranges
+   [let lastpoint first tempXY
+     move-to patch (item 0 lastpoint) (item 1 lastpoint)
+     ]
+   ]
+ ]
+end
+
+```
+  
+******
+
+# Appendix 2
+Energy and heat budget models, including microclimate model (.R). Available on [Github](https://github.com/darwinanddavis/MalishevBullKearney).
+
+### Initial setup
+```{r eval=F, error=F, message=F, warning=F}
+# RNL_new trans model_with DEB_1.6.2
+
+# ----------------------------------------------------------------
+# ------------------- initial Mac OS and R config ----------------
+# ----------------------------------------------------------------
+
+#if using Mac OSX Mountain Lion + and not already in JQR, download and open JGR 
+# after downloading, load JGR
+install.packages("JGR")
+Sys.setenv(NOAWT=1)
+library(JGR)
+Sys.unsetenv("NOAWT")
+JGR()
+
+# in JGR onwards
+# if already loaded, uninstall RNetlogo and rJava
+p<-c("rJava", "RNetLogo")
+remove.packages(p)
+
+# install Netlogo and rJava from source if haven't already
+dir<- "<your working directory>"
+install.packages(paste0(dir,"/RNetLogo_1.0-2.tar.gz", repos = NULL, type="source"))
+install.packages(paste0(dir,"/rJava_0.9-8.tar.gz", repos = NULL, type="source"))
+library(RNetlogo); library(rJava)
+```
+
+#### For PC and working Mac OSX
+Source `DEB.R` and `onelump_varenv.R` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+```{r eval=F, error=F, message=F, warning=F}
+# ------------------- for PC and working Mac OSX -----------------
+# ------------------- model setup ---------------------------
+# get packages
+install.packages(c("NicheMapR","adehabitatHR","rgeos","sp", "maptools", "raster","rworldmap","rgdal","dplyr"))
+library(NicheMapR); library(adehabitatHR); library(rgeos); library(sp); library(maptools); library(raster); library(rworldmap); library(rgdal); library(dplyr)
+
+#source DEB and heat budget models from https://github.com/mrke/NicheMapR/tree/master/R
+source('DEB.R')
+source('onelump_varenv.R')
+
+# set dirs
+setwd("<your working dir>") # set wd
+results.path<- "<dir path to store result outputs>" # set results path
+```
+
+### Read in microclimate data
+Source `metout`, `soil`, `shadmet`, and `shadsoil` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+```{r eval=F, error=F, message=F, warning=F}
+# read in microclimate data (metout, soil, shadmet, and shadsoil)
+tzone<-paste("Etc/GMT-",10,sep="")
+metout<-read.csv('metout.csv')
+soil<-read.csv('soil.csv')
+shadmet<-read.csv('shadmet.csv')
+shadsoil<-read.csv('shadsoil.csv')
+micro_sun_all<-cbind(metout[,2:5],metout[,9],soil[,6],metout[,14:16])
+colnames(micro_sun_all)<-c('dates','JULDAY','TIME','TALOC','VLOC','TS','ZEN','SOLR','TSKYC')
+micro_shd_all<-cbind(shadmet[,2:5],shadmet[,9],shadsoil[,6],shadmet[,14:16])
+colnames(micro_shd_all)<-c('dates','JULDAY','TIME','TALOC','VLOC','TS','ZEN','SOLR','TSKYC')
+
+# choose a day(s) to simulate
+daystart<-paste('09/09/05',sep="") # yy/mm/dd
+dayfin<-paste('10/12/31',sep="") # yy/mm/dd
+micro_sun<-subset(micro_sun_all, format(as.POSIXlt(micro_sun_all$dates), "%y/%m/%d")>=daystart & format(as.POSIXlt(micro_sun_all$dates), "%y/%m/%d")<=dayfin)
+micro_shd<-subset(micro_shd_all, format(as.POSIXlt(micro_shd_all$dates), "%y/%m/%d")>=daystart & format(as.POSIXlt(micro_shd_all$dates), "%y/%m/%d")<=dayfin)
+days<-as.numeric(as.POSIXlt(dayfin)-as.POSIXlt(daystart))
+
+# create time vectors
+time<-seq(0,(days+1)*60*24,60) #60 minute intervals from microclimate output
+time<-time[-1]
+times2<-seq(0,(days+1)*60*24,2) #two minute intervals for prediction
+time<-time*60 # minutes to seconds
+times2<-times2*60 # minutes to seconds
+
+# apply interpolation functions
+velfun<- approxfun(time, micro_sun[,5], rule = 2)
+Zenfun<- approxfun(time, micro_sun[,7], rule = 2)
+Qsolfun_sun<- approxfun(time, micro_sun[,8], rule = 2)
+Tradfun_sun<- approxfun(time, rowMeans(cbind(micro_sun[,6],micro_sun[,9])), rule = 2)
+Tairfun_sun<- approxfun(time, micro_sun[,4], rule = 2)
+Qsolfun_shd<- approxfun(time, micro_shd[,8]*.1, rule = 2)
+Tradfun_shd<- approxfun(time, rowMeans(cbind(micro_shd[,6],micro_shd[,9])), rule = 2)
+Tairfun_shd<- approxfun(time, micro_shd[,4], rule = 2)
+
+# upper and lower activity thermal limits
+VTMIN<- 26 
+VTMAX<- 35  
+```
+
+### Read in DEB parameters
+Source `DEB_pars_Tiliqua_rugosa.csv` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+```{r eval=F, error=F, message=F, warning=F}
+# *************************** read in DEB parameters ***************************
+
+debpars=as.data.frame(read.csv('DEB_pars_Tiliqua_rugosa.csv',header=FALSE))$V1 # read in DEB pars
+
+# set core parameters
+z=debpars[8] # zoom factor (cm)
+F_m = 13290 # max spec searching rate (l/h.cm^2)
+kap_X=debpars[11] # digestion efficiency of food to reserve (-)
+v=debpars[13] # energy conductance (cm/h)
+kap=debpars[14] # kappa, fraction of mobilised reserve to growth/maintenance (-)
+kap_R=debpars[15] # reproduction efficiency (-)
+p_M=debpars[16] # specific somatic maintenance (J/cm3)
+k_J=debpars[18] # maturity maint rate coefficient (1/h)
+E_G=debpars[19] # specific cost for growth (J/cm3)
+E_Hb=debpars[20] # maturity at birth (J)
+E_Hp=debpars[21] # maturity at puberty (J)
+h_a=debpars[22]*10^-1 # Weibull aging acceleration (1/h^2)
+s_G=debpars[23] # Gompertz stress coefficient (-)
+
+# set thermal respose curve paramters
+T_REF = debpars[1]-273
+TA = debpars[2] # Arrhenius temperature (K)
+TAL = debpars[5] # low Arrhenius temperature (K)
+TAH = debpars[6] # high Arrhenius temperature (K)
+TL = debpars[3] # low temp boundary (K)
+TH = debpars[4] # hight temp boundary (K)
+
+# set auxiliary parameters
+del_M=debpars[9] # shape coefficient (-) 
+E_0=debpars[24] # energy of an egg (J)
+mh = 1 # survivorship of hatchling in first year
+mu_E = 585000 # molar Gibbs energy (chemical potential) of reserve (J/mol)
+E_sm=186.03*6
+gutfull <- 1
+# set initial state
+E_pres_init = (debpars[16]*debpars[8]/debpars[14])/(debpars[13]) # initial reserve
+E_m <- E_pres_init
+E_H_init = debpars[21] + 5
+
+#### change inital size here by multiplying by < 0.85 ####
+V_pres_init = (debpars[26] ^ 3) * 0.85 
+d_V<-0.3
+mass <- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
+
+# ***************** end TRANSIENT MODEL SETUP ***************
+# ***********************************************************
+```
+
+
+### Initialise decision-making and DEB models
+Source Netlogo model from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+```{r eval=F, error=F, message=F, warning=F}
+# ********************** start NETLOGO SIMULATION  ***********************
+
+nl.path<- "<dir path to Netlogo program>"
+NLStart(nl.path)
+model.path<- "<dir path to Netlogo model>"
+NLLoadModel(model.path)
+
+# ************************ setup NETLOGO MODEL *************************
+
+# 1. update animal and env traits
+month<-"sep"
+NL_days<-117       # No. of days simulated
+NL_gutthresh<-0.75
+gutfull<-0.8
+
+# set resource density
+if(density=="high"){
+	NL_shade<-100000L       # Shade patches
+	NL_food<-100000L         # Food patches
+	}else{ 
+	NL_shade<-1000L 	# Shade patches
+	NL_food<-1000L	# Food patches
+}
+
+# 2. update initial conditions for DEB model 
+Es_pres_init<-(E_sm*gutfull)*V_pres_init
+acthr<-1
+Tb_init<-20
+step = 1/24
+debout<-DEB(step = step, z = z, del_M = del_M, F_m = F_m * 
+    step, kap_X = kap_X, v = v * step, kap = kap, p_M = p_M * 
+    step, E_G = E_G, kap_R = kap_R, k_J = k_J * step, E_Hb = E_Hb, 
+    E_Hj = E_Hb, E_Hp = E_Hp, h_a = h_a/(step^2), s_G = s_G, 
+    T_REF = T_REF, TA = TA, TAL = TAL, TAH = TAH, TL = TL, 
+    TH = TH, E_0 = E_0, E_pres=E_pres_init, V_pres=V_pres_init, E_H_pres=E_H_init, acthr = acthr, breeding = 1, Es_pres = Es_pres_init, E_sm = E_sm)
+
+# 3. calc direct movement cost
+V_pres<-debout[2]
+step<-1/24 #hourly
+
+p_M2<-p_M*step #J/h
+p_M2<-p_M2*V_pres # loco cost * structure
+names(p_M2)<-NULL # remove V_pres name attribute from p_M
+
+# movement cost for time period
+VO2<-0.45 # O2/g/h JohnAdler etal 1986
+
+# multiple p_M by structure = movement cost (diff between p_M with loco cost and structure for movement period)
+# p_M with loco cost 
+loco<-VO2*mass*20.1 # convert ml O2 to J = J/h 
+loco<-loco+p_M2 # add to p_M = J/h
+loco<-loco/30/V_pres ; loco #J/cm3/2min
+
+Es_pres_init<-(E_sm*gutfull)*V_pres_init
+X_food<-3000
+V_pres<-debout[2]
+wetgonad<-debout[19]
+wetstorage<-debout[20]
+wetfood<-debout[21]
+ctminthresh<-120000
+Tairfun<-Tairfun_shd
+Tc_init<-Tairfun(1)+0.1 # Initial core temperature
+
+NL_T_b<-Tc_init       # Initial T_b
+NL_T_b_min<-VTMIN         # Min foraging T_b
+NL_T_b_max<-VTMAX        # Max foraging T_b
+NL_ctminthresh<-ctminthresh # No. of consecutive hours below CTmin that leads to death
+NL_reserve<-E_m        # Initial reserve density
+NL_max_reserve<-E_m    # Maximum reserve level
+NL_maint<-round(p_M, 3)               # Maintenance cost
+NL_move<-round(loco, 3) 		      # Movement cost
+NL_zen<-Zenfun(1*60*60)     # Zenith angle
+
+strategy<-function(strategy){ # set movement strategy 
+  if (strategy == "O"){
+    NLCommand("set strategy \"Optimising\" ") 
+    }else{
+    NLCommand("set strategy \"Satisficing\" ") 
+    }
+  }
+strategy("O") # "S"
+
+shadedens<-function(shadedens){ # set movement strategy 
+  if (shadedens == "Random"){
+    NLCommand("set Shade-density \"Random\" ") 
+    }else{
+    NLCommand("set Shade-density \"Clumped\" ") 
+    }
+  }
+shadedens("Clumped") # set clumped resources
+
+```
+
+
+### Run simulation
+```{r eval=F, error=F, message=F, warning=F}
+sc<-1 # set no. of desired simualations---for automating writing of each sim results to file. N = N runs
+for (i in 1:sc){ # start sc sim loop
+
+NLCommand("set Shade-patches",NL_shade,"set Food-patches",NL_food,"set No.-of-days",NL_days,"set T_b precision",
+NL_T_b, "2","set T_opt_lower precision", NL_T_b_min, "2","set T_opt_upper precision", NL_T_b_max, "2",
+"set reserve-level", NL_reserve, "set Maximum-reserve", NL_max_reserve, "set Maintenance-cost", NL_maint,
+"set Movement-cost precision", NL_move, "3", "set zenith", NL_zen, "set ctminthresh", NL_ctminthresh, 
+"set gutthresh", NL_gutthresh, 'set gutfull', gutfull, 'set V_pres precision', V_pres, "5", 'set wetstorage precision', wetstorage, "5", 
+'set wetfood precision', wetfood, "5", 'set wetgonad precision', wetgonad, "5","setup")
+
+#NLCommand("inspect turtle 0")
+
+NL_ticks<-NL_days / (2 / 60 / 24) # No. of NL ticks (measurement of days)
+NL_T_opt_l<-NLReport("[T_opt_lower] of turtle 0")
+NL_T_opt_u<-NLReport("[T_opt_upper] of turtle 0")
+
+# data frame setup for homerange polygon
+turtles<-data.frame() # make an empty data frame
+NLReport("[X] of turtle 0"); NLReport("[Y] of turtle 0")
+who<-NLReport("[who] of turtle 0")
+
+# ************************************************************************
+# ******************** start NETLOGO SIMULATION  *************************
+
+debcall<-0 # check for first call to DEB
+stepcount<-0 # DEB model step count
+
+for (i in 1:NL_ticks){
+stepcount<-stepcount+1
+NLDoCommand(1, "go")
+
+######### Reporting presence of shade
+shade<-NLGetAgentSet("in-shade?","turtles", as.data.frame=T); shade<-as.numeric(shade) # returns an agentset of whether turtle is currently on shade patch
+
+# choose sun or shade
+tick<-i
+times3<-c(times2[tick],times2[tick+1])
+
+if(shade==0){
+  Qsolfun<-Qsolfun_sun
+  Tradfun<-Tradfun_sun
+  Tairfun<-Tairfun_sun
+}else{
+  Qsolfun<-Qsolfun_shd
+  Tradfun<-Tradfun_shd
+  Tairfun<-Tairfun_shd
+}
+if(i==1){
+Tc_init<-Tairfun(1)+0.1 #initial core temperature
+}
+
+# one_lump_trans params
+Qsol<-Qsolfun(mean(times3)); Qsol
+vel<-velfun(mean(times3)) ;vel
+Tair<-Tairfun(mean(times3));Tair
+Trad<-Tradfun(mean(times3)); Trad
+Zen<-Zenfun(mean(times3)); Zen
+
+# calc Tb params at 2 mins interval
+Tbs<-onelump_varenv(t=120,time=times3[2],Tc_init=Tc_init,thresh = 30, AMASS = mass, lometry = 3, Tairf=Tairfun,Tradf=Tradfun,velf=velfun,Qsolf=Qsolfun,Zenf=Zenfun)
+Tb<-Tbs$Tc
+rate<-Tbs$dTc
+Tc_init<-Tb
+
+NLCommand("set T_b precision", Tb, "2") # Updating Tb
+NLCommand("set zenith", Zenfun(times3[2])) # Updating zenith
+
+# time spent below VTMIN
+ctminhours<-NLReport("[ctmincount] of turtle 0") * 2/60 # ticks to hours
+if (ctminhours == NL_ctminthresh) {NLCommand("ask turtle 0 [stop]")}
+
+# ******************** start DEB SIMULATION  ****************************
+
+if(stepcount==1) { # run DEB loop every time step (2 mins)
+stepcount<-0
+
+# report activity state
+actstate<-NLReport("[activity-state] of turtle 0")
+ # Reports true if turtle is in food 
+actfeed<-NLGetAgentSet("in-food?","turtles", as.data.frame=T); actfeed<-as.numeric(actfeed)
+ 
+n<-1 # time steps
+step<-2/1440 # step size (2 mins). For hourly: 1/24
+# update direct movement cost
+if(actstate == "S"){
+	NLCommand("set Movement-cost", NL_move)
+	}else{
+		NLCommand("set Movement-cost", 1e-09)
+		} 
+# if within activity range, it's daytime, and gut below threshold 
+if(Tbs$Tc>=VTMIN & Tbs$Tc<=VTMAX & Zen!=90 & gutfull<=NL_gutthresh){ 
+  acthr=1 # activity state = 1 
+if(actfeed==1){ # if in food patch
+	X_food<-NLReport("[energy-gain] of turtle 0") # report joules intake
+	}
+	}else{
+		X_food = 0 
+		acthr=0
+		}
+
+# calculate DEB output 
+if(debcall==0){
+	# initialise DEB
+	debout<-matrix(data = 0, nrow = n, ncol = 26)
+	deb.names<-c("E_pres","V_pres","E_H_pres","q_pres","hs_pres","surviv_pres","Es_pres","cumrepro","cumbatch","p_B_past","O2FLUX","CO2FLUX","MLO2","GH2OMET","DEBQMET","DRYFOOD","FAECES","NWASTE","wetgonad","wetstorage","wetfood","wetmass","gutfreemass","gutfull","fecundity","clutches")
+	colnames(debout)<-deb.names
+	# initial conditions
+	debout<-DEB(E_pres=E_pres_init, V_pres=V_pres_init, E_H_pres=E_H_init, acthr = acthr, Tb = Tb_init, breeding = 1, Es_pres = Es_pres_init, E_sm = E_sm, step = step, z, del_M = del_M, F_m = F_m * 
+    step, kap_X = kap_X, v = v * step, kap = kap, p_M = p_M * 
+    step, E_G = E_G, kap_R = kap_R, k_J = k_J * step, E_Hb = E_Hb, 
+    E_Hj = E_Hb, E_Hp = E_Hp, h_a = h_a/(step^2), s_G = s_G, 
+    T_REF = T_REF, TA = TA, TAL = TAL, TAH = TAH, TL = TL, 
+    TH = TH, E_0 = E_0)
+	debcall<-1
+	}else{
+		debout<-DEB(step = step, z = z, del_M = del_M, F_m = F_m * 
+    step, kap_X = kap_X, v = v * step, kap = kap, p_M = p_M * 
+    step, E_G = E_G, kap_R = kap_R, k_J = k_J * step, E_Hb = E_Hb, 
+    E_Hj = E_Hb, E_Hp = E_Hp, h_a = h_a/(step^2), s_G = s_G, 
+    T_REF = T_REF, TA = TA, TAL = TAL, TAH = TAH, TL = TL, 
+    TH = TH, E_0 = E_0, 
+		  X=X_food,acthr = acthr, Tb = Tbs$Tc, breeding = 1, E_sm = E_sm, E_pres=debout[1],V_pres=debout[2],E_H_pres=debout[3],q_pres=debout[4],hs_pres=debout[5],surviv_pres=debout[6],Es_pres=debout[7],cumrepro=debout[8],cumbatch=debout[9],p_B_past=debout[10])
+		}
+mass<-debout[22]
+gutfull<-debout[24]
+NL_reserve<-debout[1]
+V_pres<-debout[2]
+wetgonad<-debout[19]
+wetstorage<-debout[20]
+wetfood<-debout[21] 
+
+#update NL wetmass properties 
+NLCommand("set V_pres precision", V_pres, "5")
+NLDoCommand("plot xcor ycor")
+NLCommand("set wetgonad precision", wetgonad, "5")
+NLDoCommand("plot xcor ycor")
+NLCommand("set wetstorage precision", wetstorage, "5")
+NLDoCommand("plot xcor ycor")
+NLCommand("set wetfood precision", wetfood, "5")
+NLDoCommand("plot xcor ycor") 
+ 
+
+} #--- end DEB loop
+
+NLCommand("set reserve-level", NL_reserve) # update reserve
+NLCommand("set gutfull", debout[24])# update gut level
+
+# ******************** end DEB SIMULATION *************************
+
+# generate results, with V_pres, wetgonad, wetstorage, and wetfood from debout
+if(i==1){
+	results<-cbind(tick,Tb,rate,shade,V_pres,wetgonad,wetstorage,wetfood,NL_reserve) 
+	}else{
+		results<-rbind(results,c(tick,Tb,rate,shade,V_pres,wetgonad,wetstorage,wetfood,NL_reserve))
+		}
+results<-as.data.frame(results)
+
+# generate data frames for homerange polygon
+if (tick == NL_ticks - 1){
+	X<-NLReport("[X] of turtle 0"); head(X)
+	Y<-NLReport("[Y] of turtle 0"); head(Y)
+	turtles<-data.frame(X,Y)
+	who1<-rep(who,NL_ticks); who # who1<-rep(who,NL_ticks - 1); who 
+	turtledays<-rep(1:NL_days,length.out=NL_ticks,each=720) 
+	turtle<-data.frame(ID = who1,days=turtledays)
+	turtles<-cbind(turtles,turtle)
+	}
+
+} # ************************** end NL loop *********************************
+
+# get hr data
+spdf<-SpatialPointsDataFrame(turtles[1:2], turtles[3]) # creates a spatial points data frame (adehabitatHR package)
+homerange<-mcp(spdf,percent=95)
+
+# writing new results
+if (exists("results")){  #if results exist
+	sc<-sc-1 
+	nam <- paste("results", sc, sep = "") # generate new name with added sc count
+	rass<-assign(nam,results) #assign new name to results. call 'results1, results2 ... resultsN'
+	namh <- paste("turtles", sc, sep = "")  #generate new name with added sc count
+	rassh<-assign(namh,turtles) #assign new name to results. call 'results1, results2 ... resultsN'
+	nams <- paste("spdf", sc, sep = "") 
+	rasss<-assign(nams,spdf) 
+	namhr <- paste("homerange", sc, sep = "")  
+	rasshr<-assign(namhr,homerange) 
+
+	fh<-results.path; fh
+	for (i in rass){
+		# export all results
+		write.table(results,file=paste(fh,nam,".R",sep=""))
+		}
+	for (i in rassh){
+		# export turtle location data
+		write.table(turtles,file=paste(fh,namh,".R",sep=""))
+		}
+		#export NL plots
+		month<-"sep"
+		#spatial plot
+		sfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_move","",sep="");sfh
+		NLCommand(paste("export-plot \"Spatial coordinates of transition between activity states\" \"",results.path,sfh,".csv\"",sep=""))
+		#temp plot 
+		tfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_temp",sep="")
+		NLCommand(paste("export-plot \"Body temperature (T_b)\" \"",results.path,tfh,".csv\"",sep=""))
+		#activity budget
+		afh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_act","",sep="");afh
+		NLCommand(paste("export-plot \"Global time budget\" \"",results.path,afh,".csv\"",sep=""))
+		#text output
+		xfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_txt",sep="");xfh
+		NLCommand(paste("export-output \"",results.path,xfh,".csv\"",sep=""))
+		#gut level
+		gfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_gut","",sep="");gfh
+		NLCommand(paste("export-plot \"Gutfull\" \"",results.path,gfh,".csv\"",sep=""))
+		#wet mass 
+		mfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_wetmass","",sep="");mfh
+		NLCommand(paste("export-plot \"Total wetmass plot\" \"",results.path,mfh,".csv\"",sep=""))
+		#movement cost (loco) 
+		lfh<-paste(month,NL_days,round(mass,0),NL_shade,as.integer(NL_food*10),"_",sc,"_loco","",sep="");lfh
+		NLCommand(paste("export-plot \"Movement costs\" \"",results.path,lfh,".csv\"",sep=""))
+	}
+} # ********************** end sc sim loop *****************************
+
+#*********************** end NETLOGO SIMULATION ****************************
+#***************************************************************************
+
+```
+
+### Example of data output files from simulation
+```{r eval=F, error=F, message=F, warning=F, echo=T}
+
+# example files of results output in results.path
+list.files(results.path)
+# [1] "results0.R"                    "sep572310001000_0_act.csv"    
+# [3] "sep572310001000_0_gut.csv"     "sep572310001000_0_loco.csv"   
+# [5] "sep572310001000_0_move.csv"    "sep572310001000_0_temp.csv"   
+# [7] "sep572310001000_0_txt.csv"     "sep572310001000_0_wetmass.csv"
+# [9] "turtles0.R"   
+```
+
+******
+
+#Appendix 3 
+
+### Summary of DEB parameters and primary metabolic pathways. 
+
+Under DEB theory, flows of energy $(\dot{p})$ and mass $(\dot{J})$ from food are tracked through time to predict the individual state in terms of growth (structure, $V$, i.e. volume of body tissue built during growth and which requires maintenance), body condition (reserve, $E$, the chemical intermediary between the transformation of food and the growth and maintenance of structure), and maturity ($E_H$, the energy invested in increasing the maturation state, i.e. energetic costs of development, all of which is dissipated) (Kooijman 2010). Temperature $(T)$ influences all rates according to the Arrhenius model. Food $(X)$ is eaten $(\dot{p_X})$ then converted $(\dot{p}_A)$ to reserve, which is subsequently mobilized to fuel the rest of the metabolism. Reserve is readily available pools of generalised compounds, rather than simply energy or fat storage, contained within individual body cells and collectively, per structural volume, measured as reserve density, $[E]$. Food intake scales with food density following a functional response $f$ (Table 1), whereby either searching or handling limits individuals as $f$ increases from 0 to 1, respectively. Following an allocation rule ($\kappa$ rule), reserves are mobilised $(\kappa \dot{p}_C)$ to structure via the natural hierarchy of cell metabolism---first to somatic maintenance $(\dot{p}_M)$ then to growth $(\dot{p}_G)$. The remaining fixed fraction $((1 - \kappa)\dot{p}_C)$ of mobilised energy $(\dot{p}_R)$ then fuels maturation and reproduction. Animals switch between three maturity stages---embryo, juvenile, and adult---defined by maturity thresholds representing the cumulative energy invested in maturation. Energy is also invested in maintenance of a given level of maturity $(\dot{p}_J)$ and, once reaching puberty, excess energy beyond maturity maintenance costs is invested in reproductive biomass $(\dot{p}_R)$. See Fig. 4 in Kearney et al. (2013) for a schematic breakdown of the above processes.
+
+In DEB theory, reserve dynamics drive metabolism. The rate of assimilated food into energy $\dot{p}_A$ follows the Holling Type II functional response $f$  
+
+$$
+  [\dot{p}_A] = \frac
+  {f \dot{\{p}_{Am}\}}
+  {L} 
+$$
+
+where {$\dot{p}_{Am}$} is the maximum assimilation rate and the volumetric body length $L \equiv V^\frac{1}{3}$. Parameters surrounded by square [*] and curly {*} parentheses are per volume and surface area, respectively. Energy is then mobilised from reserves with a constant fraction going to somatic maintenance and somatic growth
+
+$$
+  \kappa[\dot{p}_C] = \frac
+  {\dot{v}[E]}
+  {L}
+  - \dot{r}[E]
+$$
+
+where $\dot{v}$ is energy conductance of mobilised reserve and $\dot{r}$ is specific growth rate, i.e. change in structure $V$ over time
+
+$$
+  \frac 
+  {\delta V}
+  {\delta t}
+  = V\dot{r} 
+  = V \frac
+    {\frac 
+    {[E]\dot{v}}
+    {L} - \frac
+    {[\dot {p}_M]}
+    {\kappa}
+    }
+    {[E] + \frac
+    {[E_G]}
+    {\kappa}
+    }
+$$
+
+with $[\dot{p}_M]$ the somatic maintenance cost __(Eq. 5)__ and $[E_G]$ the cost of producing structural tissue (both biomass and overhead costs). This relationship means growth $(\dot{r})$ dilutes reserve levels, measured as reserve density per volume $[E]$, as it rises and falls with incoming energy $[\dot{p}_A]$ minus energy used for metabolic processes $[\dot{p}_C]$, giving the reserve dynamics equation
+
+$$
+  \frac 
+  {\delta [E]}
+  {\delta t} 
+  = [\dot{p}_A] - [\dot{p}_C]
+$$
+
+_Maintenance_  
+Heat, water, and CO~2~ are expelled as products from the costs of maintaining the volume $[\dot{p}_M]$ and surface $\dot{\{p}_T\}$ of structure  
+
+$$
+  [\dot{p}_M] 
+  = \biggl(
+  [\dot{p}_M] + \frac
+  {\dot{\{p}_T\}}
+  {L}
+  \biggr)
+$$
+
+Further costs include the overheads of reproduction, feeding (heat increment of $f$), and growth $\dot{p}_G$, including growth overhead costs and tissue biomass
+
+$$
+  [\dot{p}_G] = \kappa [\dot{p}_C] - V [\dot{p}_M]
+$$
+
+while maturity maintenance $\dot{p}_J$ from $(1 - \kappa)\dot{p}_C = \dot{p}_J + \dot{p}_R$, measured by energy dissipated as heat, contributes to maintaining the current and transitioning to the next maturity level
+
+$$
+  \dot{p}_J = 
+    \begin{cases}
+      E_H \dot{k}_J, & E_H ≤ E^p_H \\
+      E^p_H \dot{k}_J, & E_H > E^p_H
+    \end{cases}
+$$
+
+where $\dot{k}_J$ is a coefficient controlling the rate of maturity maintenance. The organism first pays maturity maintenance and, in an immature individual, the remaining flux feeds further increases in maturity
+
+$$
+  \dot{p}_R = (1 - \kappa)\dot{p}_C - \dot{p}_J
+$$
+
+_Growth_  
+Animals grow in structural length $L$ (~ maximum $L_m$) with $\dot{r}$ __(Eq. 3)__ only after paying maintenance $\dot{p}_M$; maintaining and growing cells incurs growth costs of new biovolume, calculated as an energy investment ratio $g$
+
+$$
+  g = \frac
+  {[E_G]}
+  {\kappa[E_m]}
+$$
+
+where $[E_m]$ is maximum reserve density $[E]$ when $f = 1$. Reserve density $[E]$ is scaled to $e$ to interpret changes in $f$ as animals encounter food at different densities over time, giving
+
+$$
+  \frac
+    {\delta e}
+    {\delta t} 
+    = \frac
+      {\delta \frac
+        {[E]}
+        {[E_m]}
+        }
+      {\delta t}
+      = \frac
+      {\dot{v}(f - e)}
+      {L}
+$$
+
+so under steady state, i.e. when food is constant, $f = e$. In the standard DEB model, body shape remains constant (isomorphic) during growth. Therefore, the body surface area is proportional to volume $V^\frac{2}{3}$. Following __Eq. 3__ so that $\frac{\delta L}{\delta V} = \frac {L\dot{r}}{3}$ given $L \equiv V^\frac{1}{3}$, an isomorphic animal increases in body length under constant food following
+
+$$
+  \frac 
+    {\delta L}
+    {\delta t}
+    = \frac
+      {\dot{v}}
+      {3} \cdot \frac 
+        {e - \frac
+          {L}
+          {L_m}
+        }
+        {e + g}
+$$
+
+
+
+
+
+
+
