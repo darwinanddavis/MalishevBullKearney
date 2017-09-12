@@ -1,37 +1,701 @@
 ---
 title: Appendices for ‘An individual-based model of ectotherm movement integrating
   metabolic and microclimatic constraints’
+author:
+- _^1^ Centre of Excellence for Biosecurity Risk Analysis, ^2^ School of BioSciences,
+  University of Melbourne, Parkville, Melbourne, 3010, Australia_
+- _^3^ School of Biological Sciences, Flinders University, Adelaide, 5001, Australia_
+- "*Corresponding author: matthew.malishev@gmail.com  \n"
+subtitle: Matthew Malishev^1,2^*, C. Michael Bull^3^ & Michael R. Kearney^2^
 output:
+  word_document:
+    highlight: tango
+    keep_md: yes
+    reference: mystyles.docx
+    toc: yes
+  pdf_document:
+    toc: yes
   html_document:
     code_folding: hide
     depth: 3
     number_sections: no
     toc: yes
     toc_float: yes
-  pdf_document:
-    toc: yes
-  word_document:
-    highlight: tango
-    keep_md: yes
-    toc: yes
+tags:
+- nothing
+- nothingness
 ---
 
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
 </script>
 
-###Matthew Malishev^1,2^*, C. Michael Bull^3^ & Michael R. Kearney^2^  
+##### 
+# Data collection
 
-#####_^1^ Centre of Excellence for Biosecurity Risk Analysis, ^2^ School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia_ 
+All data were collected at the sleepy lizard habitat study site (139°21'E, 33°55'S) at the Bundey Bore field station in the mid-north of South Australia during the breeding season (September to December, 2009). Animal data are for the adult sleepy lizard (n = 60). Individual animals were tagged with GPS units, step counters ('waddleometers'), and skin surface temperature probes at the beginning of the breeding season and tracked throughout the season using radio telemetry. Animals were captured and GPS data downloaded every two weeks throughout the breeding season for each individual, with batteries for the units replaced when needed. GPS units reported locations every 10 minutes, waddleometers recorded step counts every 2 minutes, and temperature probes recorded skin surface temperature every 2 minutes. 
 
-#####_^3^ School of Biological Sciences, Flinders University, Adelaide, 5001, Australia_ 
+The simulation model uses a 2-minute time step to correspond to the frequency of observed data. 
 
-#####*Corresponding author: matthew.malishev@gmail.com  
+#####
+# NicheMapR microclimate model overview  
 
-******
+The NicheMapR microclimate model calculates hourly estimates of solar and infrared radiation, air temperature at 1 m and 1 cm above ground level, wind velocity, relative humidity, and soil temperature at different intervals, e.g. 0 cm, 10 cm, 20 cm, 50 cm, 100 cm, and 200 cm. The model uses minimum and maximum daily air temperature, wind speed, relative humidity, soil properties (conductivity, specific heat, density, solar reflectivity, emissivity), as well as the roughness height, slope, and aspect. Climatic data are gathered from a global data set of monthly mean daily minimum and maximum air temperatures and monthly mean daily humidity and wind speeds. Soil surface temperatures are computed using heat balance equations, accounting for heat exchange via radiation, convection, conduction, and evaporation.  
 
-# Appendix 1
-Netlogo IBM decision making model (.nlogo). Available on [Github](https://github.com/darwinanddavis/Sleepy_IBM/blob/master/Sleepy%20IBM_v.6.1.1_two%20strategies.nlogo). 
+For simulation time steps, the microclimate model verifies the microclimate conditions for the current simulation hour of the day, e.g. noon or 18:00, and location in space, i.e. the study site for the observed animal data, and updates patches in the simulation landscape (either sun or shade) with these microenvironment conditions. As the simulated animal moves in or out of these patches at each time step, the animal updates its current $T_b$, including rates of change in $T_b$ per 2-minute time step.
+
+The `onelump_varenv.R` and `DEB.R` functions update the individual internal thermal and metabolic states, respectively. See below for both model functions.
+
+#####  
+### `onelump_varenv.R`. 
+`onelump_varenv.R` available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney/blob/master/onelump_varenv.R).  
+
+```{r error=F, message=F, warning=F} 
+onelump_varenv<-function (t = seq(1, 3600, 60), time = 0, Tc_init = 5, thresh = 29, 
+    AMASS = 500, lometry = 2, Tairf = Tairfun, Tradf = Tradfun, 
+    velf = velfun, Qsolf = Qsolfun, Zenf = Zenfun, Flshcond = 0.5, 
+    q = 0, Spheat = 3073, EMISAN = 0.95, rho = 932, ABS = 0.85, 
+    colchange = 0, lastt = 0, ABSMAX = 0.9, ABSMIN = 0.6, customallom = c(10.4713, 
+        0.688, 0.425, 0.85, 3.798, 0.683, 0.694, 0.743), shape_a = 1, 
+    shape_b = 0.5, shape_c = 0.5, posture = "n", FATOSK = 0.4, 
+    FATOSB = 0.4, sub_reflect = 0.2, PCTDIF = 0.1, press = 101325) 
+{
+    sigma <- 5.67e-08
+    Tair <- Tairf(time + t)
+    vel <- velf(time + t)
+    Qsol <- Qsolf(time + t)
+    Trad <- Tradf(time + t)
+    Zen <- Zenf(time + t)
+    Zenith <- Zen * pi/180
+    Tc <- Tc_init
+    Tskin <- Tc + 0.1
+    RHskin <- 100
+    vel[vel < 0.01] <- 0.01
+    abs2 <- ABS
+    if (colchange >= 0) {
+        abs2 <- min(ABS + colchange * (t - lastt), ABSMAX)
+    }
+    else {
+        abs2 <- max(ABS + colchange * (t - lastt), ABSMIN)
+    }
+    S2 <- 1e-04
+    DENSTY <- 101325/(287.04 * (Tair + 273))
+    THCOND <- 0.02425 + (7.038 * 10^-5 * Tair)
+    VISDYN <- (1.8325 * 10^-5 * ((296.16 + 120)/((Tair + 273) + 
+        120))) * (((Tair + 273)/296.16)^1.5)
+    m <- AMASS/1000
+    C <- m * Spheat
+    V <- m/rho
+    Qgen <- q * V
+    L <- V^(1/3)
+    Flshcond <- 0.5
+    if (lometry == 0) {
+        ALENTH <- (V/shape_b * shape_c)^(1/3)
+        AWIDTH <- ALENTH * shape_b
+        AHEIT <- ALENTH * shape_c
+        ATOT <- ALENTH * AWIDTH * 2 + ALENTH * AHEIT * 2 + AWIDTH * 
+            AHEIT * 2
+        ASILN <- ALENTH * AWIDTH
+        ASILP <- AWIDTH * AHEIT
+        L <- AHEIT
+        if (AWIDTH <= ALENTH) {
+            L <- AWIDTH
+        }
+        else {
+            L <- ALENTH
+        }
+        R <- ALENTH/2
+    }
+    if (lometry == 1) {
+        R1 <- (V/(pi * shape_b * 2))^(1/3)
+        ALENTH <- 2 * R1 * shape_b
+        ATOT <- 2 * pi * R1^2 + 2 * pi * R1 * ALENTH
+        AWIDTH <- 2 * R1
+        ASILN <- AWIDTH * ALENTH
+        ASILP <- pi * R1^2
+        L <- ALENTH
+        R2 <- L/2
+        if (R1 > R2) {
+            R <- R2
+        }
+        else {
+            R <- R1
+        }
+    }
+    if (lometry == 2) {
+        A1 <- ((3/4) * V/(pi * shape_b * shape_c))^0.333
+        B1 <- A1 * shape_b
+        C1 <- A1 * shape_c
+        P1 <- 1.6075
+        ATOT <- (4 * pi * (((A1^P1 * B1^P1 + A1^P1 * C1^P1 + 
+            B1^P1 * C1^P1))/3)^(1/P1))
+        ASILN <- max(pi * A1 * C1, pi * B1 * C1)
+        ASILP <- min(pi * A1 * C1, pi * B1 * C1)
+        S2 <- (A1^2 * B1^2 * C1^2)/(A1^2 * B1^2 + A1^2 * C1^2 + 
+            B1^2 * C1^2)
+        Flshcond <- 0.5 + 6.14 * B1 + 0.439
+    }
+    if (lometry == 3) {
+        ATOT <- (10.4713 * AMASS^0.688)/10000
+        AV <- (0.425 * AMASS^0.85)/10000
+        ASILN <- (3.798 * AMASS^0.683)/10000
+        ASILP <- (0.694 * AMASS^0.743)/10000
+        R <- L
+    }
+    if (lometry == 4) {
+        ATOT = (12.79 * AMASS^0.606)/10000
+        AV = (0.425 * AMASS^0.85)/10000
+        ZEN <- 0
+        PCTN <- 1.38171e-06 * ZEN^4 - 0.000193335 * ZEN^3 + 0.00475761 * 
+            ZEN^2 - 0.167912 * ZEN + 45.8228
+        ASILN <- PCTN * ATOT/100
+        ZEN <- 90
+        PCTP <- 1.38171e-06 * ZEN^4 - 0.000193335 * ZEN^3 + 0.00475761 * 
+            ZEN^2 - 0.167912 * ZEN + 45.8228
+        ASILP <- PCTP * ATOT/100
+        R <- L
+    }
+    if (lometry == 5) {
+        ATOT = (customallom[1] * AMASS^customallom[2])/10000
+        AV = (customallom[3] * AMASS^customallom[4])/10000
+        ASILN = (customallom[5] * AMASS^customallom[6])/10000
+        ASILP = (customallom[7] * AMASS^customallom[8])/10000
+        R <- L
+    }
+    if (max(Zen) >= 90) {
+        Qnorm <- 0
+    }
+    else {
+        Qnorm <- (Qsol/cos(Zenith))
+    }
+    if (Qnorm > 1367) {
+        Qnorm <- 1367
+    }
+    if (posture == "p") {
+        Qabs <- (Qnorm * (1 - PCTDIF) * ASILP + Qsol * PCTDIF * 
+            FATOSK * ATOT + Qsol * sub_reflect * FATOSB * ATOT) * 
+            abs2
+    }
+    if (posture == "n") {
+        Qabs <- (Qnorm * (1 - PCTDIF) * ASILN + Qsol * PCTDIF * 
+            FATOSK * ATOT + Qsol * sub_reflect * FATOSB * ATOT) * 
+            abs2
+    }
+    if (posture == "b") {
+        Qabs <- (Qnorm * (1 - PCTDIF) * (ASILN + ASILP)/2 + Qsol * 
+            PCTDIF * FATOSK * ATOT + Qsol * sub_reflect * FATOSB * 
+            ATOT) * abs2
+    }
+    Rrad <- ((Tskin + 273) - (Trad + 273))/(EMISAN * sigma * 
+        (FATOSK + FATOSB) * ATOT * ((Tskin + 273)^4 - (Trad + 
+        273)^4))
+    Rrad <- 1/(EMISAN * sigma * (FATOSK + FATOSB) * ATOT * ((Tc + 
+        273)^2 + (Trad + 273)^2) * ((Tc + 273) + (Trad + 273)))
+    Re <- DENSTY * vel * L/VISDYN
+    PR <- 1005.7 * VISDYN/THCOND
+    if (lometry == 0) {
+        NUfor <- 0.102 * Re^0.675 * PR^(1/3)
+    }
+    if (lometry == 3 | lometry == 5) {
+        NUfor <- 0.35 * Re^0.6
+    }
+    if (lometry == 1) {
+        if (Re < 4) {
+            NUfor = 0.891 * Re^0.33
+        }
+        else {
+            if (Re < 40) {
+                NUfor = 0.821 * Re^0.385
+            }
+            else {
+                if (Re < 4000) {
+                  NUfor = 0.615 * Re^0.466
+                }
+                else {
+                  if (Re < 40000) {
+                    NUfor = 0.174 * Re^0.618
+                  }
+                  else {
+                    if (Re < 4e+05) {
+                      NUfor = 0.0239 * Re^0.805
+                    }
+                    else {
+                      NUfor = 0.0239 * Re^0.805
+                    }
+                  }
+                }
+            }
+        }
+    }
+    if (lometry == 2 | lometry == 4) {
+        NUfor <- 0.35 * Re^(0.6)
+    }
+    hc_forced <- NUfor * THCOND/L
+    GR <- abs(DENSTY^2 * (1/(Tair + 273.15)) * 9.80665 * L^3 * 
+        (Tskin - Tair)/VISDYN^2)
+    Raylei <- GR * PR
+    if (lometry == 0) {
+        NUfre = 0.55 * Raylei^0.25
+    }
+    if (lometry == 1 | lometry == 3 | lometry == 5) {
+        if (Raylei < 1e-05) {
+            NUfre = 0.4
+        }
+        else {
+            if (Raylei < 0.1) {
+                NUfre = 0.976 * Raylei^0.0784
+            }
+            else {
+                if (Raylei < 100) {
+                  NUfre = 1.1173 * Raylei^0.1344
+                }
+                else {
+                  if (Raylei < 10000) {
+                    NUfre = 0.7455 * Raylei^0.2167
+                  }
+                  else {
+                    if (Raylei < 1e+09) {
+                      NUfre = 0.5168 * Raylei^0.2501
+                    }
+                    else {
+                      if (Raylei < 1e+12) {
+                        NUfre = 0.5168 * Raylei^0.2501
+                      }
+                      else {
+                        NUfre = 0.5168 * Raylei^0.2501
+                      }
+                    }
+                  }
+                }
+            }
+        }
+    }
+    if (lometry == 2 | lometry == 4) {
+        Raylei = (GR^0.25) * (PR^0.333)
+        NUfre = 2 + 0.6 * Raylei
+    }
+    hc_free <- NUfre * THCOND/L
+    hc_comb <- hc_free + hc_forced
+    Rconv <- 1/(hc_comb * ATOT)
+    Nu <- hc_comb * L/THCOND
+    hr <- 4 * EMISAN * sigma * ((Tc + Trad)/2 + 273)^3
+    hc <- hc_comb
+    if (lometry == 2) {
+        j <- (Qabs + Qgen + hc * ATOT * ((q * S2)/(2 * Flshcond) + 
+            Tair) + hr * ATOT * ((q * S2)/(2 * Flshcond) + Trad))/C
+    }
+    else {
+        j <- (Qabs + Qgen + hc * ATOT * ((q * R^2)/(4 * Flshcond) + 
+            Tair) + hr * ATOT * ((q * S2)/(2 * Flshcond) + Trad))/C
+    }
+    kTc <- ATOT * (Tc * hc + Tc * hr)/C
+    k <- ATOT * (hc + hr)/C
+    Tcf <- j/k
+    Tci <- Tc
+    Tc <- (Tci - Tcf) * exp(-1 * k * t) + Tcf
+    timethresh <- log((thresh - Tcf)/(Tci - Tcf))/(-1 * k)
+    tau <- (rho * V * Spheat)/(ATOT * (hc + hr))
+    dTc <- j - kTc
+    list(Tc = Tc, Tcf = Tcf, tau = tau, dTc = dTc, abs2 = abs2)
+}
+```
+
+#####  
+### `DEB.R`. 
+`DEB.R` function available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney/blob/master/DEB.R).
+
+```{r error=F, message=F, warning=F}
+DEB<-function (step = 1/24, z = 7.997, del_M = 0.242, F_m = 13290 * 
+    step, kap_X = 0.85, v = 0.065 * step, kap = 0.886, p_M = 32 * 
+    step, E_G = 7767, kap_R = 0.95, k_J = 0.002 * step, E_Hb = 73590, 
+    E_Hj = E_Hb, E_Hp = 186500, h_a = 2.16e-11/(step^2), s_G = 0.01, 
+    T_REF = 20, TA = 8085, TAL = 18721, TAH = 9E+4, TL = 288, 
+    TH = 315, E_0 = 1040000, f = 1, E_sm = 1116, K = 1, andens_deb = 1, 
+    d_V = 0.3, d_E = 0.3, d_Egg = 0.3, mu_X = 525000, mu_E = 585000, 
+    mu_V = 5e+05, mu_P = 480000, kap_X_P = 0.1, n_X = c(1, 1.8, 
+        0.5, 0.15), n_E = c(1, 1.8, 0.5, 0.15), n_V = c(1, 1.8, 
+        0.5, 0.15), n_P = c(1, 1.8, 0.5, 0.15), n_M_nitro = c(1, 
+        4/5, 3/5, 4/5), clutchsize = 2, clutch_ab = c(0.085, 
+        0.7), viviparous = 0, minclutch = 0, batch = 1, lambda = 1/2, 
+    VTMIN = 26, VTMAX = 39, ma = 1e-04, mi = 0, mh = 0.5, arrhenius = matrix(data = matrix(data = c(rep(TA, 
+        8), rep(TAL, 8), rep(TAH, 8), rep(TL, 8), rep(TH, 8)), 
+        nrow = 8, ncol = 5), nrow = 8, ncol = 5), acthr = 1, 
+    X = 10, E_pres = 6011.93, V_pres = 3.9752^3, E_H_pres = 73592, 
+    q_pres = 0, hs_pres = 0, surviv_pres = 1, Es_pres = 0, cumrepro = 0, 
+    cumbatch = 0, p_B_past = 0, stage = 1, breeding = 0, pregnant = 0, 
+    Tb = 33) 
+{
+    q_init <- q_pres
+    E_H_init <- E_H_pres
+    hs_init <- hs_pres
+    fecundity <- 0
+    clutches <- 0
+    clutchenergy = E_0 * clutchsize
+    n_O <- cbind(n_X, n_V, n_E, n_P)
+    CHON <- c(12, 1, 16, 14)
+    wO <- CHON %*% n_O
+    w_V = wO[3]
+    M_V <- d_V/w_V
+    y_EX<-kap_X*mu_X/mu_E # yield of reserve on food
+    y_XE<-1/y_EX # yield of food on reserve
+    y_VE<-mu_E*M_V/E_G  # yield of structure on reserve
+    y_PX<-kap_X_P*mu_X/mu_P # yield of faeces on food
+    y_PE<-y_PX/y_EX # yield of faeces on reserve  0.143382353
+    nM <- matrix(c(1, 0, 2, 0, 0, 2, 1, 0, 0, 0, 2, 0, n_M_nitro), 
+        nrow = 4)
+    n_M_nitro_inv <- c(-1 * n_M_nitro[1]/n_M_nitro[4], (-1 * 
+        n_M_nitro[2])/(2 * n_M_nitro[4]), (4 * n_M_nitro[1] + 
+        n_M_nitro[2] - 2 * n_M_nitro[3])/(4 * n_M_nitro[4]), 
+        1/n_M_nitro[4])
+    n_M_inv <- matrix(c(1, 0, -1, 0, 0, 1/2, -1/4, 0, 0, 0, 1/2, 
+        0, n_M_nitro_inv), nrow = 4)
+    JM_JO <- -1 * n_M_inv %*% n_O
+    etaO <- matrix(c(y_XE/mu_E * -1, 0, 1/mu_E, y_PE/mu_E, 0, 
+        0, -1/mu_E, 0, 0, y_VE/mu_E, -1/mu_E, 0), nrow = 4)
+    w_N <- CHON %*% n_M_nitro
+    Tcorr = exp(TA * (1/(273 + T_REF) - 1/(273 + Tb)))/(1 + exp(TAL * 
+        (1/(273 + Tb) - 1/TL)) + exp(TAH * (1/TH - 1/(273 + Tb))))
+    M_V = d_V/w_V
+    p_MT = p_M * Tcorr
+    k_Mdot = p_MT/E_G
+    k_JT = k_J * Tcorr
+    p_AmT = p_MT * z/kap
+    vT = v * Tcorr
+    E_m = p_AmT/vT
+    F_mT = F_m * Tcorr
+    g = E_G/(kap * E_m)
+    E_scaled = E_pres/E_m
+    V_max = (kap * p_AmT/p_MT)^(3)
+    h_aT = h_a * Tcorr
+    L_T = 0
+    L_pres = V_pres^(1/3)
+    L_max = V_max^(1/3)
+    scaled_l = L_pres/L_max
+    kappa_G = (d_V * mu_V)/(w_V * E_G)
+    yEX = kap_X * mu_X/mu_E
+    yXE = 1/yEX
+    yPX = kap_X_P * mu_X/mu_P
+    mu_AX = mu_E/yXE
+    eta_PA = yPX/mu_AX
+    w_X = wO[1]
+    w_E = wO[3]
+    w_V = wO[2]
+    w_P = wO[4]
+    if (E_H_pres <= E_Hb) {
+        dLdt = (vT * E_scaled - k_Mdot * g * V_pres^(1/3))/(3 * 
+            (E_scaled + g))
+        V_temp = (V_pres^(1/3) + dLdt)^3
+        dVdt = V_temp - V_pres
+        rdot = vT * (E_scaled/L_pres - (1 + L_T/L_pres)/L_max)/(E_scaled + 
+            g)
+    }
+    else {
+        rdot = vT * (E_scaled/L_pres - (1 + L_T/L_pres)/L_max)/(E_scaled + 
+            g)
+        dVdt = V_pres * rdot
+        if (dVdt < 0) {
+            dVdt = 0
+        }
+    }
+    V = V_pres + dVdt
+    if (V < 0) {
+        V = 0
+    }
+    svl = V^(0.3333333333333)/del_M * 10
+    if (E_H_pres <= E_Hb) {
+        Sc = L_pres^2 * (g * E_scaled)/(g + E_scaled) * (1 + 
+            ((k_Mdot * L_pres)/vT))
+        dUEdt = -1 * Sc
+        E_temp = ((E_pres * V_pres/p_AmT) + dUEdt) * p_AmT/(V_pres + 
+            dVdt)
+        dEdt = E_temp - E_pres
+    }
+    else {
+        if (Es_pres > 1e-07 * E_sm * V_pres) {
+            dEdt = (p_AmT * f - E_pres * vT)/L_pres
+        }
+        else {
+            dEdt = (p_AmT * 0 - E_pres * vT)/L_pres
+        }
+    }
+    E = E_pres + dEdt
+    if (E < 0) {
+        E = 0
+    }
+    p_M = p_MT * V_pres
+    p_J = k_JT * E_H_pres
+    if (Es_pres > 1e-07 * E_sm * V_pres) {
+        p_A = V_pres^(2/3) * p_AmT * f
+    }
+    else {
+        p_A = 0
+    }
+    p_X = p_A/kap_X
+    p_C = (E_m * (vT/L_pres + k_Mdot * (1 + L_T/L_pres)) * (E_scaled * 
+        g)/(E_scaled + g)) * V_pres
+    p_R = (1 - kap) * p_C - p_J
+    if (E_H_pres < E_Hp) {
+        if (E_H_pres <= E_Hb) {
+            U_H_pres = E_H_pres/p_AmT
+            dUHdt = (1 - kap) * Sc - k_JT * U_H_pres
+            dE_Hdt = dUHdt * p_AmT
+        }
+        else {
+            dE_Hdt = (1 - kap) * p_C - p_J
+        }
+    }
+    else {
+        dE_Hdt = 0
+    }
+    E_H = E_H_init + dE_Hdt
+    if (E_H_pres >= E_Hp) {
+        p_D = p_M + p_J + (1 - kap_R) * p_R
+    }
+    else {
+        p_D = p_M + p_J + p_R
+    }
+    p_G = p_C - p_M - p_J - p_R
+    if ((E_H_pres <= E_Hp) | (pregnant == 1)) {
+        p_B = 0
+    }
+    else {
+        if (batch == 1) {
+            batchprep = (kap_R/lambda) * ((1 - kap) * (E_m * 
+                (vT * V_pres^(2/3) + k_Mdot * V_pres)/(1 + (1/g))) - 
+                p_J)
+            if (breeding == 0) {
+                p_B = 0
+            }
+            else {
+                if (cumrepro < batchprep) {
+                  p_B = p_R
+                }
+                else {
+                  p_B = batchprep
+                }
+            }
+        }
+        else {
+            p_B = p_R
+        }
+    }
+    if (E_H_pres > E_Hp) {
+        if (cumrepro < 0) {
+            cumrepro = 0
+        }
+        else {
+            cumrepro = cumrepro + p_R * kap_R - p_B_past
+        }
+    }
+    cumbatch = cumbatch + p_B
+    if (stage == 2) {
+        if (cumbatch < 0.1 * clutchenergy) {
+            stage = 3
+        }
+    }
+    if (E_H <= E_Hb) {
+        stage = 0
+    }
+    else {
+        if (E_H < E_Hj) {
+            stage = 1
+        }
+        else {
+            if (E_H < E_Hp) {
+                stage = 2
+            }
+            else {
+                stage = 3
+            }
+        }
+    }
+    if (cumbatch > 0) {
+        if (E_H > E_Hp) {
+            stage = 4
+        }
+        else {
+            stage = stage
+        }
+    }
+    if ((cumbatch > clutchenergy) | (pregnant == 1)) {
+        if (viviparous == 1) {
+            if ((pregnant == 0) & (breeding == 1)) {
+                v_baby = v_init_baby
+                e_baby = e_init_baby
+                EH_baby = 0
+                pregnant = 1
+                testclutch = floor(cumbatch/E_0)
+                if (testclutch > clutchsize) {
+                  clutchsize = testclutch
+                  clutchenergy = E_0 * clutchsize
+                }
+                if (cumbatch < clutchenergy) {
+                  cumrepro_temp = cumrepro
+                  cumrepro = cumrepro + cumbatch - clutchenergy
+                  cumbatch = cumbatch + cumrepro_temp - cumrepro
+                }
+            }
+            if (hour == 1) {
+                v_baby = v_baby_init
+                e_baby = e_baby_init
+                EH_baby = EH_baby_init
+            }
+            if (EH_baby > E_Hb) {
+                if ((Tb < VTMIN) | (Tb > VTMAX)) {
+                }
+                cumbatch(hour) = cumbatch(hour) - clutchenergy
+                repro(hour) = 1
+                pregnant = 0
+                v_baby = v_init_baby
+                e_baby = e_init_baby
+                EH_baby = 0
+                newclutch = clutchsize
+                fecundity = clutchsize
+                clutches = 1
+                pregnant = 0
+            }
+        }
+        else {
+            if ((Tb < VTMIN) | (Tb > VTMAX)) {
+            }
+            if ((Tb < VTMIN) | (Tb > VTMAX)) {
+            }
+            testclutch = floor(cumbatch/E_0)
+            if (testclutch > clutchsize) {
+                clutchsize = testclutch
+            }
+            cumbatch = cumbatch - clutchenergy
+            repro = 1
+            fecundity = clutchsize
+            clutches = 1
+        }
+    }
+    if (E_H_pres > E_Hb) {
+        if (acthr > 0) {
+            dEsdt = F_mT * (X/(K + X)) * V_pres^(2/3) * f - 1 * 
+                (p_AmT/kap_X) * V_pres^(2/3)
+        }
+        else {
+            dEsdt = -1 * (p_AmT/kap_X) * V_pres^(2/3)
+        }
+    }
+    else {
+        dEsdt = -1 * (p_AmT/kap_X) * V_pres^(2/3)
+    }
+    if (V_pres == 0) {
+        dEsdt = 0
+    }
+    Es = Es_pres + dEsdt
+    if (Es < 0) {
+        Es = 0
+    }
+    if (Es > E_sm * V_pres) {
+        Es = E_sm * V_pres
+    }
+    gutfull = Es/(E_sm * V_pres)
+    if (gutfull > 1) {
+        gutfull = 1
+    }
+    JOJx = p_A * etaO[1, 1] + p_D * etaO[1, 2] + p_G * etaO[1, 
+        3]
+    JOJv = p_A * etaO[2, 1] + p_D * etaO[2, 2] + p_G * etaO[2, 
+        3]
+    JOJe = p_A * etaO[3, 1] + p_D * etaO[3, 2] + p_G * etaO[3, 
+        3]
+    JOJp = p_A * etaO[4, 1] + p_D * etaO[4, 2] + p_G * etaO[4, 
+        3]
+    JOJx_GM = p_D * etaO[1, 2] + p_G * etaO[1, 3]
+    JOJv_GM = p_D * etaO[2, 2] + p_G * etaO[2, 3]
+    JOJe_GM = p_D * etaO[3, 2] + p_G * etaO[3, 3]
+    JOJp_GM = p_D * etaO[4, 2] + p_G * etaO[4, 3]
+    JMCO2 = JOJx * JM_JO[1, 1] + JOJv * JM_JO[1, 2] + JOJe * 
+        JM_JO[1, 3] + JOJp * JM_JO[1, 4]
+    JMH2O = JOJx * JM_JO[2, 1] + JOJv * JM_JO[2, 2] + JOJe * 
+        JM_JO[2, 3] + JOJp * JM_JO[2, 4]
+    JMO2 = JOJx * JM_JO[3, 1] + JOJv * JM_JO[3, 2] + JOJe * JM_JO[3, 
+        3] + JOJp * JM_JO[3, 4]
+    JMNWASTE = JOJx * JM_JO[4, 1] + JOJv * JM_JO[4, 2] + JOJe * 
+        JM_JO[4, 3] + JOJp * JM_JO[4, 4]
+    JMCO2_GM = JOJx_GM * JM_JO[1, 1] + JOJv_GM * JM_JO[1, 2] + 
+        JOJe_GM * JM_JO[1, 3] + JOJp_GM * JM_JO[1, 4]
+    JMH2O_GM = JOJx_GM * JM_JO[2, 1] + JOJv_GM * JM_JO[2, 2] + 
+        JOJe_GM * JM_JO[2, 3] + JOJp_GM * JM_JO[2, 4]
+    JMO2_GM = JOJx_GM * JM_JO[3, 1] + JOJv_GM * JM_JO[3, 2] + 
+        JOJe_GM * JM_JO[3, 3] + JOJp_GM * JM_JO[3, 4]
+    JMNWASTE_GM = JOJx_GM * JM_JO[4, 1] + JOJv_GM * JM_JO[4, 
+        2] + JOJe_GM * JM_JO[4, 3] + JOJp_GM * JM_JO[4, 4]
+    O2FLUX = -1 * JMO2/(T_REF/Tb/24.4) * 1000
+    CO2FLUX = JMCO2/(T_REF/Tb/24.4) * 1000
+    MLO2 = (-1 * JMO2 * (0.082058 * (Tb + 273.15))/(0.082058 * 
+        293.15)) * 24.06 * 1000
+    GH2OMET = JMH2O * 18.01528
+    #metabolic heat production (Watts) = growth overhead plus dissipation power (maintenance, maturity maintenance,
+  #maturation/repro overheads) plus assimilation overheads. correct to 20 degrees so it can be temperature corrected
+  #in MET.f for the new guessed Tb
+    DEBQMET = ((1 - kappa_G) * p_G + p_D + (p_X - p_A - p_A * 
+        mu_P * eta_PA))/3600/Tcorr
+    DRYFOOD = -1 * JOJx * w_X
+    FAECES = JOJp * w_P
+    NWASTE = JMNWASTE * w_N
+    if (pregnant == 1) {
+        wetgonad = ((cumrepro/mu_E) * w_E)/d_Egg + ((((v_baby * 
+            e_baby)/mu_E) * w_E)/d_V + v_baby) * clutchsize
+    }
+    else {
+        wetgonad = ((cumrepro/mu_E) * w_E)/d_Egg + ((cumbatch/mu_E) * 
+            w_E)/d_Egg
+    }
+    wetstorage = ((V * E/mu_E) * w_E)/d_V
+    wetfood = Es/21525.37/(1 - 0.18)
+    wetmass = V * andens_deb + wetgonad + wetstorage + wetfood
+    gutfreemass = V * andens_deb + wetgonad + wetstorage
+    potfreemass = V * andens_deb + (((V * E_m)/mu_E) * w_E)/d_V
+    dqdt = (q_pres * (V_pres/V_max) * s_G + h_aT) * (E_pres/E_m) * 
+        ((vT/L_pres) - rdot) - rdot * q_pres
+    if (E_H_pres > E_Hb) {
+        q = q_init + dqdt
+    }
+    else {
+        q = 0
+    }
+    dhsds = q_pres - rdot * hs_pres
+    if (E_H_pres > E_Hb) {
+        hs = hs_init + dhsds
+    }
+    else {
+        hs = 0
+    }
+    h_w = ((h_aT * (E_pres/E_m) * vT)/(6 * V_pres^(1/3)))^(1/3)
+    dsurvdt = -1 * surviv_pres * hs
+    surviv = surviv_pres + dsurvdt
+    p_B_past = p_B
+    E_pres = E
+    V_pres = V
+    E_H_pres = E_H
+    q_pres = q
+    hs_pres = hs
+    suriv_pres = surviv_pres
+    Es_pres = Es
+    deb.names <- c("E_pres", "V_pres", "E_H_pres", "q_pres", 
+        "hs_pres", "surviv_pres", "Es_pres", "cumrepro", "cumbatch", 
+        "p_B_past", "O2FLUX", "CO2FLUX", "MLO2", "GH2OMET", "DEBQMET", 
+        "DRYFOOD", "FAECES", "NWASTE", "wetgonad", "wetstorage", 
+        "wetfood", "wetmass", "gutfreemass", "gutfull", "fecundity", 
+        "clutches")
+    results_deb <- c(E_pres, V_pres, E_H_pres, q_pres, hs_pres, 
+        surviv_pres, Es_pres, cumrepro, cumbatch, p_B_past, O2FLUX, 
+        CO2FLUX, MLO2, GH2OMET, DEBQMET, DRYFOOD, FAECES, NWASTE, 
+        wetgonad, wetstorage, wetfood, wetmass, gutfreemass, 
+        gutfull, fecundity, clutches)
+    names(results_deb) <- deb.names
+    return(results_deb)
+}
+```
+
+#####
+# Appendix 1    
+
+Netlogo IBM decision making model (.nlogo). Available on [**Github**](https://github.com/darwinanddavis/Sleepy_IBM/blob/master/Sleepy%20IBM_v.6.1.1_two%20strategies.nlogo). 
 
 ### space and time scales
 ```{RNetLogo error=F, message=F, warning=F}
@@ -155,7 +819,7 @@ to setup
     ask n-of 10 patches in-radius 4 [ ; Sets 10 random food patches within a 5-patch radius of Food-patches
     let food-amount random 100
     ifelse food-amount < 50
-    [set food-level (Small-food-initial) + random-float 1 * 10 ^ -5] ; Makes only one food patch attractive to turtle
+    [set food-level (Small-food-initial) + random-float 1 * 10 ^ -5] ; Makes only one food patch attractive to turtle because turtles love good chow
     [set food-level (Large-food-initial) + random-float 1 * 10 ^ -5]
       set pcolor PatchColor
       set patch-type "Food"
@@ -677,10 +1341,10 @@ end
 
 ```
   
-******
 
-# Appendix 2
-Energy and heat budget models, including microclimate model (.R). Available on [Github](https://github.com/darwinanddavis/MalishevBullKearney).
+#####
+# Appendix 2  
+Energy and heat budget models, including microclimate model (.R). Available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney).
 
 ### Initial setup
 ```{r eval=F, error=F, message=F, warning=F}
@@ -711,7 +1375,7 @@ library(RNetlogo); library(rJava)
 ```
 
 #### For PC and working Mac OSX
-Source `DEB.R` and `onelump_varenv.R` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+Source `DEB.R` and `onelump_varenv.R` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
 ```{r eval=F, error=F, message=F, warning=F}
 # ------------------- for PC and working Mac OSX -----------------
 # ------------------- model setup ---------------------------
@@ -719,7 +1383,7 @@ Source `DEB.R` and `onelump_varenv.R` from [Github]("https://github.com/darwinan
 install.packages(c("NicheMapR","adehabitatHR","rgeos","sp", "maptools", "raster","rworldmap","rgdal","dplyr"))
 library(NicheMapR); library(adehabitatHR); library(rgeos); library(sp); library(maptools); library(raster); library(rworldmap); library(rgdal); library(dplyr)
 
-#source DEB and heat budget models from https://github.com/mrke/NicheMapR/tree/master/R
+#source DEB and heat budget models from https://github.com/darwinanddavis/MalishevBullKearney
 source('DEB.R')
 source('onelump_varenv.R')
 
@@ -729,7 +1393,7 @@ results.path<- "<dir path to store result outputs>" # set results path
 ```
 
 ### Read in microclimate data
-Source `metout`, `soil`, `shadmet`, and `shadsoil` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+Source `metout`, `soil`, `shadmet`, and `shadsoil` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
 ```{r eval=F, error=F, message=F, warning=F}
 # read in microclimate data (metout, soil, shadmet, and shadsoil)
 tzone<-paste("Etc/GMT-",10,sep="")
@@ -772,7 +1436,7 @@ VTMAX<- 35
 ```
 
 ### Read in DEB parameters
-Source `DEB_pars_Tiliqua_rugosa.csv` from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+Source `DEB_pars_Tiliqua_rugosa.csv` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
 ```{r eval=F, error=F, message=F, warning=F}
 # *************************** read in DEB parameters ***************************
 
@@ -824,7 +1488,7 @@ mass <- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
 
 
 ### Initialise decision-making and DEB models
-Source Netlogo model from [Github]("https://github.com/darwinanddavis/MalishevBullKearney")
+Source Netlogo model from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
 ```{r eval=F, error=F, message=F, warning=F}
 # ********************** start NETLOGO SIMULATION  ***********************
 
@@ -1159,14 +1823,12 @@ list.files(results.path)
 # [7] "sep572310001000_0_txt.csv"     "sep572310001000_0_wetmass.csv"
 # [9] "turtles0.R"   
 ```
-
-******
-
+##### 
 #Appendix 3 
 
 ### Summary of DEB parameters and primary metabolic pathways. 
 
-Under DEB theory, flows of energy $(\dot{p})$ and mass $(\dot{J})$ from food are tracked through time to predict the individual state in terms of growth (structure, $V$, i.e. volume of body tissue built during growth and which requires maintenance), body condition (reserve, $E$, the chemical intermediary between the transformation of food and the growth and maintenance of structure), and maturity ($E_H$, the energy invested in increasing the maturation state, i.e. energetic costs of development, all of which is dissipated) (Kooijman 2010). Temperature $(T)$ influences all rates according to the Arrhenius model. Food $(X)$ is eaten $(\dot{p_X})$ then converted $(\dot{p}_A)$ to reserve, which is subsequently mobilized to fuel the rest of the metabolism. Reserve is readily available pools of generalised compounds, rather than simply energy or fat storage, contained within individual body cells and collectively, per structural volume, measured as reserve density, $[E]$. Food intake scales with food density following a functional response $f$ (Table 1), whereby either searching or handling limits individuals as $f$ increases from 0 to 1, respectively. Following an allocation rule ($\kappa$ rule), reserves are mobilised $(\kappa \dot{p}_C)$ to structure via the natural hierarchy of cell metabolism---first to somatic maintenance $(\dot{p}_M)$ then to growth $(\dot{p}_G)$. The remaining fixed fraction $((1 - \kappa)\dot{p}_C)$ of mobilised energy $(\dot{p}_R)$ then fuels maturation and reproduction. Animals switch between three maturity stages---embryo, juvenile, and adult---defined by maturity thresholds representing the cumulative energy invested in maturation. Energy is also invested in maintenance of a given level of maturity $(\dot{p}_J)$ and, once reaching puberty, excess energy beyond maturity maintenance costs is invested in reproductive biomass $(\dot{p}_R)$. See Fig. 4 in Kearney et al. (2013) for a schematic breakdown of the above processes.
+In DEB theory, flows of energy $(\dot{p})$ and mass $(\dot{J})$ from food are tracked through time to predict the individual state in terms of growth (structure, $V$, i.e. volume of body tissue built during growth and which requires maintenance), body condition (reserve, $E$, the chemical intermediary between the transformation of food and the growth and maintenance of structure), and maturity ($E_H$, the energy invested in increasing the maturation state, i.e. energetic costs of development, all of which is dissipated) (Kooijman 2010). Temperature $(T)$ influences all rates according to the Arrhenius model. Food $(X)$ is eaten $(\dot{p_X})$ then converted $(\dot{p}_A)$ to reserve, which is subsequently mobilized to fuel the rest of the metabolism. Reserve is readily available pools of generalised compounds, rather than simply energy or fat storage, contained within individual body cells and collectively, per structural volume, measured as reserve density, $[E]$. Food intake scales with food density following a functional response $f$ (Table 1), whereby either searching or handling limits individuals as $f$ increases from 0 to 1, respectively. Following an allocation rule ($\kappa$ rule), reserves are mobilised $(\kappa \dot{p}_C)$ to structure via the natural hierarchy of cell metabolism---first to somatic maintenance $(\dot{p}_M)$ then to growth $(\dot{p}_G)$. The remaining fixed fraction $((1 - \kappa)\dot{p}_C)$ of mobilised energy $(\dot{p}_R)$ then fuels maturation and reproduction. Animals switch between three maturity stages---embryo, juvenile, and adult---defined by maturity thresholds representing the cumulative energy invested in maturation. Energy is also invested in maintenance of a given level of maturity $(\dot{p}_J)$ and, once reaching puberty, excess energy beyond maturity maintenance costs is invested in reproductive biomass $(\dot{p}_R)$. See Fig. 4 in Kearney et al. (2013) for a schematic breakdown of the above processes.
 
 In DEB theory, reserve dynamics drive metabolism. The rate of assimilated food into energy $\dot{p}_A$ follows the Holling Type II functional response $f$  
 
@@ -1290,12 +1952,16 @@ $$
         {e + g}
 $$
 
-******
+#####
+
+#Figures  
+
 
 ![Figure S1. Distributions of home range area (km2) of real animals (pink) and simulated optimising (orange) and satisficing (blue) movement strategies under (A) dense and (B) sparse resource distribution (food and shade). Insets (L–R): Home range polygons in space showing overlap of simulated satisficing (blue) and optimising (orange) movement strategies, and examples of (upper) dense and (lower) sparse resource distributions in the study site.](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S1.png)  
 
 ![Figure S2. Rates of Tb change (ºC 2 min–1) comparing (A) observed active (orange; #11885) and passive (blue; #11533) movement and (B) simulated optimising (orange) and satisficing (blue) movement for the morning hours (heating period; 06:00–12:00). (C) Observed active (orange) and passive (blue) movement and (D) simulated optimising (orange) and satisficing (blue) movement for the afternoon hours (cooling period; 12:00–18:00) throughout the breeding season. Animal graphics represent the most probable activity state of the animal (from Fig. 2).](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S2.png)  
 
+#####
 
 # References  
 Auburn, Z. M., Bull, C. M. and Kerr G. D. (2009) The visual perceptual range of a lizard, Tiliqua rugosa, J. Ethol. 27:75-81.
