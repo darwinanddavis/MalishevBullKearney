@@ -19,7 +19,10 @@ Abstract
 Model files and code, data inputs, and appendices   
 
 File extensions:   
-.R   
+.R  
+.Rmd
 .nlogo   
 .csv    
-.pdf  
+.pdf
+.rtf
+.html
