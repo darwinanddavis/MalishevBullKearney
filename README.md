@@ -20,9 +20,9 @@ Model files and code, data inputs, and appendices
 
 File extensions:   
 .R  
-.Rmd
-.nlogo   
+.Rmd  
+.nlogo     
 .csv    
-.pdf
-.rtf
-.html
+.pdf  
+.rtf  
+.html  
