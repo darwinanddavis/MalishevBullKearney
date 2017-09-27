@@ -8,7 +8,7 @@
 
 ##### *Corresponding author: matthew.malishev@gmail.com  
 
-https://zenodo.org/badge/96968871.svg
+doi: https://zenodo.org/badge/96968871.svg
 
 ******
 
@@ -29,4 +29,3 @@ File extensions:
 .pdf  
 .rtf  
 .html    
-https://zenodo.org/badge/96968871.svg
