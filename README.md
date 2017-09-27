@@ -28,4 +28,5 @@ File extensions:
 .csv    
 .pdf  
 .rtf  
-.html  
+.html    
+https://zenodo.org/badge/96968871.svg
