@@ -8,7 +8,7 @@
 
 ##### *Corresponding author: matthew.malishev@gmail.com  
 
-doi: https://zenodo.org/badge/96968871.svg
+doi: [![DOI](https://zenodo.org/badge/96968871.svg)](https://zenodo.org/badge/latestdoi/96968871)
 
 ******
 
