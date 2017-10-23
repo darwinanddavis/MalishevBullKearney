@@ -1,19 +1,20 @@
 ---
-title: Appendices for ‘An individual-based model of ectotherm movement integrating
-  metabolic and microclimatic constraints’
-author:
-- _^1^ Centre of Excellence for Biosecurity Risk Analysis, ^2^ School of BioSciences,
-  University of Melbourne, Parkville, Melbourne, 3010, Australia_
-- _^3^ School of Biological Sciences, Flinders University, Adelaide, 5001, Australia_
-- "*Corresponding author: matthew.malishev@gmail.com  \n"
-subtitle: Matthew Malishev^1,2^*, C. Michael Bull^3^ & Michael R. Kearney^2^
+title: Appendices for ‘An individual-based model of ectotherm movement integrating metabolic and microclimatic constraints’
+author: 
+- |-
+  _^1^ Centre of Excellence for Biosecurity Risk Analysis, ^2^ School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia_
+  ^['This Supplementary Material can be found at https://github.com/darwinanddavis/MalishevBullKearney or https://doi.org/10.5281/zenodo.998145.']
+  _^3^ School of Biological Sciences, Flinders University, Adelaide, 5001, Australia_
+bibliography: /Users/malishev/Documents/Melbourne Uni/Thesis_2016/library.bib
 output:
   word_document:
     highlight: tango
     keep_md: yes
+    pandoc_args: --smart
     reference: mystyles.docx
     toc: yes
   pdf_document:
+    template: null
     toc: yes
   html_document:
     code_folding: hide
@@ -21,9 +22,13 @@ output:
     number_sections: no
     toc: yes
     toc_float: yes
+inludes:
+  before_body: before_body.tex
+subtitle: Matthew Malishev^1,2^*, C. Michael Bull^3^, & Michael R. Kearney^2^
 tags:
 - nothing
 - nothingness
+abstract: "*Corresponding author: matthew.malishev@gmail.com  \n"
 ---
 
 <script type="text/x-mathjax-config">
@@ -1835,7 +1840,7 @@ In DEB theory, reserve dynamics drive metabolism. The rate of assimilated food i
 $$
   [\dot{p}_A] = \frac
   {f \dot{\{p}_{Am}\}}
-  {L} 
+  {L}
 $$
 
 where {$\dot{p}_{Am}$} is the maximum assimilation rate and the volumetric body length $L \equiv V^\frac{1}{3}$. Parameters surrounded by square [*] and curly {*} parentheses are per volume and surface area, respectively. Energy is then mobilised from reserves with a constant fraction going to somatic maintenance and somatic growth
@@ -1881,11 +1886,11 @@ Heat, water, and CO~2~ are expelled as products from the costs of maintaining th
 
 $$
   [\dot{p}_M] 
-  = \biggl(
+  = \left(
   [\dot{p}_M] + \frac
   {\dot{\{p}_T\}}
   {L}
-  \biggr)
+  \right)
 $$
 
 Further costs include the overheads of reproduction, feeding (heat increment of $f$), and growth $\dot{p}_G$, including growth overhead costs and tissue biomass
@@ -1957,21 +1962,21 @@ $$
 #Figures  
 
 
-![Figure S1. Distributions of home range area (km2) of real animals (pink) and simulated optimising (orange) and satisficing (blue) movement strategies under (A) dense and (B) sparse resource distribution (food and shade). Insets (L–R): Home range polygons in space showing overlap of simulated satisficing (blue) and optimising (orange) movement strategies, and examples of (upper) dense and (lower) sparse resource distributions in the study site.](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S1.png)  
+![Figure S1. Distributions of home range area (km^2^) of real animals (pink) and simulated optimising (orange) and satisficing (blue) movement strategies under (A) dense and (B) sparse resource distribution (food and shade). Insets (L–R): Home range polygons in space showing overlap of simulated satisficing (blue) and optimising (orange) movement strategies, and examples of (upper) dense and (lower) sparse resource distributions in the study site.](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S1.png)  
 
-![Figure S2. Rates of Tb change (ºC 2 min–1) comparing (A) observed active (orange; #11885) and passive (blue; #11533) movement and (B) simulated optimising (orange) and satisficing (blue) movement for the morning hours (heating period; 06:00–12:00). (C) Observed active (orange) and passive (blue) movement and (D) simulated optimising (orange) and satisficing (blue) movement for the afternoon hours (cooling period; 12:00–18:00) throughout the breeding season. Animal graphics represent the most probable activity state of the animal (from Fig. 2).](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S2.png)  
+![Figure S2. Rates of Tb change (ºC 2 min^–1^) comparing (A) observed active (orange; #11885) and passive (blue; #11533) movement and (B) simulated optimising (orange) and satisficing (blue) movement for the morning hours (heating period; 06:00–12:00). (C) Observed active (orange) and passive (blue) movement and (D) simulated optimising (orange) and satisficing (blue) movement for the afternoon hours (cooling period; 12:00–18:00) throughout the breeding season. Animal graphics represent the most probable activity state of the animal (from Fig. 2).](/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S2.png)  
 
 #####
 
 # References  
-Auburn, Z. M., Bull, C. M. and Kerr G. D. (2009) The visual perceptual range of a lizard, Tiliqua rugosa, J. Ethol. 27:75-81.
+Auburn, Z. M., Bull, C. M. and Kerr G. D. (2009) The visual perceptual range of a lizard, _Tiliqua rugosa_, Journal of Ethology, 27: 75-81.
 
-Brown, G. W. (1991) Ecological feeding analysis of south-eastern Australian Scincids  (Reptilia--Lacertilia), Aust. J. Zool. 39:9-29.
+Brown, G. W. (1991) Ecological feeding analysis of south-eastern Australian Scincids  (Reptilia--Lacertilia), Australian Journal of Zoology, 39: 9-29.
 
-Kearney, M. R., Simpson, S. J., Raubenheimer, D. & Kooijman, S. A. L. M. (2012) Balancing heat, water and nutrients under environmental change: a thermodynamic niche framework. Functional Ecology, 27(4), 950–966.
+Kearney, M. R., Simpson, S. J., Raubenheimer, D. & Kooijman, S. A. L. M. (2012) Balancing heat, water and nutrients under environmental change: a thermodynamic niche framework. Functional Ecology, 27(4): 950–966.
 
 Kooijman, S.A.L.M., (2010). Dynamic Energy Budget Theory, Cambridge, UK: Cambridge University Press.
 
-Pamula, Y. (1997) Ecological and physiological aspects of reproduction in the viviparous skink Tiliqua rugosa, Ph.D. thesis, Flinders University, South Australia, Australia. 
+Pamula, Y. (1997) Ecological and physiological aspects of reproduction in the viviparous skink _Tiliqua rugosa_, Ph.D. thesis, Flinders University, South Australia, Australia. 
 
 
