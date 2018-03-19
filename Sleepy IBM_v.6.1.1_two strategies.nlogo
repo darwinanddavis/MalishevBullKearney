@@ -1699,7 +1699,7 @@ Shade-density
 1
 
 @#$#@#$#@
-> ##Version 6.1.1  Sleepy IBM_v.6.1.1_two strategies (27-4-17)
+> ##Version 6.1.1  Sleepy IBM_v.6.1.1_two strategies (20-3-18)
 
 > 6.1.1_two strategies (5-6-17)
 > Added further 'in-food?=FALSE' reporters to searching and resting activity states
