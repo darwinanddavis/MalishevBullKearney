@@ -1,5 +1,8 @@
 # RNL_new trans model_with DEB_1.6.2
 
+#19-6-18
+# time stamp for updated file RNL_new trans model_with DEB_1.6.2
+
 # 5-1-17 RNL_new trans model_with DEB_1.6.2
 # moved gutfull from 'auxiliary params' to 'update animal and env traits'
 # added Random and Clumped shade density input (shadedens) for "Sleepy IBM_v.6.1.1_two strategies_shadedens.nlogo"  
