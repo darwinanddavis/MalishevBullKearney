@@ -1701,8 +1701,13 @@ mass &lt;- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
 <p>Source Netlogo model from <a href="%22https://github.com/darwinanddavis/MalishevBullKearney%22"><strong>Github</strong></a></p>
 <pre class="r"><code># ********************** start NETLOGO SIMULATION  ***********************
 
-nl.path&lt;- &quot;&lt;dir path to Netlogo program&gt;&quot;
+
+nl.path&lt;- &quot;&lt;dir path to Netlogo program&gt;&quot; 
+ver &lt;-&quot;&lt;version number of Netlogo&gt;&quot; # type in version of Netlogo e.g. &quot;6.0.1&quot;
+# if error, try adding &quot;/app&quot; to end of dir path for running in Windows and El Capitan for OSX
+# nl.path&lt;-&quot;&lt;dir path to Netlogo program&gt;/app&quot; 
 NLStart(nl.path)
+NLStart(nl.path, nl.jarname = paste0(&quot;netlogo-&quot;,ver,&quot;.jar&quot;))
 model.path&lt;- &quot;&lt;dir path to Netlogo model&gt;&quot;
 NLLoadModel(model.path)
 

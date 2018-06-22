@@ -55,7 +55,8 @@ The `onelump_varenv.R` and `DEB.R` functions update the individual internal ther
 ### `onelump_varenv.R`. 
 `onelump_varenv.R` available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney/blob/master/onelump_varenv.R).  
 
-```{r error=F, message=F, warning=F} 
+
+```r
 onelump_varenv<-function (t = seq(1, 3600, 60), time = 0, Tc_init = 5, thresh = 29, 
     AMASS = 500, lometry = 2, Tairf = Tairfun, Tradf = Tradfun, 
     velf = velfun, Qsolf = Qsolfun, Zenf = Zenfun, Flshcond = 0.5, 
@@ -309,7 +310,8 @@ onelump_varenv<-function (t = seq(1, 3600, 60), time = 0, Tc_init = 5, thresh = 
 ### `DEB.R`. 
 `DEB.R` function available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney/blob/master/DEB.R).
 
-```{r error=F, message=F, warning=F}
+
+```r
 DEB<-function (step = 1/24, z = 7.997, del_M = 0.242, F_m = 13290 * 
     step, kap_X = 0.85, v = 0.065 * step, kap = 0.886, p_M = 32 * 
     step, E_G = 7767, kap_R = 0.95, k_J = 0.002 * step, E_Hb = 73590, 
@@ -703,7 +705,8 @@ DEB<-function (step = 1/24, z = 7.997, del_M = 0.242, F_m = 13290 *
 Netlogo IBM decision making model (.nlogo). Available on [**Github**](https://github.com/darwinanddavis/Sleepy_IBM/blob/master/Sleepy%20IBM_v.6.1.1_two%20strategies.nlogo). 
 
 ### space and time scales
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 ; Spatial scale: 1500 * 1500 m
 ; 1 patch = 2 m
 ; 1 tick = 2 min
@@ -713,7 +716,8 @@ Netlogo IBM decision making model (.nlogo). Available on [**Github**](https://gi
 ```
 
 ### interface
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 ; Energy cost of individual
 ; =========================
 ; Movement-cost:    Cost (J) of moving one patch (2 m). Calculated from DEB model.
@@ -737,7 +741,8 @@ Netlogo IBM decision making model (.nlogo). Available on [**Github**](https://gi
 ```
 
 ###globals 
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 globals
 [
   in-shade?          ; Reports TRUE if turtle is in shade
@@ -762,7 +767,8 @@ globals
 ```
 
 ###turtles-own
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 turtles-own
 [
   activity-state     ; Individual is either under a Searching, Feeding, or Resting state for each tick. The transition between the various activity states defines the global behavioural repertoire.
@@ -789,7 +795,8 @@ turtles-own
 ```
 
 ### patches-own
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 patches-own
 [
   patch-type    ; Defines type of patches in environment as either Food or Shade.
@@ -799,13 +806,15 @@ patches-own
 ```
 
 ###breeds
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 breed
 [homeranges homerange]
 ```
 
 ### setup
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to setup
   ca
   if Food-patches + Shade-patches > count patches
@@ -903,7 +912,8 @@ end
 ```
 
 ### go
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to go
   tick
   if not any? turtles
@@ -942,11 +952,11 @@ to go
     [update-food-levels]
 end
 
-
 ```
 
 ### update _T~b~_
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to update-T_b
   ask turtles with [T_b >= max-T_b]
     [stop]
@@ -958,7 +968,8 @@ end
 ```
 
 ### make-decision
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to make-decision
 
 ;-------------------------------------------------------------------------------------
@@ -1120,7 +1131,8 @@ end
 ```
 
 ### search
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to search
   set reserve-level reserve-level - Movement-cost 
   set movelist lput Movement-cost movelist
@@ -1137,7 +1149,8 @@ end
 ```
 
 ### bounce
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to bounce
 ; Turtles turn a random angle ~180 when encountering a wall
   ask turtle 0
@@ -1149,7 +1162,8 @@ end
 ```
 
 ### handle food
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to handle-food
   set energy-gain Low-food-gain
   ;set in-food? TRUE
@@ -1164,7 +1178,8 @@ end
 ```
 
 ### shade search
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to shade-search
   set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
   set movelist lput Movement-cost movelist
@@ -1179,7 +1194,8 @@ end
 ```
 
 ### rest
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to rest
   ifelse strategy = "Optimising"
   [set activity-state "S"]
@@ -1188,7 +1204,8 @@ end
 ```
 
 ### socialise
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to socialise
   set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
   set movelist lput Movement-cost movelist
@@ -1201,7 +1218,8 @@ end
 ```
 
 ### update food levels
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to update-food-levels
   let food-deplete food-level - Low-food-gain
   if (count turtles-here with [activity-state = "F"] > 0) and (gutfull < gutthresh)
@@ -1218,7 +1236,8 @@ end
 ```
 
 ### report patch color
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to-report PatchColor
   let PatColor 0
   ifelse food-level >= Large-food-initial
@@ -1232,7 +1251,8 @@ end
 ```
 
 ### report patch type
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to report-patch-type
 ifelse [patch-type] of patch-here = "Food"
     [set in-food? TRUE]
@@ -1246,7 +1266,8 @@ end
 ```
 
 ### report results
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to report-results
     output-print (word "Number of real days:,, " precision (ticks * 2 / 60 / 24) 5)
     output-print ""
@@ -1276,7 +1297,8 @@ end
 ```
 
 ### to save world
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to save-world ; This procedure saves the model world. The file output procedure then outputs the saved model world as a .txt file to the local dir.
   let world user-new-file
   if ( world != false )
@@ -1297,7 +1319,8 @@ end
 ```
 
 ### spatial plot
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 
 to setup-spatial-plot
   set-current-plot "Spatial coordinates of transition between activity states"
@@ -1309,7 +1332,8 @@ end
 ```
 
 ### get home range
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to get-homerange
 draw-homerange
 end
@@ -1317,7 +1341,8 @@ end
 ```
 
 ### draw home range
-```{RNetLogo error=F, message=F, warning=F}
+
+```rnetlogo
 to draw-homerange
   clear-drawing
   if any? turtles [
@@ -1352,7 +1377,8 @@ end
 Energy and heat budget models, including microclimate model (.R). Available on [**Github**](https://github.com/darwinanddavis/MalishevBullKearney).
 
 ### Initial setup
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 # RNL_new trans model_with DEB_1.6.2
 
 # ----------------------------------------------------------------
@@ -1385,7 +1411,8 @@ library(RNetLogo); library(rJava)
 
 #### For PC and working Mac OSX
 Source `DEB.R` and `onelump_varenv.R` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 # ------------------- for PC and working Mac OSX ---------------------------
 # ------------------- model setup ---------------------------
 # get packages
@@ -1404,7 +1431,8 @@ results.path<- "<dir path to store result outputs>" # set results path
 
 ### Read in microclimate data
 Source `metout`, `soil`, `shadmet`, and `shadsoil` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 # read in microclimate data (metout, soil, shadmet, and shadsoil)
 tzone<-paste("Etc/GMT-",10,sep="")
 metout<-read.csv('metout.csv')
@@ -1447,7 +1475,8 @@ VTMAX<- 35
 
 ### Read in DEB parameters
 Source `DEB_pars_Tiliqua_rugosa.csv` from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 # *************************** read in DEB parameters ***************************
 
 debpars=as.data.frame(read.csv('DEB_pars_Tiliqua_rugosa.csv',header=FALSE))$V1 # read in DEB pars
@@ -1499,7 +1528,8 @@ mass <- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
 
 ### Initialise decision-making and DEB models
 Source Netlogo model from [**Github**]("https://github.com/darwinanddavis/MalishevBullKearney")
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 # ********************** start NETLOGO SIMULATION  ***********************
 
 nl.path<- "<dir path to Netlogo program>" 
@@ -1594,12 +1624,12 @@ shadedens<-function(shadedens){ # set movement strategy
     }
   }
 shadedens("Clumped") # set clumped resources
-
 ```
 
 
 ### Run simulation
-```{r eval=F, error=F, message=F, warning=F}
+
+```r
 sc<-1 # set no. of desired simualations---for automating writing of each sim results to file. N = N runs
 for (i in 1:sc){ # start sc sim loop
 
@@ -1823,12 +1853,11 @@ if (exists("results")){  #if results exist
 
 #*********************** end NETLOGO SIMULATION ****************************
 #***************************************************************************
-
 ```
 
 ### Example of data output files from simulation
-```{r eval=F, error=F, message=F, warning=F, echo=T}
 
+```r
 # example files of results output in results.path
 list.files(results.path)
 # [1] "results0.R"                    "sep572310001000_0_act.csv"    

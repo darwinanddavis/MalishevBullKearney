@@ -1,0 +1,2277 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdftitle={Appendices for An individual-based model of ectotherm movement integrating metabolic and microclimatic constraints},
+            pdfauthor={1 Centre of Excellence for Biosecurity Risk Analysis, 2 School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia 3 School of Biological Sciences, Flinders University, Adelaide, 5001, Australia},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Appendices for `An individual-based model of ectotherm movement
+integrating metabolic and microclimatic constraints'}
+\providecommand{\subtitle}[1]{}
+\subtitle{Matthew Malishev\textsuperscript{1,2}*, C. Michael
+Bull\textsuperscript{3}, \& Michael R. Kearney\textsuperscript{2}}
+\author{\emph{\textsuperscript{1} Centre of Excellence for Biosecurity Risk
+Analysis, \textsuperscript{2} School of BioSciences, University of
+Melbourne, Parkville, Melbourne, 3010, Australia}
+\emph{\textsuperscript{3} School of Biological Sciences, Flinders
+University, Adelaide, 5001, Australia}\footnote{`This Supplementary
+  Material can be found at
+  \url{https://github.com/darwinanddavis/MalishevBullKearney} or
+  \url{https://doi.org/10.5281/zenodo.998145}.'}}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+*Corresponding author:
+\href{mailto:matthew.malishev@gmail.com}{\nolinkurl{matthew.malishev@gmail.com}}
+\end{abstract}
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\subparagraph{}\label{section}
+
+\section{Data collection}\label{data-collection}
+
+All data were collected at the sleepy lizard habitat study site
+(139°21'E, 33°55'S) at the Bundey Bore field station in the mid-north of
+South Australia during the breeding season (September to December,
+2009). Animal data are for the adult sleepy lizard (n = 60). Individual
+animals were tagged with GPS units, step counters (`waddleometers'), and
+skin surface temperature probes at the beginning of the breeding season
+and tracked throughout the season using radio telemetry. Animals were
+captured and GPS data downloaded every two weeks throughout the breeding
+season for each individual, with batteries for the units replaced when
+needed. GPS units reported locations every 10 minutes, waddleometers
+recorded step counts every 2 minutes, and temperature probes recorded
+skin surface temperature every 2 minutes.
+
+The simulation model uses a 2-minute time step to correspond to the
+frequency of observed data.
+
+\subparagraph{}\label{section-1}
+
+\section{NicheMapR microclimate model
+overview}\label{nichemapr-microclimate-model-overview}
+
+The NicheMapR microclimate model calculates hourly estimates of solar
+and infrared radiation, air temperature at 1 m and 1 cm above ground
+level, wind velocity, relative humidity, and soil temperature at
+different intervals, e.g.~0 cm, 10 cm, 20 cm, 50 cm, 100 cm, and 200 cm.
+The model uses minimum and maximum daily air temperature, wind speed,
+relative humidity, soil properties (conductivity, specific heat,
+density, solar reflectivity, emissivity), as well as the roughness
+height, slope, and aspect. Climatic data are gathered from a global data
+set of monthly mean daily minimum and maximum air temperatures and
+monthly mean daily humidity and wind speeds. Soil surface temperatures
+are computed using heat balance equations, accounting for heat exchange
+via radiation, convection, conduction, and evaporation.
+
+For simulation time steps, the microclimate model verifies the
+microclimate conditions for the current simulation hour of the day,
+e.g.~noon or 18:00, and location in space, i.e.~the study site for the
+observed animal data, and updates patches in the simulation landscape
+(either sun or shade) with these microenvironment conditions. As the
+simulated animal moves in or out of these patches at each time step, the
+animal updates its current \(T_b\), including rates of change in \(T_b\)
+per 2-minute time step.
+
+The \texttt{onelump\_varenv.R} and \texttt{DEB.R} functions update the
+individual internal thermal and metabolic states, respectively. See
+below for both model functions.
+
+\subparagraph{}\label{section-2}
+
+\subsubsection{\texorpdfstring{\texttt{onelump\_varenv.R}.}{onelump\_varenv.R.}}\label{onelump_varenv.r.}
+
+\texttt{onelump\_varenv.R} available on
+\href{https://github.com/darwinanddavis/MalishevBullKearney/blob/master/onelump_varenv.R}{\textbf{Github}}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{onelump_varenv<-}\ControlFlowTok{function}\NormalTok{ (}\DataTypeTok{t =} \KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3600}\NormalTok{, }\DecValTok{60}\NormalTok{), }\DataTypeTok{time =} \DecValTok{0}\NormalTok{, }\DataTypeTok{Tc_init =} \DecValTok{5}\NormalTok{, }\DataTypeTok{thresh =} \DecValTok{29}\NormalTok{, }
+    \DataTypeTok{AMASS =} \DecValTok{500}\NormalTok{, }\DataTypeTok{lometry =} \DecValTok{2}\NormalTok{, }\DataTypeTok{Tairf =}\NormalTok{ Tairfun, }\DataTypeTok{Tradf =}\NormalTok{ Tradfun, }
+    \DataTypeTok{velf =}\NormalTok{ velfun, }\DataTypeTok{Qsolf =}\NormalTok{ Qsolfun, }\DataTypeTok{Zenf =}\NormalTok{ Zenfun, }\DataTypeTok{Flshcond =} \FloatTok{0.5}\NormalTok{, }
+    \DataTypeTok{q =} \DecValTok{0}\NormalTok{, }\DataTypeTok{Spheat =} \DecValTok{3073}\NormalTok{, }\DataTypeTok{EMISAN =} \FloatTok{0.95}\NormalTok{, }\DataTypeTok{rho =} \DecValTok{932}\NormalTok{, }\DataTypeTok{ABS =} \FloatTok{0.85}\NormalTok{, }
+    \DataTypeTok{colchange =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lastt =} \DecValTok{0}\NormalTok{, }\DataTypeTok{ABSMAX =} \FloatTok{0.9}\NormalTok{, }\DataTypeTok{ABSMIN =} \FloatTok{0.6}\NormalTok{, }\DataTypeTok{customallom =} \KeywordTok{c}\NormalTok{(}\FloatTok{10.4713}\NormalTok{, }
+        \FloatTok{0.688}\NormalTok{, }\FloatTok{0.425}\NormalTok{, }\FloatTok{0.85}\NormalTok{, }\FloatTok{3.798}\NormalTok{, }\FloatTok{0.683}\NormalTok{, }\FloatTok{0.694}\NormalTok{, }\FloatTok{0.743}\NormalTok{), }\DataTypeTok{shape_a =} \DecValTok{1}\NormalTok{, }
+    \DataTypeTok{shape_b =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{shape_c =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{posture =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{FATOSK =} \FloatTok{0.4}\NormalTok{, }
+    \DataTypeTok{FATOSB =} \FloatTok{0.4}\NormalTok{, }\DataTypeTok{sub_reflect =} \FloatTok{0.2}\NormalTok{, }\DataTypeTok{PCTDIF =} \FloatTok{0.1}\NormalTok{, }\DataTypeTok{press =} \DecValTok{101325}\NormalTok{) }
+\NormalTok{\{}
+\NormalTok{    sigma <-}\StringTok{ }\FloatTok{5.67e-08}
+\NormalTok{    Tair <-}\StringTok{ }\KeywordTok{Tairf}\NormalTok{(time }\OperatorTok{+}\StringTok{ }\NormalTok{t)}
+\NormalTok{    vel <-}\StringTok{ }\KeywordTok{velf}\NormalTok{(time }\OperatorTok{+}\StringTok{ }\NormalTok{t)}
+\NormalTok{    Qsol <-}\StringTok{ }\KeywordTok{Qsolf}\NormalTok{(time }\OperatorTok{+}\StringTok{ }\NormalTok{t)}
+\NormalTok{    Trad <-}\StringTok{ }\KeywordTok{Tradf}\NormalTok{(time }\OperatorTok{+}\StringTok{ }\NormalTok{t)}
+\NormalTok{    Zen <-}\StringTok{ }\KeywordTok{Zenf}\NormalTok{(time }\OperatorTok{+}\StringTok{ }\NormalTok{t)}
+\NormalTok{    Zenith <-}\StringTok{ }\NormalTok{Zen }\OperatorTok{*}\StringTok{ }\NormalTok{pi}\OperatorTok{/}\DecValTok{180}
+\NormalTok{    Tc <-}\StringTok{ }\NormalTok{Tc_init}
+\NormalTok{    Tskin <-}\StringTok{ }\NormalTok{Tc }\OperatorTok{+}\StringTok{ }\FloatTok{0.1}
+\NormalTok{    RHskin <-}\StringTok{ }\DecValTok{100}
+\NormalTok{    vel[vel }\OperatorTok{<}\StringTok{ }\FloatTok{0.01}\NormalTok{] <-}\StringTok{ }\FloatTok{0.01}
+\NormalTok{    abs2 <-}\StringTok{ }\NormalTok{ABS}
+    \ControlFlowTok{if}\NormalTok{ (colchange }\OperatorTok{>=}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        abs2 <-}\StringTok{ }\KeywordTok{min}\NormalTok{(ABS }\OperatorTok{+}\StringTok{ }\NormalTok{colchange }\OperatorTok{*}\StringTok{ }\NormalTok{(t }\OperatorTok{-}\StringTok{ }\NormalTok{lastt), ABSMAX)}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        abs2 <-}\StringTok{ }\KeywordTok{max}\NormalTok{(ABS }\OperatorTok{+}\StringTok{ }\NormalTok{colchange }\OperatorTok{*}\StringTok{ }\NormalTok{(t }\OperatorTok{-}\StringTok{ }\NormalTok{lastt), ABSMIN)}
+\NormalTok{    \}}
+\NormalTok{    S2 <-}\StringTok{ }\FloatTok{1e-04}
+\NormalTok{    DENSTY <-}\StringTok{ }\DecValTok{101325}\OperatorTok{/}\NormalTok{(}\FloatTok{287.04} \OperatorTok{*}\StringTok{ }\NormalTok{(Tair }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{))}
+\NormalTok{    THCOND <-}\StringTok{ }\FloatTok{0.02425} \OperatorTok{+}\StringTok{ }\NormalTok{(}\FloatTok{7.038} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{^-}\DecValTok{5} \OperatorTok{*}\StringTok{ }\NormalTok{Tair)}
+\NormalTok{    VISDYN <-}\StringTok{ }\NormalTok{(}\FloatTok{1.8325} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{^-}\DecValTok{5} \OperatorTok{*}\StringTok{ }\NormalTok{((}\FloatTok{296.16} \OperatorTok{+}\StringTok{ }\DecValTok{120}\NormalTok{)}\OperatorTok{/}\NormalTok{((Tair }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\DecValTok{120}\NormalTok{))) }\OperatorTok{*}\StringTok{ }\NormalTok{(((Tair }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{)}\OperatorTok{/}\FloatTok{296.16}\NormalTok{)}\OperatorTok{^}\FloatTok{1.5}\NormalTok{)}
+\NormalTok{    m <-}\StringTok{ }\NormalTok{AMASS}\OperatorTok{/}\DecValTok{1000}
+\NormalTok{    C <-}\StringTok{ }\NormalTok{m }\OperatorTok{*}\StringTok{ }\NormalTok{Spheat}
+\NormalTok{    V <-}\StringTok{ }\NormalTok{m}\OperatorTok{/}\NormalTok{rho}
+\NormalTok{    Qgen <-}\StringTok{ }\NormalTok{q }\OperatorTok{*}\StringTok{ }\NormalTok{V}
+\NormalTok{    L <-}\StringTok{ }\NormalTok{V}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    Flshcond <-}\StringTok{ }\FloatTok{0.5}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        ALENTH <-}\StringTok{ }\NormalTok{(V}\OperatorTok{/}\NormalTok{shape_b }\OperatorTok{*}\StringTok{ }\NormalTok{shape_c)}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{        AWIDTH <-}\StringTok{ }\NormalTok{ALENTH }\OperatorTok{*}\StringTok{ }\NormalTok{shape_b}
+\NormalTok{        AHEIT <-}\StringTok{ }\NormalTok{ALENTH }\OperatorTok{*}\StringTok{ }\NormalTok{shape_c}
+\NormalTok{        ATOT <-}\StringTok{ }\NormalTok{ALENTH }\OperatorTok{*}\StringTok{ }\NormalTok{AWIDTH }\OperatorTok{*}\StringTok{ }\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{ALENTH }\OperatorTok{*}\StringTok{ }\NormalTok{AHEIT }\OperatorTok{*}\StringTok{ }\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{AWIDTH }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{AHEIT }\OperatorTok{*}\StringTok{ }\DecValTok{2}
+\NormalTok{        ASILN <-}\StringTok{ }\NormalTok{ALENTH }\OperatorTok{*}\StringTok{ }\NormalTok{AWIDTH}
+\NormalTok{        ASILP <-}\StringTok{ }\NormalTok{AWIDTH }\OperatorTok{*}\StringTok{ }\NormalTok{AHEIT}
+\NormalTok{        L <-}\StringTok{ }\NormalTok{AHEIT}
+        \ControlFlowTok{if}\NormalTok{ (AWIDTH }\OperatorTok{<=}\StringTok{ }\NormalTok{ALENTH) \{}
+\NormalTok{            L <-}\StringTok{ }\NormalTok{AWIDTH}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            L <-}\StringTok{ }\NormalTok{ALENTH}
+\NormalTok{        \}}
+\NormalTok{        R <-}\StringTok{ }\NormalTok{ALENTH}\OperatorTok{/}\DecValTok{2}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{        R1 <-}\StringTok{ }\NormalTok{(V}\OperatorTok{/}\NormalTok{(pi }\OperatorTok{*}\StringTok{ }\NormalTok{shape_b }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{))}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{        ALENTH <-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{R1 }\OperatorTok{*}\StringTok{ }\NormalTok{shape_b}
+\NormalTok{        ATOT <-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{pi }\OperatorTok{*}\StringTok{ }\NormalTok{R1}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{pi }\OperatorTok{*}\StringTok{ }\NormalTok{R1 }\OperatorTok{*}\StringTok{ }\NormalTok{ALENTH}
+\NormalTok{        AWIDTH <-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{R1}
+\NormalTok{        ASILN <-}\StringTok{ }\NormalTok{AWIDTH }\OperatorTok{*}\StringTok{ }\NormalTok{ALENTH}
+\NormalTok{        ASILP <-}\StringTok{ }\NormalTok{pi }\OperatorTok{*}\StringTok{ }\NormalTok{R1}\OperatorTok{^}\DecValTok{2}
+\NormalTok{        L <-}\StringTok{ }\NormalTok{ALENTH}
+\NormalTok{        R2 <-}\StringTok{ }\NormalTok{L}\OperatorTok{/}\DecValTok{2}
+        \ControlFlowTok{if}\NormalTok{ (R1 }\OperatorTok{>}\StringTok{ }\NormalTok{R2) \{}
+\NormalTok{            R <-}\StringTok{ }\NormalTok{R2}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            R <-}\StringTok{ }\NormalTok{R1}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{) \{}
+\NormalTok{        A1 <-}\StringTok{ }\NormalTok{((}\DecValTok{3}\OperatorTok{/}\DecValTok{4}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{V}\OperatorTok{/}\NormalTok{(pi }\OperatorTok{*}\StringTok{ }\NormalTok{shape_b }\OperatorTok{*}\StringTok{ }\NormalTok{shape_c))}\OperatorTok{^}\FloatTok{0.333}
+\NormalTok{        B1 <-}\StringTok{ }\NormalTok{A1 }\OperatorTok{*}\StringTok{ }\NormalTok{shape_b}
+\NormalTok{        C1 <-}\StringTok{ }\NormalTok{A1 }\OperatorTok{*}\StringTok{ }\NormalTok{shape_c}
+\NormalTok{        P1 <-}\StringTok{ }\FloatTok{1.6075}
+\NormalTok{        ATOT <-}\StringTok{ }\NormalTok{(}\DecValTok{4} \OperatorTok{*}\StringTok{ }\NormalTok{pi }\OperatorTok{*}\StringTok{ }\NormalTok{(((A1}\OperatorTok{^}\NormalTok{P1 }\OperatorTok{*}\StringTok{ }\NormalTok{B1}\OperatorTok{^}\NormalTok{P1 }\OperatorTok{+}\StringTok{ }\NormalTok{A1}\OperatorTok{^}\NormalTok{P1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1}\OperatorTok{^}\NormalTok{P1 }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{B1}\OperatorTok{^}\NormalTok{P1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1}\OperatorTok{^}\NormalTok{P1))}\OperatorTok{/}\DecValTok{3}\NormalTok{)}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{P1))}
+\NormalTok{        ASILN <-}\StringTok{ }\KeywordTok{max}\NormalTok{(pi }\OperatorTok{*}\StringTok{ }\NormalTok{A1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1, pi }\OperatorTok{*}\StringTok{ }\NormalTok{B1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1)}
+\NormalTok{        ASILP <-}\StringTok{ }\KeywordTok{min}\NormalTok{(pi }\OperatorTok{*}\StringTok{ }\NormalTok{A1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1, pi }\OperatorTok{*}\StringTok{ }\NormalTok{B1 }\OperatorTok{*}\StringTok{ }\NormalTok{C1)}
+\NormalTok{        S2 <-}\StringTok{ }\NormalTok{(A1}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{B1}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{C1}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(A1}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{B1}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{A1}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{C1}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{B1}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{C1}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{        Flshcond <-}\StringTok{ }\FloatTok{0.5} \OperatorTok{+}\StringTok{ }\FloatTok{6.14} \OperatorTok{*}\StringTok{ }\NormalTok{B1 }\OperatorTok{+}\StringTok{ }\FloatTok{0.439}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{) \{}
+\NormalTok{        ATOT <-}\StringTok{ }\NormalTok{(}\FloatTok{10.4713} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.688}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        AV <-}\StringTok{ }\NormalTok{(}\FloatTok{0.425} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.85}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        ASILN <-}\StringTok{ }\NormalTok{(}\FloatTok{3.798} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.683}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        ASILP <-}\StringTok{ }\NormalTok{(}\FloatTok{0.694} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.743}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        R <-}\StringTok{ }\NormalTok{L}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{) \{}
+\NormalTok{        ATOT =}\StringTok{ }\NormalTok{(}\FloatTok{12.79} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.606}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        AV =}\StringTok{ }\NormalTok{(}\FloatTok{0.425} \OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\FloatTok{0.85}\NormalTok{)}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        ZEN <-}\StringTok{ }\DecValTok{0}
+\NormalTok{        PCTN <-}\StringTok{ }\FloatTok{1.38171e-06} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{4} \OperatorTok{-}\StringTok{ }\FloatTok{0.000193335} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{3} \OperatorTok{+}\StringTok{ }\FloatTok{0.00475761} \OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{2} \OperatorTok{-}\StringTok{ }\FloatTok{0.167912} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN }\OperatorTok{+}\StringTok{ }\FloatTok{45.8228}
+\NormalTok{        ASILN <-}\StringTok{ }\NormalTok{PCTN }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT}\OperatorTok{/}\DecValTok{100}
+\NormalTok{        ZEN <-}\StringTok{ }\DecValTok{90}
+\NormalTok{        PCTP <-}\StringTok{ }\FloatTok{1.38171e-06} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{4} \OperatorTok{-}\StringTok{ }\FloatTok{0.000193335} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{3} \OperatorTok{+}\StringTok{ }\FloatTok{0.00475761} \OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{ZEN}\OperatorTok{^}\DecValTok{2} \OperatorTok{-}\StringTok{ }\FloatTok{0.167912} \OperatorTok{*}\StringTok{ }\NormalTok{ZEN }\OperatorTok{+}\StringTok{ }\FloatTok{45.8228}
+\NormalTok{        ASILP <-}\StringTok{ }\NormalTok{PCTP }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT}\OperatorTok{/}\DecValTok{100}
+\NormalTok{        R <-}\StringTok{ }\NormalTok{L}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{) \{}
+\NormalTok{        ATOT =}\StringTok{ }\NormalTok{(customallom[}\DecValTok{1}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\NormalTok{customallom[}\DecValTok{2}\NormalTok{])}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        AV =}\StringTok{ }\NormalTok{(customallom[}\DecValTok{3}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\NormalTok{customallom[}\DecValTok{4}\NormalTok{])}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        ASILN =}\StringTok{ }\NormalTok{(customallom[}\DecValTok{5}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\NormalTok{customallom[}\DecValTok{6}\NormalTok{])}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        ASILP =}\StringTok{ }\NormalTok{(customallom[}\DecValTok{7}\NormalTok{] }\OperatorTok{*}\StringTok{ }\NormalTok{AMASS}\OperatorTok{^}\NormalTok{customallom[}\DecValTok{8}\NormalTok{])}\OperatorTok{/}\DecValTok{10000}
+\NormalTok{        R <-}\StringTok{ }\NormalTok{L}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (}\KeywordTok{max}\NormalTok{(Zen) }\OperatorTok{>=}\StringTok{ }\DecValTok{90}\NormalTok{) \{}
+\NormalTok{        Qnorm <-}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        Qnorm <-}\StringTok{ }\NormalTok{(Qsol}\OperatorTok{/}\KeywordTok{cos}\NormalTok{(Zenith))}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (Qnorm }\OperatorTok{>}\StringTok{ }\DecValTok{1367}\NormalTok{) \{}
+\NormalTok{        Qnorm <-}\StringTok{ }\DecValTok{1367}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (posture }\OperatorTok{==}\StringTok{ "p"}\NormalTok{) \{}
+\NormalTok{        Qabs <-}\StringTok{ }\NormalTok{(Qnorm }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{PCTDIF) }\OperatorTok{*}\StringTok{ }\NormalTok{ASILP }\OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }\NormalTok{PCTDIF }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{FATOSK }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }\NormalTok{sub_reflect }\OperatorTok{*}\StringTok{ }\NormalTok{FATOSB }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT) }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{abs2}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (posture }\OperatorTok{==}\StringTok{ "n"}\NormalTok{) \{}
+\NormalTok{        Qabs <-}\StringTok{ }\NormalTok{(Qnorm }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{PCTDIF) }\OperatorTok{*}\StringTok{ }\NormalTok{ASILN }\OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }\NormalTok{PCTDIF }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{FATOSK }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }\NormalTok{sub_reflect }\OperatorTok{*}\StringTok{ }\NormalTok{FATOSB }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT) }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{abs2}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (posture }\OperatorTok{==}\StringTok{ "b"}\NormalTok{) \{}
+\NormalTok{        Qabs <-}\StringTok{ }\NormalTok{(Qnorm }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{PCTDIF) }\OperatorTok{*}\StringTok{ }\NormalTok{(ASILN }\OperatorTok{+}\StringTok{ }\NormalTok{ASILP)}\OperatorTok{/}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{PCTDIF }\OperatorTok{*}\StringTok{ }\NormalTok{FATOSK }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{+}\StringTok{ }\NormalTok{Qsol }\OperatorTok{*}\StringTok{ }\NormalTok{sub_reflect }\OperatorTok{*}\StringTok{ }\NormalTok{FATOSB }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{ATOT) }\OperatorTok{*}\StringTok{ }\NormalTok{abs2}
+\NormalTok{    \}}
+\NormalTok{    Rrad <-}\StringTok{ }\NormalTok{((Tskin }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{) }\OperatorTok{-}\StringTok{ }\NormalTok{(Trad }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{))}\OperatorTok{/}\NormalTok{(EMISAN }\OperatorTok{*}\StringTok{ }\NormalTok{sigma }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{(FATOSK }\OperatorTok{+}\StringTok{ }\NormalTok{FATOSB) }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((Tskin }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{)}\OperatorTok{^}\DecValTok{4} \OperatorTok{-}\StringTok{ }\NormalTok{(Trad }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\DecValTok{273}\NormalTok{)}\OperatorTok{^}\DecValTok{4}\NormalTok{))}
+\NormalTok{    Rrad <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(EMISAN }\OperatorTok{*}\StringTok{ }\NormalTok{sigma }\OperatorTok{*}\StringTok{ }\NormalTok{(FATOSK }\OperatorTok{+}\StringTok{ }\NormalTok{FATOSB) }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((Tc }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\DecValTok{273}\NormalTok{)}\OperatorTok{^}\DecValTok{2} \OperatorTok{+}\StringTok{ }\NormalTok{(Trad }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{)}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{((Tc }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{(Trad }\OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{)))}
+\NormalTok{    Re <-}\StringTok{ }\NormalTok{DENSTY }\OperatorTok{*}\StringTok{ }\NormalTok{vel }\OperatorTok{*}\StringTok{ }\NormalTok{L}\OperatorTok{/}\NormalTok{VISDYN}
+\NormalTok{    PR <-}\StringTok{ }\FloatTok{1005.7} \OperatorTok{*}\StringTok{ }\NormalTok{VISDYN}\OperatorTok{/}\NormalTok{THCOND}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        NUfor <-}\StringTok{ }\FloatTok{0.102} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.675} \OperatorTok{*}\StringTok{ }\NormalTok{PR}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{3} \OperatorTok{|}\StringTok{ }\NormalTok{lometry }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{) \{}
+\NormalTok{        NUfor <-}\StringTok{ }\FloatTok{0.35} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.6}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+        \ControlFlowTok{if}\NormalTok{ (Re }\OperatorTok{<}\StringTok{ }\DecValTok{4}\NormalTok{) \{}
+\NormalTok{            NUfor =}\StringTok{ }\FloatTok{0.891} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.33}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+            \ControlFlowTok{if}\NormalTok{ (Re }\OperatorTok{<}\StringTok{ }\DecValTok{40}\NormalTok{) \{}
+\NormalTok{                NUfor =}\StringTok{ }\FloatTok{0.821} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.385}
+\NormalTok{            \}}
+            \ControlFlowTok{else}\NormalTok{ \{}
+                \ControlFlowTok{if}\NormalTok{ (Re }\OperatorTok{<}\StringTok{ }\DecValTok{4000}\NormalTok{) \{}
+\NormalTok{                  NUfor =}\StringTok{ }\FloatTok{0.615} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.466}
+\NormalTok{                \}}
+                \ControlFlowTok{else}\NormalTok{ \{}
+                  \ControlFlowTok{if}\NormalTok{ (Re }\OperatorTok{<}\StringTok{ }\DecValTok{40000}\NormalTok{) \{}
+\NormalTok{                    NUfor =}\StringTok{ }\FloatTok{0.174} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.618}
+\NormalTok{                  \}}
+                  \ControlFlowTok{else}\NormalTok{ \{}
+                    \ControlFlowTok{if}\NormalTok{ (Re }\OperatorTok{<}\StringTok{ }\FloatTok{4e+05}\NormalTok{) \{}
+\NormalTok{                      NUfor =}\StringTok{ }\FloatTok{0.0239} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.805}
+\NormalTok{                    \}}
+                    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{                      NUfor =}\StringTok{ }\FloatTok{0.0239} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\FloatTok{0.805}
+\NormalTok{                    \}}
+\NormalTok{                  \}}
+\NormalTok{                \}}
+\NormalTok{            \}}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{2} \OperatorTok{|}\StringTok{ }\NormalTok{lometry }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{) \{}
+\NormalTok{        NUfor <-}\StringTok{ }\FloatTok{0.35} \OperatorTok{*}\StringTok{ }\NormalTok{Re}\OperatorTok{^}\NormalTok{(}\FloatTok{0.6}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{    hc_forced <-}\StringTok{ }\NormalTok{NUfor }\OperatorTok{*}\StringTok{ }\NormalTok{THCOND}\OperatorTok{/}\NormalTok{L}
+\NormalTok{    GR <-}\StringTok{ }\KeywordTok{abs}\NormalTok{(DENSTY}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(Tair }\OperatorTok{+}\StringTok{ }\FloatTok{273.15}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\FloatTok{9.80665} \OperatorTok{*}\StringTok{ }\NormalTok{L}\OperatorTok{^}\DecValTok{3} \OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{(Tskin }\OperatorTok{-}\StringTok{ }\NormalTok{Tair)}\OperatorTok{/}\NormalTok{VISDYN}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\NormalTok{    Raylei <-}\StringTok{ }\NormalTok{GR }\OperatorTok{*}\StringTok{ }\NormalTok{PR}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        NUfre =}\StringTok{ }\FloatTok{0.55} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.25}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{1} \OperatorTok{|}\StringTok{ }\NormalTok{lometry }\OperatorTok{==}\StringTok{ }\DecValTok{3} \OperatorTok{|}\StringTok{ }\NormalTok{lometry }\OperatorTok{==}\StringTok{ }\DecValTok{5}\NormalTok{) \{}
+        \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\FloatTok{1e-05}\NormalTok{) \{}
+\NormalTok{            NUfre =}\StringTok{ }\FloatTok{0.4}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+            \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\FloatTok{0.1}\NormalTok{) \{}
+\NormalTok{                NUfre =}\StringTok{ }\FloatTok{0.976} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.0784}
+\NormalTok{            \}}
+            \ControlFlowTok{else}\NormalTok{ \{}
+                \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\DecValTok{100}\NormalTok{) \{}
+\NormalTok{                  NUfre =}\StringTok{ }\FloatTok{1.1173} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.1344}
+\NormalTok{                \}}
+                \ControlFlowTok{else}\NormalTok{ \{}
+                  \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\DecValTok{10000}\NormalTok{) \{}
+\NormalTok{                    NUfre =}\StringTok{ }\FloatTok{0.7455} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.2167}
+\NormalTok{                  \}}
+                  \ControlFlowTok{else}\NormalTok{ \{}
+                    \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\FloatTok{1e+09}\NormalTok{) \{}
+\NormalTok{                      NUfre =}\StringTok{ }\FloatTok{0.5168} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.2501}
+\NormalTok{                    \}}
+                    \ControlFlowTok{else}\NormalTok{ \{}
+                      \ControlFlowTok{if}\NormalTok{ (Raylei }\OperatorTok{<}\StringTok{ }\FloatTok{1e+12}\NormalTok{) \{}
+\NormalTok{                        NUfre =}\StringTok{ }\FloatTok{0.5168} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.2501}
+\NormalTok{                      \}}
+                      \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{                        NUfre =}\StringTok{ }\FloatTok{0.5168} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}\OperatorTok{^}\FloatTok{0.2501}
+\NormalTok{                      \}}
+\NormalTok{                    \}}
+\NormalTok{                  \}}
+\NormalTok{                \}}
+\NormalTok{            \}}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{2} \OperatorTok{|}\StringTok{ }\NormalTok{lometry }\OperatorTok{==}\StringTok{ }\DecValTok{4}\NormalTok{) \{}
+\NormalTok{        Raylei =}\StringTok{ }\NormalTok{(GR}\OperatorTok{^}\FloatTok{0.25}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{(PR}\OperatorTok{^}\FloatTok{0.333}\NormalTok{)}
+\NormalTok{        NUfre =}\StringTok{ }\DecValTok{2} \OperatorTok{+}\StringTok{ }\FloatTok{0.6} \OperatorTok{*}\StringTok{ }\NormalTok{Raylei}
+\NormalTok{    \}}
+\NormalTok{    hc_free <-}\StringTok{ }\NormalTok{NUfre }\OperatorTok{*}\StringTok{ }\NormalTok{THCOND}\OperatorTok{/}\NormalTok{L}
+\NormalTok{    hc_comb <-}\StringTok{ }\NormalTok{hc_free }\OperatorTok{+}\StringTok{ }\NormalTok{hc_forced}
+\NormalTok{    Rconv <-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(hc_comb }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT)}
+\NormalTok{    Nu <-}\StringTok{ }\NormalTok{hc_comb }\OperatorTok{*}\StringTok{ }\NormalTok{L}\OperatorTok{/}\NormalTok{THCOND}
+\NormalTok{    hr <-}\StringTok{ }\DecValTok{4} \OperatorTok{*}\StringTok{ }\NormalTok{EMISAN }\OperatorTok{*}\StringTok{ }\NormalTok{sigma }\OperatorTok{*}\StringTok{ }\NormalTok{((Tc }\OperatorTok{+}\StringTok{ }\NormalTok{Trad)}\OperatorTok{/}\DecValTok{2} \OperatorTok{+}\StringTok{ }\DecValTok{273}\NormalTok{)}\OperatorTok{^}\DecValTok{3}
+\NormalTok{    hc <-}\StringTok{ }\NormalTok{hc_comb}
+    \ControlFlowTok{if}\NormalTok{ (lometry }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{) \{}
+\NormalTok{        j <-}\StringTok{ }\NormalTok{(Qabs }\OperatorTok{+}\StringTok{ }\NormalTok{Qgen }\OperatorTok{+}\StringTok{ }\NormalTok{hc }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((q }\OperatorTok{*}\StringTok{ }\NormalTok{S2)}\OperatorTok{/}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{Flshcond) }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{Tair) }\OperatorTok{+}\StringTok{ }\NormalTok{hr }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((q }\OperatorTok{*}\StringTok{ }\NormalTok{S2)}\OperatorTok{/}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{Flshcond) }\OperatorTok{+}\StringTok{ }\NormalTok{Trad))}\OperatorTok{/}\NormalTok{C}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        j <-}\StringTok{ }\NormalTok{(Qabs }\OperatorTok{+}\StringTok{ }\NormalTok{Qgen }\OperatorTok{+}\StringTok{ }\NormalTok{hc }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((q }\OperatorTok{*}\StringTok{ }\NormalTok{R}\OperatorTok{^}\DecValTok{2}\NormalTok{)}\OperatorTok{/}\NormalTok{(}\DecValTok{4} \OperatorTok{*}\StringTok{ }\NormalTok{Flshcond) }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{Tair) }\OperatorTok{+}\StringTok{ }\NormalTok{hr }\OperatorTok{*}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{((q }\OperatorTok{*}\StringTok{ }\NormalTok{S2)}\OperatorTok{/}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{Flshcond) }\OperatorTok{+}\StringTok{ }\NormalTok{Trad))}\OperatorTok{/}\NormalTok{C}
+\NormalTok{    \}}
+\NormalTok{    kTc <-}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{(Tc }\OperatorTok{*}\StringTok{ }\NormalTok{hc }\OperatorTok{+}\StringTok{ }\NormalTok{Tc }\OperatorTok{*}\StringTok{ }\NormalTok{hr)}\OperatorTok{/}\NormalTok{C}
+\NormalTok{    k <-}\StringTok{ }\NormalTok{ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{(hc }\OperatorTok{+}\StringTok{ }\NormalTok{hr)}\OperatorTok{/}\NormalTok{C}
+\NormalTok{    Tcf <-}\StringTok{ }\NormalTok{j}\OperatorTok{/}\NormalTok{k}
+\NormalTok{    Tci <-}\StringTok{ }\NormalTok{Tc}
+\NormalTok{    Tc <-}\StringTok{ }\NormalTok{(Tci }\OperatorTok{-}\StringTok{ }\NormalTok{Tcf) }\OperatorTok{*}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{k }\OperatorTok{*}\StringTok{ }\NormalTok{t) }\OperatorTok{+}\StringTok{ }\NormalTok{Tcf}
+\NormalTok{    timethresh <-}\StringTok{ }\KeywordTok{log}\NormalTok{((thresh }\OperatorTok{-}\StringTok{ }\NormalTok{Tcf)}\OperatorTok{/}\NormalTok{(Tci }\OperatorTok{-}\StringTok{ }\NormalTok{Tcf))}\OperatorTok{/}\NormalTok{(}\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{k)}
+\NormalTok{    tau <-}\StringTok{ }\NormalTok{(rho }\OperatorTok{*}\StringTok{ }\NormalTok{V }\OperatorTok{*}\StringTok{ }\NormalTok{Spheat)}\OperatorTok{/}\NormalTok{(ATOT }\OperatorTok{*}\StringTok{ }\NormalTok{(hc }\OperatorTok{+}\StringTok{ }\NormalTok{hr))}
+\NormalTok{    dTc <-}\StringTok{ }\NormalTok{j }\OperatorTok{-}\StringTok{ }\NormalTok{kTc}
+    \KeywordTok{list}\NormalTok{(}\DataTypeTok{Tc =}\NormalTok{ Tc, }\DataTypeTok{Tcf =}\NormalTok{ Tcf, }\DataTypeTok{tau =}\NormalTok{ tau, }\DataTypeTok{dTc =}\NormalTok{ dTc, }\DataTypeTok{abs2 =}\NormalTok{ abs2)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{}\label{section-3}
+
+\subsubsection{\texorpdfstring{\texttt{DEB.R}.}{DEB.R.}}\label{deb.r.}
+
+\texttt{DEB.R} function available on
+\href{https://github.com/darwinanddavis/MalishevBullKearney/blob/master/DEB.R}{\textbf{Github}}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{DEB<-}\ControlFlowTok{function}\NormalTok{ (}\DataTypeTok{step =} \DecValTok{1}\OperatorTok{/}\DecValTok{24}\NormalTok{, }\DataTypeTok{z =} \FloatTok{7.997}\NormalTok{, }\DataTypeTok{del_M =} \FloatTok{0.242}\NormalTok{, }\DataTypeTok{F_m =} \DecValTok{13290} \OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{kap_X =} \FloatTok{0.85}\NormalTok{, }\DataTypeTok{v =} \FloatTok{0.065} \OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{kap =} \FloatTok{0.886}\NormalTok{, }\DataTypeTok{p_M =} \DecValTok{32} \OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{E_G =} \DecValTok{7767}\NormalTok{, }\DataTypeTok{kap_R =} \FloatTok{0.95}\NormalTok{, }\DataTypeTok{k_J =} \FloatTok{0.002} \OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{E_Hb =} \DecValTok{73590}\NormalTok{, }
+    \DataTypeTok{E_Hj =}\NormalTok{ E_Hb, }\DataTypeTok{E_Hp =} \DecValTok{186500}\NormalTok{, }\DataTypeTok{h_a =} \FloatTok{2.16e-11}\OperatorTok{/}\NormalTok{(step}\OperatorTok{^}\DecValTok{2}\NormalTok{), }\DataTypeTok{s_G =} \FloatTok{0.01}\NormalTok{, }
+    \DataTypeTok{T_REF =} \DecValTok{20}\NormalTok{, }\DataTypeTok{TA =} \DecValTok{8085}\NormalTok{, }\DataTypeTok{TAL =} \DecValTok{18721}\NormalTok{, }\DataTypeTok{TAH =} \FloatTok{9E+4}\NormalTok{, }\DataTypeTok{TL =} \DecValTok{288}\NormalTok{, }
+    \DataTypeTok{TH =} \DecValTok{315}\NormalTok{, }\DataTypeTok{E_0 =} \DecValTok{1040000}\NormalTok{, }\DataTypeTok{f =} \DecValTok{1}\NormalTok{, }\DataTypeTok{E_sm =} \DecValTok{1116}\NormalTok{, }\DataTypeTok{K =} \DecValTok{1}\NormalTok{, }\DataTypeTok{andens_deb =} \DecValTok{1}\NormalTok{, }
+    \DataTypeTok{d_V =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{d_E =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{d_Egg =} \FloatTok{0.3}\NormalTok{, }\DataTypeTok{mu_X =} \DecValTok{525000}\NormalTok{, }\DataTypeTok{mu_E =} \DecValTok{585000}\NormalTok{, }
+    \DataTypeTok{mu_V =} \FloatTok{5e+05}\NormalTok{, }\DataTypeTok{mu_P =} \DecValTok{480000}\NormalTok{, }\DataTypeTok{kap_X_P =} \FloatTok{0.1}\NormalTok{, }\DataTypeTok{n_X =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1.8}\NormalTok{, }
+        \FloatTok{0.5}\NormalTok{, }\FloatTok{0.15}\NormalTok{), }\DataTypeTok{n_E =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1.8}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.15}\NormalTok{), }\DataTypeTok{n_V =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1.8}\NormalTok{, }
+        \FloatTok{0.5}\NormalTok{, }\FloatTok{0.15}\NormalTok{), }\DataTypeTok{n_P =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{1.8}\NormalTok{, }\FloatTok{0.5}\NormalTok{, }\FloatTok{0.15}\NormalTok{), }\DataTypeTok{n_M_nitro =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }
+        \DecValTok{4}\OperatorTok{/}\DecValTok{5}\NormalTok{, }\DecValTok{3}\OperatorTok{/}\DecValTok{5}\NormalTok{, }\DecValTok{4}\OperatorTok{/}\DecValTok{5}\NormalTok{), }\DataTypeTok{clutchsize =} \DecValTok{2}\NormalTok{, }\DataTypeTok{clutch_ab =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.085}\NormalTok{, }
+        \FloatTok{0.7}\NormalTok{), }\DataTypeTok{viviparous =} \DecValTok{0}\NormalTok{, }\DataTypeTok{minclutch =} \DecValTok{0}\NormalTok{, }\DataTypeTok{batch =} \DecValTok{1}\NormalTok{, }\DataTypeTok{lambda =} \DecValTok{1}\OperatorTok{/}\DecValTok{2}\NormalTok{, }
+    \DataTypeTok{VTMIN =} \DecValTok{26}\NormalTok{, }\DataTypeTok{VTMAX =} \DecValTok{39}\NormalTok{, }\DataTypeTok{ma =} \FloatTok{1e-04}\NormalTok{, }\DataTypeTok{mi =} \DecValTok{0}\NormalTok{, }\DataTypeTok{mh =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{arrhenius =} \KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(TA, }
+        \DecValTok{8}\NormalTok{), }\KeywordTok{rep}\NormalTok{(TAL, }\DecValTok{8}\NormalTok{), }\KeywordTok{rep}\NormalTok{(TAH, }\DecValTok{8}\NormalTok{), }\KeywordTok{rep}\NormalTok{(TL, }\DecValTok{8}\NormalTok{), }\KeywordTok{rep}\NormalTok{(TH, }\DecValTok{8}\NormalTok{)), }
+        \DataTypeTok{nrow =} \DecValTok{8}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{5}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{8}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{5}\NormalTok{), }\DataTypeTok{acthr =} \DecValTok{1}\NormalTok{, }
+    \DataTypeTok{X =} \DecValTok{10}\NormalTok{, }\DataTypeTok{E_pres =} \FloatTok{6011.93}\NormalTok{, }\DataTypeTok{V_pres =} \FloatTok{3.9752}\OperatorTok{^}\DecValTok{3}\NormalTok{, }\DataTypeTok{E_H_pres =} \DecValTok{73592}\NormalTok{, }
+    \DataTypeTok{q_pres =} \DecValTok{0}\NormalTok{, }\DataTypeTok{hs_pres =} \DecValTok{0}\NormalTok{, }\DataTypeTok{surviv_pres =} \DecValTok{1}\NormalTok{, }\DataTypeTok{Es_pres =} \DecValTok{0}\NormalTok{, }\DataTypeTok{cumrepro =} \DecValTok{0}\NormalTok{, }
+    \DataTypeTok{cumbatch =} \DecValTok{0}\NormalTok{, }\DataTypeTok{p_B_past =} \DecValTok{0}\NormalTok{, }\DataTypeTok{stage =} \DecValTok{1}\NormalTok{, }\DataTypeTok{breeding =} \DecValTok{0}\NormalTok{, }\DataTypeTok{pregnant =} \DecValTok{0}\NormalTok{, }
+    \DataTypeTok{Tb =} \DecValTok{33}\NormalTok{) }
+\NormalTok{\{}
+\NormalTok{    q_init <-}\StringTok{ }\NormalTok{q_pres}
+\NormalTok{    E_H_init <-}\StringTok{ }\NormalTok{E_H_pres}
+\NormalTok{    hs_init <-}\StringTok{ }\NormalTok{hs_pres}
+\NormalTok{    fecundity <-}\StringTok{ }\DecValTok{0}
+\NormalTok{    clutches <-}\StringTok{ }\DecValTok{0}
+\NormalTok{    clutchenergy =}\StringTok{ }\NormalTok{E_}\DecValTok{0} \OperatorTok{*}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{    n_O <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(n_X, n_V, n_E, n_P)}
+\NormalTok{    CHON <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{14}\NormalTok{)}
+\NormalTok{    wO <-}\StringTok{ }\NormalTok{CHON }\OperatorTok{%*%}\StringTok{ }\NormalTok{n_O}
+\NormalTok{    w_V =}\StringTok{ }\NormalTok{wO[}\DecValTok{3}\NormalTok{]}
+\NormalTok{    M_V <-}\StringTok{ }\NormalTok{d_V}\OperatorTok{/}\NormalTok{w_V}
+\NormalTok{    y_EX<-kap_X}\OperatorTok{*}\NormalTok{mu_X}\OperatorTok{/}\NormalTok{mu_E }\CommentTok{# yield of reserve on food}
+\NormalTok{    y_XE<-}\DecValTok{1}\OperatorTok{/}\NormalTok{y_EX }\CommentTok{# yield of food on reserve}
+\NormalTok{    y_VE<-mu_E}\OperatorTok{*}\NormalTok{M_V}\OperatorTok{/}\NormalTok{E_G  }\CommentTok{# yield of structure on reserve}
+\NormalTok{    y_PX<-kap_X_P}\OperatorTok{*}\NormalTok{mu_X}\OperatorTok{/}\NormalTok{mu_P }\CommentTok{# yield of faeces on food}
+\NormalTok{    y_PE<-y_PX}\OperatorTok{/}\NormalTok{y_EX }\CommentTok{# yield of faeces on reserve  0.143382353}
+\NormalTok{    nM <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, n_M_nitro), }
+        \DataTypeTok{nrow =} \DecValTok{4}\NormalTok{)}
+\NormalTok{    n_M_nitro_inv <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_nitro[}\DecValTok{1}\NormalTok{]}\OperatorTok{/}\NormalTok{n_M_nitro[}\DecValTok{4}\NormalTok{], (}\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{n_M_nitro[}\DecValTok{2}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_nitro[}\DecValTok{4}\NormalTok{]), (}\DecValTok{4} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_nitro[}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\NormalTok{n_M_nitro[}\DecValTok{2}\NormalTok{] }\OperatorTok{-}\StringTok{ }\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_nitro[}\DecValTok{3}\NormalTok{])}\OperatorTok{/}\NormalTok{(}\DecValTok{4} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_nitro[}\DecValTok{4}\NormalTok{]), }
+        \DecValTok{1}\OperatorTok{/}\NormalTok{n_M_nitro[}\DecValTok{4}\NormalTok{])}
+\NormalTok{    n_M_inv <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\OperatorTok{-}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\OperatorTok{/}\DecValTok{2}\NormalTok{, }
+        \DecValTok{0}\NormalTok{, n_M_nitro_inv), }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{)}
+\NormalTok{    JM_JO <-}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{n_M_inv }\OperatorTok{%*%}\StringTok{ }\NormalTok{n_O}
+\NormalTok{    etaO <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(y_XE}\OperatorTok{/}\NormalTok{mu_E }\OperatorTok{*}\StringTok{ }\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\OperatorTok{/}\NormalTok{mu_E, y_PE}\OperatorTok{/}\NormalTok{mu_E, }\DecValTok{0}\NormalTok{, }
+        \DecValTok{0}\NormalTok{, }\OperatorTok{-}\DecValTok{1}\OperatorTok{/}\NormalTok{mu_E, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, y_VE}\OperatorTok{/}\NormalTok{mu_E, }\OperatorTok{-}\DecValTok{1}\OperatorTok{/}\NormalTok{mu_E, }\DecValTok{0}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{)}
+\NormalTok{    w_N <-}\StringTok{ }\NormalTok{CHON }\OperatorTok{%*%}\StringTok{ }\NormalTok{n_M_nitro}
+\NormalTok{    Tcorr =}\StringTok{ }\KeywordTok{exp}\NormalTok{(TA }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{273} \OperatorTok{+}\StringTok{ }\NormalTok{T_REF) }\OperatorTok{-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{273} \OperatorTok{+}\StringTok{ }\NormalTok{Tb)))}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(TAL }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{273} \OperatorTok{+}\StringTok{ }\NormalTok{Tb) }\OperatorTok{-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{TL)) }\OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(TAH }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{TH }\OperatorTok{-}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{(}\DecValTok{273} \OperatorTok{+}\StringTok{ }\NormalTok{Tb))))}
+\NormalTok{    M_V =}\StringTok{ }\NormalTok{d_V}\OperatorTok{/}\NormalTok{w_V}
+\NormalTok{    p_MT =}\StringTok{ }\NormalTok{p_M }\OperatorTok{*}\StringTok{ }\NormalTok{Tcorr}
+\NormalTok{    k_Mdot =}\StringTok{ }\NormalTok{p_MT}\OperatorTok{/}\NormalTok{E_G}
+\NormalTok{    k_JT =}\StringTok{ }\NormalTok{k_J }\OperatorTok{*}\StringTok{ }\NormalTok{Tcorr}
+\NormalTok{    p_AmT =}\StringTok{ }\NormalTok{p_MT }\OperatorTok{*}\StringTok{ }\NormalTok{z}\OperatorTok{/}\NormalTok{kap}
+\NormalTok{    vT =}\StringTok{ }\NormalTok{v }\OperatorTok{*}\StringTok{ }\NormalTok{Tcorr}
+\NormalTok{    E_m =}\StringTok{ }\NormalTok{p_AmT}\OperatorTok{/}\NormalTok{vT}
+\NormalTok{    F_mT =}\StringTok{ }\NormalTok{F_m }\OperatorTok{*}\StringTok{ }\NormalTok{Tcorr}
+\NormalTok{    g =}\StringTok{ }\NormalTok{E_G}\OperatorTok{/}\NormalTok{(kap }\OperatorTok{*}\StringTok{ }\NormalTok{E_m)}
+\NormalTok{    E_scaled =}\StringTok{ }\NormalTok{E_pres}\OperatorTok{/}\NormalTok{E_m}
+\NormalTok{    V_max =}\StringTok{ }\NormalTok{(kap }\OperatorTok{*}\StringTok{ }\NormalTok{p_AmT}\OperatorTok{/}\NormalTok{p_MT)}\OperatorTok{^}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+\NormalTok{    h_aT =}\StringTok{ }\NormalTok{h_a }\OperatorTok{*}\StringTok{ }\NormalTok{Tcorr}
+\NormalTok{    L_T =}\StringTok{ }\DecValTok{0}
+\NormalTok{    L_pres =}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    L_max =}\StringTok{ }\NormalTok{V_max}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    scaled_l =}\StringTok{ }\NormalTok{L_pres}\OperatorTok{/}\NormalTok{L_max}
+\NormalTok{    kappa_G =}\StringTok{ }\NormalTok{(d_V }\OperatorTok{*}\StringTok{ }\NormalTok{mu_V)}\OperatorTok{/}\NormalTok{(w_V }\OperatorTok{*}\StringTok{ }\NormalTok{E_G)}
+\NormalTok{    yEX =}\StringTok{ }\NormalTok{kap_X }\OperatorTok{*}\StringTok{ }\NormalTok{mu_X}\OperatorTok{/}\NormalTok{mu_E}
+\NormalTok{    yXE =}\StringTok{ }\DecValTok{1}\OperatorTok{/}\NormalTok{yEX}
+\NormalTok{    yPX =}\StringTok{ }\NormalTok{kap_X_P }\OperatorTok{*}\StringTok{ }\NormalTok{mu_X}\OperatorTok{/}\NormalTok{mu_P}
+\NormalTok{    mu_AX =}\StringTok{ }\NormalTok{mu_E}\OperatorTok{/}\NormalTok{yXE}
+\NormalTok{    eta_PA =}\StringTok{ }\NormalTok{yPX}\OperatorTok{/}\NormalTok{mu_AX}
+\NormalTok{    w_X =}\StringTok{ }\NormalTok{wO[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    w_E =}\StringTok{ }\NormalTok{wO[}\DecValTok{3}\NormalTok{]}
+\NormalTok{    w_V =}\StringTok{ }\NormalTok{wO[}\DecValTok{2}\NormalTok{]}
+\NormalTok{    w_P =}\StringTok{ }\NormalTok{wO[}\DecValTok{4}\NormalTok{]}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{<=}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{        dLdt =}\StringTok{ }\NormalTok{(vT }\OperatorTok{*}\StringTok{ }\NormalTok{E_scaled }\OperatorTok{-}\StringTok{ }\NormalTok{k_Mdot }\OperatorTok{*}\StringTok{ }\NormalTok{g }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{))}\OperatorTok{/}\NormalTok{(}\DecValTok{3} \OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{(E_scaled }\OperatorTok{+}\StringTok{ }\NormalTok{g))}
+\NormalTok{        V_temp =}\StringTok{ }\NormalTok{(V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{dLdt)}\OperatorTok{^}\DecValTok{3}
+\NormalTok{        dVdt =}\StringTok{ }\NormalTok{V_temp }\OperatorTok{-}\StringTok{ }\NormalTok{V_pres}
+\NormalTok{        rdot =}\StringTok{ }\NormalTok{vT }\OperatorTok{*}\StringTok{ }\NormalTok{(E_scaled}\OperatorTok{/}\NormalTok{L_pres }\OperatorTok{-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{L_T}\OperatorTok{/}\NormalTok{L_pres)}\OperatorTok{/}\NormalTok{L_max)}\OperatorTok{/}\NormalTok{(E_scaled }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{g)}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        rdot =}\StringTok{ }\NormalTok{vT }\OperatorTok{*}\StringTok{ }\NormalTok{(E_scaled}\OperatorTok{/}\NormalTok{L_pres }\OperatorTok{-}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{L_T}\OperatorTok{/}\NormalTok{L_pres)}\OperatorTok{/}\NormalTok{L_max)}\OperatorTok{/}\NormalTok{(E_scaled }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{g)}
+\NormalTok{        dVdt =}\StringTok{ }\NormalTok{V_pres }\OperatorTok{*}\StringTok{ }\NormalTok{rdot}
+        \ControlFlowTok{if}\NormalTok{ (dVdt }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{            dVdt =}\StringTok{ }\DecValTok{0}
+\NormalTok{        \}}
+\NormalTok{    \}}
+\NormalTok{    V =}\StringTok{ }\NormalTok{V_pres }\OperatorTok{+}\StringTok{ }\NormalTok{dVdt}
+    \ControlFlowTok{if}\NormalTok{ (V }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        V =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    svl =}\StringTok{ }\NormalTok{V}\OperatorTok{^}\NormalTok{(}\FloatTok{0.3333333333333}\NormalTok{)}\OperatorTok{/}\NormalTok{del_M }\OperatorTok{*}\StringTok{ }\DecValTok{10}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{<=}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{        Sc =}\StringTok{ }\NormalTok{L_pres}\OperatorTok{^}\DecValTok{2} \OperatorTok{*}\StringTok{ }\NormalTok{(g }\OperatorTok{*}\StringTok{ }\NormalTok{E_scaled)}\OperatorTok{/}\NormalTok{(g }\OperatorTok{+}\StringTok{ }\NormalTok{E_scaled) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{((k_Mdot }\OperatorTok{*}\StringTok{ }\NormalTok{L_pres)}\OperatorTok{/}\NormalTok{vT))}
+\NormalTok{        dUEdt =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{Sc}
+\NormalTok{        E_temp =}\StringTok{ }\NormalTok{((E_pres }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{/}\NormalTok{p_AmT) }\OperatorTok{+}\StringTok{ }\NormalTok{dUEdt) }\OperatorTok{*}\StringTok{ }\NormalTok{p_AmT}\OperatorTok{/}\NormalTok{(V_pres }\OperatorTok{+}\StringTok{ }
+\StringTok{            }\NormalTok{dVdt)}
+\NormalTok{        dEdt =}\StringTok{ }\NormalTok{E_temp }\OperatorTok{-}\StringTok{ }\NormalTok{E_pres}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+        \ControlFlowTok{if}\NormalTok{ (Es_pres }\OperatorTok{>}\StringTok{ }\FloatTok{1e-07} \OperatorTok{*}\StringTok{ }\NormalTok{E_sm }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres) \{}
+\NormalTok{            dEdt =}\StringTok{ }\NormalTok{(p_AmT }\OperatorTok{*}\StringTok{ }\NormalTok{f }\OperatorTok{-}\StringTok{ }\NormalTok{E_pres }\OperatorTok{*}\StringTok{ }\NormalTok{vT)}\OperatorTok{/}\NormalTok{L_pres}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            dEdt =}\StringTok{ }\NormalTok{(p_AmT }\OperatorTok{*}\StringTok{ }\DecValTok{0} \OperatorTok{-}\StringTok{ }\NormalTok{E_pres }\OperatorTok{*}\StringTok{ }\NormalTok{vT)}\OperatorTok{/}\NormalTok{L_pres}
+\NormalTok{        \}}
+\NormalTok{    \}}
+\NormalTok{    E =}\StringTok{ }\NormalTok{E_pres }\OperatorTok{+}\StringTok{ }\NormalTok{dEdt}
+    \ControlFlowTok{if}\NormalTok{ (E }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        E =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    p_M =}\StringTok{ }\NormalTok{p_MT }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}
+\NormalTok{    p_J =}\StringTok{ }\NormalTok{k_JT }\OperatorTok{*}\StringTok{ }\NormalTok{E_H_pres}
+    \ControlFlowTok{if}\NormalTok{ (Es_pres }\OperatorTok{>}\StringTok{ }\FloatTok{1e-07} \OperatorTok{*}\StringTok{ }\NormalTok{E_sm }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres) \{}
+\NormalTok{        p_A =}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{p_AmT }\OperatorTok{*}\StringTok{ }\NormalTok{f}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        p_A =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    p_X =}\StringTok{ }\NormalTok{p_A}\OperatorTok{/}\NormalTok{kap_X}
+\NormalTok{    p_C =}\StringTok{ }\NormalTok{(E_m }\OperatorTok{*}\StringTok{ }\NormalTok{(vT}\OperatorTok{/}\NormalTok{L_pres }\OperatorTok{+}\StringTok{ }\NormalTok{k_Mdot }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{L_T}\OperatorTok{/}\NormalTok{L_pres)) }\OperatorTok{*}\StringTok{ }\NormalTok{(E_scaled }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{g)}\OperatorTok{/}\NormalTok{(E_scaled }\OperatorTok{+}\StringTok{ }\NormalTok{g)) }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}
+\NormalTok{    p_R =}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kap) }\OperatorTok{*}\StringTok{ }\NormalTok{p_C }\OperatorTok{-}\StringTok{ }\NormalTok{p_J}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{<}\StringTok{ }\NormalTok{E_Hp) \{}
+        \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{<=}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{            U_H_pres =}\StringTok{ }\NormalTok{E_H_pres}\OperatorTok{/}\NormalTok{p_AmT}
+\NormalTok{            dUHdt =}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kap) }\OperatorTok{*}\StringTok{ }\NormalTok{Sc }\OperatorTok{-}\StringTok{ }\NormalTok{k_JT }\OperatorTok{*}\StringTok{ }\NormalTok{U_H_pres}
+\NormalTok{            dE_Hdt =}\StringTok{ }\NormalTok{dUHdt }\OperatorTok{*}\StringTok{ }\NormalTok{p_AmT}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            dE_Hdt =}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kap) }\OperatorTok{*}\StringTok{ }\NormalTok{p_C }\OperatorTok{-}\StringTok{ }\NormalTok{p_J}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        dE_Hdt =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    E_H =}\StringTok{ }\NormalTok{E_H_init }\OperatorTok{+}\StringTok{ }\NormalTok{dE_Hdt}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{>=}\StringTok{ }\NormalTok{E_Hp) \{}
+\NormalTok{        p_D =}\StringTok{ }\NormalTok{p_M }\OperatorTok{+}\StringTok{ }\NormalTok{p_J }\OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kap_R) }\OperatorTok{*}\StringTok{ }\NormalTok{p_R}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        p_D =}\StringTok{ }\NormalTok{p_M }\OperatorTok{+}\StringTok{ }\NormalTok{p_J }\OperatorTok{+}\StringTok{ }\NormalTok{p_R}
+\NormalTok{    \}}
+\NormalTok{    p_G =}\StringTok{ }\NormalTok{p_C }\OperatorTok{-}\StringTok{ }\NormalTok{p_M }\OperatorTok{-}\StringTok{ }\NormalTok{p_J }\OperatorTok{-}\StringTok{ }\NormalTok{p_R}
+    \ControlFlowTok{if}\NormalTok{ ((E_H_pres }\OperatorTok{<=}\StringTok{ }\NormalTok{E_Hp) }\OperatorTok{|}\StringTok{ }\NormalTok{(pregnant }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)) \{}
+\NormalTok{        p_B =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+        \ControlFlowTok{if}\NormalTok{ (batch }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{            batchprep =}\StringTok{ }\NormalTok{(kap_R}\OperatorTok{/}\NormalTok{lambda) }\OperatorTok{*}\StringTok{ }\NormalTok{((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kap) }\OperatorTok{*}\StringTok{ }\NormalTok{(E_m }\OperatorTok{*}\StringTok{ }
+\StringTok{                }\NormalTok{(vT }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{k_Mdot }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres)}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{g))) }\OperatorTok{-}\StringTok{ }
+\StringTok{                }\NormalTok{p_J)}
+            \ControlFlowTok{if}\NormalTok{ (breeding }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{                p_B =}\StringTok{ }\DecValTok{0}
+\NormalTok{            \}}
+            \ControlFlowTok{else}\NormalTok{ \{}
+                \ControlFlowTok{if}\NormalTok{ (cumrepro }\OperatorTok{<}\StringTok{ }\NormalTok{batchprep) \{}
+\NormalTok{                  p_B =}\StringTok{ }\NormalTok{p_R}
+\NormalTok{                \}}
+                \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{                  p_B =}\StringTok{ }\NormalTok{batchprep}
+\NormalTok{                \}}
+\NormalTok{            \}}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            p_B =}\StringTok{ }\NormalTok{p_R}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hp) \{}
+        \ControlFlowTok{if}\NormalTok{ (cumrepro }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{            cumrepro =}\StringTok{ }\DecValTok{0}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            cumrepro =}\StringTok{ }\NormalTok{cumrepro }\OperatorTok{+}\StringTok{ }\NormalTok{p_R }\OperatorTok{*}\StringTok{ }\NormalTok{kap_R }\OperatorTok{-}\StringTok{ }\NormalTok{p_B_past}
+\NormalTok{        \}}
+\NormalTok{    \}}
+\NormalTok{    cumbatch =}\StringTok{ }\NormalTok{cumbatch }\OperatorTok{+}\StringTok{ }\NormalTok{p_B}
+    \ControlFlowTok{if}\NormalTok{ (stage }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{) \{}
+        \ControlFlowTok{if}\NormalTok{ (cumbatch }\OperatorTok{<}\StringTok{ }\FloatTok{0.1} \OperatorTok{*}\StringTok{ }\NormalTok{clutchenergy) \{}
+\NormalTok{            stage =}\StringTok{ }\DecValTok{3}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (E_H }\OperatorTok{<=}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{        stage =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+        \ControlFlowTok{if}\NormalTok{ (E_H }\OperatorTok{<}\StringTok{ }\NormalTok{E_Hj) \{}
+\NormalTok{            stage =}\StringTok{ }\DecValTok{1}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+            \ControlFlowTok{if}\NormalTok{ (E_H }\OperatorTok{<}\StringTok{ }\NormalTok{E_Hp) \{}
+\NormalTok{                stage =}\StringTok{ }\DecValTok{2}
+\NormalTok{            \}}
+            \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{                stage =}\StringTok{ }\DecValTok{3}
+\NormalTok{            \}}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (cumbatch }\OperatorTok{>}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+        \ControlFlowTok{if}\NormalTok{ (E_H }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hp) \{}
+\NormalTok{            stage =}\StringTok{ }\DecValTok{4}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            stage =}\StringTok{ }\NormalTok{stage}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ ((cumbatch }\OperatorTok{>}\StringTok{ }\NormalTok{clutchenergy) }\OperatorTok{|}\StringTok{ }\NormalTok{(pregnant }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)) \{}
+        \ControlFlowTok{if}\NormalTok{ (viviparous }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+            \ControlFlowTok{if}\NormalTok{ ((pregnant }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) }\OperatorTok{&}\StringTok{ }\NormalTok{(breeding }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{)) \{}
+\NormalTok{                v_baby =}\StringTok{ }\NormalTok{v_init_baby}
+\NormalTok{                e_baby =}\StringTok{ }\NormalTok{e_init_baby}
+\NormalTok{                EH_baby =}\StringTok{ }\DecValTok{0}
+\NormalTok{                pregnant =}\StringTok{ }\DecValTok{1}
+\NormalTok{                testclutch =}\StringTok{ }\KeywordTok{floor}\NormalTok{(cumbatch}\OperatorTok{/}\NormalTok{E_}\DecValTok{0}\NormalTok{)}
+                \ControlFlowTok{if}\NormalTok{ (testclutch }\OperatorTok{>}\StringTok{ }\NormalTok{clutchsize) \{}
+\NormalTok{                  clutchsize =}\StringTok{ }\NormalTok{testclutch}
+\NormalTok{                  clutchenergy =}\StringTok{ }\NormalTok{E_}\DecValTok{0} \OperatorTok{*}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{                \}}
+                \ControlFlowTok{if}\NormalTok{ (cumbatch }\OperatorTok{<}\StringTok{ }\NormalTok{clutchenergy) \{}
+\NormalTok{                  cumrepro_temp =}\StringTok{ }\NormalTok{cumrepro}
+\NormalTok{                  cumrepro =}\StringTok{ }\NormalTok{cumrepro }\OperatorTok{+}\StringTok{ }\NormalTok{cumbatch }\OperatorTok{-}\StringTok{ }\NormalTok{clutchenergy}
+\NormalTok{                  cumbatch =}\StringTok{ }\NormalTok{cumbatch }\OperatorTok{+}\StringTok{ }\NormalTok{cumrepro_temp }\OperatorTok{-}\StringTok{ }\NormalTok{cumrepro}
+\NormalTok{                \}}
+\NormalTok{            \}}
+            \ControlFlowTok{if}\NormalTok{ (hour }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{                v_baby =}\StringTok{ }\NormalTok{v_baby_init}
+\NormalTok{                e_baby =}\StringTok{ }\NormalTok{e_baby_init}
+\NormalTok{                EH_baby =}\StringTok{ }\NormalTok{EH_baby_init}
+\NormalTok{            \}}
+            \ControlFlowTok{if}\NormalTok{ (EH_baby }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hb) \{}
+                \ControlFlowTok{if}\NormalTok{ ((Tb }\OperatorTok{<}\StringTok{ }\NormalTok{VTMIN) }\OperatorTok{|}\StringTok{ }\NormalTok{(Tb }\OperatorTok{>}\StringTok{ }\NormalTok{VTMAX)) \{}
+\NormalTok{                \}}
+                \KeywordTok{cumbatch}\NormalTok{(hour) =}\StringTok{ }\KeywordTok{cumbatch}\NormalTok{(hour) }\OperatorTok{-}\StringTok{ }\NormalTok{clutchenergy}
+                \KeywordTok{repro}\NormalTok{(hour) =}\StringTok{ }\DecValTok{1}
+\NormalTok{                pregnant =}\StringTok{ }\DecValTok{0}
+\NormalTok{                v_baby =}\StringTok{ }\NormalTok{v_init_baby}
+\NormalTok{                e_baby =}\StringTok{ }\NormalTok{e_init_baby}
+\NormalTok{                EH_baby =}\StringTok{ }\DecValTok{0}
+\NormalTok{                newclutch =}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{                fecundity =}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{                clutches =}\StringTok{ }\DecValTok{1}
+\NormalTok{                pregnant =}\StringTok{ }\DecValTok{0}
+\NormalTok{            \}}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+            \ControlFlowTok{if}\NormalTok{ ((Tb }\OperatorTok{<}\StringTok{ }\NormalTok{VTMIN) }\OperatorTok{|}\StringTok{ }\NormalTok{(Tb }\OperatorTok{>}\StringTok{ }\NormalTok{VTMAX)) \{}
+\NormalTok{            \}}
+            \ControlFlowTok{if}\NormalTok{ ((Tb }\OperatorTok{<}\StringTok{ }\NormalTok{VTMIN) }\OperatorTok{|}\StringTok{ }\NormalTok{(Tb }\OperatorTok{>}\StringTok{ }\NormalTok{VTMAX)) \{}
+\NormalTok{            \}}
+\NormalTok{            testclutch =}\StringTok{ }\KeywordTok{floor}\NormalTok{(cumbatch}\OperatorTok{/}\NormalTok{E_}\DecValTok{0}\NormalTok{)}
+            \ControlFlowTok{if}\NormalTok{ (testclutch }\OperatorTok{>}\StringTok{ }\NormalTok{clutchsize) \{}
+\NormalTok{                clutchsize =}\StringTok{ }\NormalTok{testclutch}
+\NormalTok{            \}}
+\NormalTok{            cumbatch =}\StringTok{ }\NormalTok{cumbatch }\OperatorTok{-}\StringTok{ }\NormalTok{clutchenergy}
+\NormalTok{            repro =}\StringTok{ }\DecValTok{1}
+\NormalTok{            fecundity =}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{            clutches =}\StringTok{ }\DecValTok{1}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hb) \{}
+        \ControlFlowTok{if}\NormalTok{ (acthr }\OperatorTok{>}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{            dEsdt =}\StringTok{ }\NormalTok{F_mT }\OperatorTok{*}\StringTok{ }\NormalTok{(X}\OperatorTok{/}\NormalTok{(K }\OperatorTok{+}\StringTok{ }\NormalTok{X)) }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{) }\OperatorTok{*}\StringTok{ }\NormalTok{f }\OperatorTok{-}\StringTok{ }\DecValTok{1} \OperatorTok{*}\StringTok{ }
+\StringTok{                }\NormalTok{(p_AmT}\OperatorTok{/}\NormalTok{kap_X) }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{        \}}
+        \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{            dEsdt =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{(p_AmT}\OperatorTok{/}\NormalTok{kap_X) }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        dEsdt =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{(p_AmT}\OperatorTok{/}\NormalTok{kap_X) }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (V_pres }\OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        dEsdt =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    Es =}\StringTok{ }\NormalTok{Es_pres }\OperatorTok{+}\StringTok{ }\NormalTok{dEsdt}
+    \ControlFlowTok{if}\NormalTok{ (Es }\OperatorTok{<}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+\NormalTok{        Es =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{ (Es }\OperatorTok{>}\StringTok{ }\NormalTok{E_sm }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres) \{}
+\NormalTok{        Es =}\StringTok{ }\NormalTok{E_sm }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres}
+\NormalTok{    \}}
+\NormalTok{    gutfull =}\StringTok{ }\NormalTok{Es}\OperatorTok{/}\NormalTok{(E_sm }\OperatorTok{*}\StringTok{ }\NormalTok{V_pres)}
+    \ControlFlowTok{if}\NormalTok{ (gutfull }\OperatorTok{>}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{        gutfull =}\StringTok{ }\DecValTok{1}
+\NormalTok{    \}}
+\NormalTok{    JOJx =}\StringTok{ }\NormalTok{p_A }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{1}\NormalTok{, }
+        \DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJv =}\StringTok{ }\NormalTok{p_A }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{2}\NormalTok{, }
+        \DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJe =}\StringTok{ }\NormalTok{p_A }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{3}\NormalTok{, }
+        \DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJp =}\StringTok{ }\NormalTok{p_A }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{4}\NormalTok{, }
+        \DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJx_GM =}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJv_GM =}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJe_GM =}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\NormalTok{    JOJp_GM =}\StringTok{ }\NormalTok{p_D }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{p_G }\OperatorTok{*}\StringTok{ }\NormalTok{etaO[}\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\NormalTok{    JMCO2 =}\StringTok{ }\NormalTok{JOJx }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJe }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMH2O =}\StringTok{ }\NormalTok{JOJx }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJe }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMO2 =}\StringTok{ }\NormalTok{JOJx }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJe }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }
+        \DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMNWASTE =}\StringTok{ }\NormalTok{JOJx }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJe }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMCO2_GM =}\StringTok{ }\NormalTok{JOJx_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\NormalTok{JOJe_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMH2O_GM =}\StringTok{ }\NormalTok{JOJx_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\NormalTok{JOJe_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMO2_GM =}\StringTok{ }\NormalTok{JOJx_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }
+\StringTok{        }\NormalTok{JOJe_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    JMNWASTE_GM =}\StringTok{ }\NormalTok{JOJx_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJv_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }
+        \DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJe_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{3}\NormalTok{] }\OperatorTok{+}\StringTok{ }\NormalTok{JOJp_GM }\OperatorTok{*}\StringTok{ }\NormalTok{JM_JO[}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{]}
+\NormalTok{    O2FLUX =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{JMO2}\OperatorTok{/}\NormalTok{(T_REF}\OperatorTok{/}\NormalTok{Tb}\OperatorTok{/}\FloatTok{24.4}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{1000}
+\NormalTok{    CO2FLUX =}\StringTok{ }\NormalTok{JMCO2}\OperatorTok{/}\NormalTok{(T_REF}\OperatorTok{/}\NormalTok{Tb}\OperatorTok{/}\FloatTok{24.4}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{1000}
+\NormalTok{    MLO2 =}\StringTok{ }\NormalTok{(}\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{JMO2 }\OperatorTok{*}\StringTok{ }\NormalTok{(}\FloatTok{0.082058} \OperatorTok{*}\StringTok{ }\NormalTok{(Tb }\OperatorTok{+}\StringTok{ }\FloatTok{273.15}\NormalTok{))}\OperatorTok{/}\NormalTok{(}\FloatTok{0.082058} \OperatorTok{*}\StringTok{ }
+\StringTok{        }\FloatTok{293.15}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\FloatTok{24.06} \OperatorTok{*}\StringTok{ }\DecValTok{1000}
+\NormalTok{    GH2OMET =}\StringTok{ }\NormalTok{JMH2O }\OperatorTok{*}\StringTok{ }\FloatTok{18.01528}
+    \CommentTok{#metabolic heat production (Watts) = growth overhead plus dissipation power (maintenance, maturity maintenance,}
+  \CommentTok{#maturation/repro overheads) plus assimilation overheads. correct to 20 degrees so it can be temperature corrected}
+  \CommentTok{#in MET.f for the new guessed Tb}
+\NormalTok{    DEBQMET =}\StringTok{ }\NormalTok{((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{kappa_G) }\OperatorTok{*}\StringTok{ }\NormalTok{p_G }\OperatorTok{+}\StringTok{ }\NormalTok{p_D }\OperatorTok{+}\StringTok{ }\NormalTok{(p_X }\OperatorTok{-}\StringTok{ }\NormalTok{p_A }\OperatorTok{-}\StringTok{ }\NormalTok{p_A }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{mu_P }\OperatorTok{*}\StringTok{ }\NormalTok{eta_PA))}\OperatorTok{/}\DecValTok{3600}\OperatorTok{/}\NormalTok{Tcorr}
+\NormalTok{    DRYFOOD =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{JOJx }\OperatorTok{*}\StringTok{ }\NormalTok{w_X}
+\NormalTok{    FAECES =}\StringTok{ }\NormalTok{JOJp }\OperatorTok{*}\StringTok{ }\NormalTok{w_P}
+\NormalTok{    NWASTE =}\StringTok{ }\NormalTok{JMNWASTE }\OperatorTok{*}\StringTok{ }\NormalTok{w_N}
+    \ControlFlowTok{if}\NormalTok{ (pregnant }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{        wetgonad =}\StringTok{ }\NormalTok{((cumrepro}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_Egg }\OperatorTok{+}\StringTok{ }\NormalTok{((((v_baby }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{e_baby)}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_V }\OperatorTok{+}\StringTok{ }\NormalTok{v_baby) }\OperatorTok{*}\StringTok{ }\NormalTok{clutchsize}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        wetgonad =}\StringTok{ }\NormalTok{((cumrepro}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_Egg }\OperatorTok{+}\StringTok{ }\NormalTok{((cumbatch}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }
+\StringTok{            }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_Egg}
+\NormalTok{    \}}
+\NormalTok{    wetstorage =}\StringTok{ }\NormalTok{((V }\OperatorTok{*}\StringTok{ }\NormalTok{E}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_V}
+\NormalTok{    wetfood =}\StringTok{ }\NormalTok{Es}\OperatorTok{/}\FloatTok{21525.37}\OperatorTok{/}\NormalTok{(}\DecValTok{1} \OperatorTok{-}\StringTok{ }\FloatTok{0.18}\NormalTok{)}
+\NormalTok{    wetmass =}\StringTok{ }\NormalTok{V }\OperatorTok{*}\StringTok{ }\NormalTok{andens_deb }\OperatorTok{+}\StringTok{ }\NormalTok{wetgonad }\OperatorTok{+}\StringTok{ }\NormalTok{wetstorage }\OperatorTok{+}\StringTok{ }\NormalTok{wetfood}
+\NormalTok{    gutfreemass =}\StringTok{ }\NormalTok{V }\OperatorTok{*}\StringTok{ }\NormalTok{andens_deb }\OperatorTok{+}\StringTok{ }\NormalTok{wetgonad }\OperatorTok{+}\StringTok{ }\NormalTok{wetstorage}
+\NormalTok{    potfreemass =}\StringTok{ }\NormalTok{V }\OperatorTok{*}\StringTok{ }\NormalTok{andens_deb }\OperatorTok{+}\StringTok{ }\NormalTok{(((V }\OperatorTok{*}\StringTok{ }\NormalTok{E_m)}\OperatorTok{/}\NormalTok{mu_E) }\OperatorTok{*}\StringTok{ }\NormalTok{w_E)}\OperatorTok{/}\NormalTok{d_V}
+\NormalTok{    dqdt =}\StringTok{ }\NormalTok{(q_pres }\OperatorTok{*}\StringTok{ }\NormalTok{(V_pres}\OperatorTok{/}\NormalTok{V_max) }\OperatorTok{*}\StringTok{ }\NormalTok{s_G }\OperatorTok{+}\StringTok{ }\NormalTok{h_aT) }\OperatorTok{*}\StringTok{ }\NormalTok{(E_pres}\OperatorTok{/}\NormalTok{E_m) }\OperatorTok{*}\StringTok{ }
+\StringTok{        }\NormalTok{((vT}\OperatorTok{/}\NormalTok{L_pres) }\OperatorTok{-}\StringTok{ }\NormalTok{rdot) }\OperatorTok{-}\StringTok{ }\NormalTok{rdot }\OperatorTok{*}\StringTok{ }\NormalTok{q_pres}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{        q =}\StringTok{ }\NormalTok{q_init }\OperatorTok{+}\StringTok{ }\NormalTok{dqdt}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        q =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    dhsds =}\StringTok{ }\NormalTok{q_pres }\OperatorTok{-}\StringTok{ }\NormalTok{rdot }\OperatorTok{*}\StringTok{ }\NormalTok{hs_pres}
+    \ControlFlowTok{if}\NormalTok{ (E_H_pres }\OperatorTok{>}\StringTok{ }\NormalTok{E_Hb) \{}
+\NormalTok{        hs =}\StringTok{ }\NormalTok{hs_init }\OperatorTok{+}\StringTok{ }\NormalTok{dhsds}
+\NormalTok{    \}}
+    \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        hs =}\StringTok{ }\DecValTok{0}
+\NormalTok{    \}}
+\NormalTok{    h_w =}\StringTok{ }\NormalTok{((h_aT }\OperatorTok{*}\StringTok{ }\NormalTok{(E_pres}\OperatorTok{/}\NormalTok{E_m) }\OperatorTok{*}\StringTok{ }\NormalTok{vT)}\OperatorTok{/}\NormalTok{(}\DecValTok{6} \OperatorTok{*}\StringTok{ }\NormalTok{V_pres}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)))}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+\NormalTok{    dsurvdt =}\StringTok{ }\OperatorTok{-}\DecValTok{1} \OperatorTok{*}\StringTok{ }\NormalTok{surviv_pres }\OperatorTok{*}\StringTok{ }\NormalTok{hs}
+\NormalTok{    surviv =}\StringTok{ }\NormalTok{surviv_pres }\OperatorTok{+}\StringTok{ }\NormalTok{dsurvdt}
+\NormalTok{    p_B_past =}\StringTok{ }\NormalTok{p_B}
+\NormalTok{    E_pres =}\StringTok{ }\NormalTok{E}
+\NormalTok{    V_pres =}\StringTok{ }\NormalTok{V}
+\NormalTok{    E_H_pres =}\StringTok{ }\NormalTok{E_H}
+\NormalTok{    q_pres =}\StringTok{ }\NormalTok{q}
+\NormalTok{    hs_pres =}\StringTok{ }\NormalTok{hs}
+\NormalTok{    suriv_pres =}\StringTok{ }\NormalTok{surviv_pres}
+\NormalTok{    Es_pres =}\StringTok{ }\NormalTok{Es}
+\NormalTok{    deb.names <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"E_pres"}\NormalTok{, }\StringTok{"V_pres"}\NormalTok{, }\StringTok{"E_H_pres"}\NormalTok{, }\StringTok{"q_pres"}\NormalTok{, }
+        \StringTok{"hs_pres"}\NormalTok{, }\StringTok{"surviv_pres"}\NormalTok{, }\StringTok{"Es_pres"}\NormalTok{, }\StringTok{"cumrepro"}\NormalTok{, }\StringTok{"cumbatch"}\NormalTok{, }
+        \StringTok{"p_B_past"}\NormalTok{, }\StringTok{"O2FLUX"}\NormalTok{, }\StringTok{"CO2FLUX"}\NormalTok{, }\StringTok{"MLO2"}\NormalTok{, }\StringTok{"GH2OMET"}\NormalTok{, }\StringTok{"DEBQMET"}\NormalTok{, }
+        \StringTok{"DRYFOOD"}\NormalTok{, }\StringTok{"FAECES"}\NormalTok{, }\StringTok{"NWASTE"}\NormalTok{, }\StringTok{"wetgonad"}\NormalTok{, }\StringTok{"wetstorage"}\NormalTok{, }
+        \StringTok{"wetfood"}\NormalTok{, }\StringTok{"wetmass"}\NormalTok{, }\StringTok{"gutfreemass"}\NormalTok{, }\StringTok{"gutfull"}\NormalTok{, }\StringTok{"fecundity"}\NormalTok{, }
+        \StringTok{"clutches"}\NormalTok{)}
+\NormalTok{    results_deb <-}\StringTok{ }\KeywordTok{c}\NormalTok{(E_pres, V_pres, E_H_pres, q_pres, hs_pres, }
+\NormalTok{        surviv_pres, Es_pres, cumrepro, cumbatch, p_B_past, O2FLUX, }
+\NormalTok{        CO2FLUX, MLO2, GH2OMET, DEBQMET, DRYFOOD, FAECES, NWASTE, }
+\NormalTok{        wetgonad, wetstorage, wetfood, wetmass, gutfreemass, }
+\NormalTok{        gutfull, fecundity, clutches)}
+    \KeywordTok{names}\NormalTok{(results_deb) <-}\StringTok{ }\NormalTok{deb.names}
+    \KeywordTok{return}\NormalTok{(results_deb)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{}\label{section-4}
+
+\section{Appendix 1}\label{appendix-1}
+
+Netlogo IBM decision making model (.nlogo). Available on
+\href{https://github.com/darwinanddavis/Sleepy_IBM/blob/master/Sleepy\%20IBM_v.6.1.1_two\%20strategies.nlogo}{\textbf{Github}}.
+
+\subsubsection{space and time scales}\label{space-and-time-scales}
+
+\begin{verbatim}
+; Spatial scale: 1500 * 1500 m
+; 1 patch = 2 m
+; 1 tick = 2 min
+; 1 day = 720 ticks
+; 1 tick = 2 bites possible for small food; 4 bites possible for large food
+\end{verbatim}
+
+\subsubsection{interface}\label{interface}
+
+\begin{verbatim}
+; Energy cost of individual
+; =========================
+; Movement-cost:    Cost (J) of moving one patch (2 m). Calculated from DEB model.
+; Maintenance-cost: Cost (J) of paying maintenance. Calculated from DEB model.
+
+; Energy gain of individual
+; =================
+; Low-food gain:  Energy gain (J) from small food items (Brown 1991).
+; kap_X:          Conversion efficiency of assimilated energy from food (J) (Kooijman 2010).
+
+; Food patch growth
+; =================
+; Large-food-initial: Initial energy level (J) of large food items at setup. Parameterised from literature.
+; Small-food-initial: Initial energy level (J) of small food items at setup. Parameterised from literature.
+
+; Individual attributes
+; ===================
+; Maximum-reserve: Maximum reserve level (J). Appears in 'to setup' and 'to make decision'.
+; Minimum-reserve: Define the critical starvation period. Individuals can survive without food for two hours in this state (reasonable estimate). 
+\end{verbatim}
+
+\subsubsection{globals}\label{globals}
+
+\begin{verbatim}
+globals
+[
+  in-shade?          ; Reports TRUE if turtle is in shade
+  in-food?           ; Reports TRUE if turtle is in a food patch
+  min-energy         ; Minimum food unit level for individual to lose interest and move away from patch. This eliminates the incentive for individuals to return immediately to the previously visited food patch after vacating it.
+  reserve-level      ; Reserve level of individual.
+  min-vision         ; Minimum (normal) vision range of individuals (Auburn et al. 2009).
+  max-vision         ; Maximum vision range of individuals activated by starvation mode. See 'to starving' procedure (Auburn et al. 2009)
+  ctmincount         ; Counter for time spent under min_T_b_
+  feedcount          ; Counter for time spent in feeding state.
+  restcount          ; Counter for the time spent resting in shade
+  searchcount        ; Counter for time spent searching for food.
+  starvecount        ; Counter for time spent in starvation state.
+  shadecount         ; Counter for time spent searching for shade following a feeding bout.
+  transcount         ; Counter for frequency of transitions between any of the three activity states--searching, feeding, resting.
+  zenith             ; Zenith angle of sun (update-sun procedure).
+  tempXY             ; XY coords for drawing homerange 
+  gutfull            ; Reports gut level of DEB model
+  movelist           ; List of cumulative movement costs
+  fh_                 ; String for working dir to export results
+  ]
+\end{verbatim}
+
+\subsubsection{turtles-own}\label{turtles-own}
+
+\begin{verbatim}
+turtles-own
+[
+  activity-state     ; Individual is either under a Searching, Feeding, or Resting state for each tick. The transition between the various activity states defines the global behavioural repertoire.
+  energy-gain        ; Converted energy gained from food
+  T_b_               ; Body temperature (T_b) of individual (Celsius)
+  T_b_basking_       ; Basking body temperature of individual (Celsius)
+  T_opt_range        ; Foraging body temperature range of individual (Celsius)
+  T_opt              ; Median foraging body temperature of individual (Celsius)
+  T_opt_lower_        ; Lower foraging body temperature of individual (Celsius)
+  T_opt_upper_        ; Upper foraging body temperature of individual (Celsius)
+  min-T_b_           ; Lower critical body temperature (min-T_b) of individual (Celsius)
+  max-T_b_           ; Upper critical body temperature (max-T_b) of individual (Celsius)
+  vision-range       ; Vision (no. of patches) range of individual.
+  has-been-starving? ; Results reporter only variable for reporting stavation time only if individual has starved
+  has-been-feeding?  ; Results reporter only variable for reporting feeding time only if individual has been feeding
+  X                  ; List of x coords for homerange
+  Y                  ; List of y coords for homerange
+  gutthresh_         ; Threshold for gutlevel to motivate turtle to move
+  V_pres_            ; DEB structural volume
+  wetgonad_          ; DEB wet mass reproductive organ volume
+  wetstorage_        ; DEB wet mass storage
+  wetfood_           ; DEB converted food mass
+  ]
+\end{verbatim}
+
+\subsubsection{patches-own}\label{patches-own}
+
+\begin{verbatim}
+patches-own
+[
+  patch-type    ; Defines type of patches in environment as either Food or Shade.
+  food-level    ; *> Interface <* Defines the initial and updated level of energy (J) in food patches. Food level increases (plant growth; see 'Food patch growth' in Interface) and decreases (feeding by individual) with each tick.
+  shade-level   ; *> Interface <* Defines the initial and updated level of shade in shade patches. Shade levels remain constant throughout simulation.
+  ]
+\end{verbatim}
+
+\subsubsection{breeds}\label{breeds}
+
+\begin{verbatim}
+breed
+[homeranges homerange]
+\end{verbatim}
+
+\subsubsection{setup}\label{setup}
+
+\begin{verbatim}
+to setup
+  ca
+  if Food-patches + Shade-patches > count patches
+  [ user-message (word "Lower the sum of shade and food patches to < " count patches ".")
+    stop ]
+  random-seed 1                          ; Outcomment to generate seed for spatial configuration of all patches in the landscape (food and shade). For reproducibility. NB: turtle movement is still stochastic. See below random-seed primitive for complete function.
+  set min-energy Small-food-initial
+  set min-vision 5                         ; 10m (Auburn et al. 2009)
+
+  ask patches
+  [set patch-type "Sun"
+    set pcolor (random 1 + blue)]
+
+  let NumFoodPatches Food-patches / 10
+  ask n-of NumFoodPatches patches [
+    ask n-of 10 patches in-radius 4 [ ; Sets 10 random food patches within a 5-patch radius of Food-patches
+    let food-amount random 100
+    ifelse food-amount < 50
+    [set food-level (Small-food-initial) + random-float 1 * 10 ^ -5] ; Makes only one food patch attractive to turtle because turtles love good chow
+    [set food-level (Large-food-initial) + random-float 1 * 10 ^ -5]
+      set pcolor PatchColor
+      set patch-type "Food"
+      ]
+  ]
+
+ifelse Shade-density = "Random"[ ; chooser for setting Random or Clumped shade patches (similar to food patch arrangement)
+  let NumShadePatches Shade-patches
+  ask n-of NumShadePatches patches [
+    let shade-amount random 100
+    ifelse shade-amount < 50
+    [set shade-level (Low-shade + random-float 1 * 10 ^ -5) ; Makes only one shade patch attractive to turtle
+      set pcolor black + 2]
+    [set shade-level (High-shade + random-float 1 * 10 ^ -5)
+      set pcolor black]
+      set patch-type "Shade"
+      ]
+]
+[
+    let NumShadePatches Shade-patches / 10
+    ask n-of NumShadePatches patches [
+    ask n-of 10 patches in-radius 4 [ ; Sets 10 random food patches within a 5-patch radius of Food-patches
+    let shade-amount random 100
+    ifelse shade-amount < 50
+    [set shade-level (Low-shade + random-float 1 * 10 ^ -5) ; Makes only one shade patch attractive to turtle
+      set pcolor black + 2]
+    [set shade-level (High-shade + random-float 1 * 10 ^ -5)
+      set pcolor black]
+      set patch-type "Shade"
+      ]
+]
+]; close else shade loop
+
+ask patch 0 0 [set patch-type "Shade"
+  set pcolor black]
+
+set movelist (list 0)
+;  ask one-of patches with [patch-type = "Shade"]
+;  [sprout 1]
+crt 1
+
+ random-seed new-seed ; Outcomment to generate seed for spatial configuration of all patches in the landscape (food and shade).
+
+  ask turtle 0
+  [
+    setxy 0 0 ;random-xcor random-ycor
+    set reserve-level Maximum-reserve
+    set T_b_basking_ 14
+    set T_opt_range (list 26 27 28 29 30 31 32 33 34 35 )        ; From Pamula thesis
+    set T_opt_upper last T_opt_range
+    set T_opt_lower first T_opt_range
+    set T_opt median T_opt_range
+    set min-T_b_ min-T_b
+    set max-T_b_ max-T_b
+    set V_pres_ V_pres
+    set wetgonad_ wetgonad
+    set wetstorage_ wetstorage
+    set wetfood_ wetfood
+    set activity-state "S"
+    set vision-range min-vision
+    if [patch-type] of patch-here = "Shade"
+    [set in-shade? TRUE]
+     if [patch-type] of patch-here = "Food"
+    [set in-food? TRUE]
+    set shape "lizard"
+    set size 2
+    set color red
+    pen-down
+    set X (list xcor)
+    set Y (list ycor)
+    ]
+setup-spatial-plot
+set fh_ fh
+reset-ticks
+end
+\end{verbatim}
+
+\subsubsection{go}\label{go}
+
+\begin{verbatim}
+to go
+  tick
+  if not any? turtles
+  [
+    get-homerange
+    print "All turtles dead. Check output of model results."
+    repeat 3 [beep wait 0.2]
+    stop
+    save-world
+    ]
+  if (ticks * 2 / 60 / 24) = No.-of-days
+  [
+    ask turtle 0
+    [report-results]
+    stop
+    save-world
+    ]
+  ifelse show-plots?
+  []
+  [clear-all-plots]
+  ask turtle 0
+  [
+    report-patch-type
+    ask turtles with [reserve-level > Minimum-reserve]
+    [set vision-range min-vision]
+    update-T_b
+    make-decision
+    set X lput xcor X ; populate X list with turtle X coords to generate home range
+    set Y lput ycor Y ; populate Y list with turtle Y coords to generate home range
+  ]
+  if any? turtles with [reserve-level <= 0]
+  [ask turtle 0 [report-results]
+    stop
+    ]
+  ask patches with [patch-type = "Food"]
+    [update-food-levels]
+end
+\end{verbatim}
+
+\subsubsection{\texorpdfstring{update
+\emph{T\textsubscript{b}}}{update Tb}}\label{update-tb}
+
+\begin{verbatim}
+to update-T_b
+  ask turtles with [T_b >= max-T_b]
+    [stop]
+  if T_b <= min-T_b
+    [set ctmincount ctmincount + 1]
+    if (ctmincount * 2 / 60) = ctminthresh
+    [stop]
+end
+\end{verbatim}
+
+\subsubsection{make-decision}\label{make-decision}
+
+\begin{verbatim}
+to make-decision
+
+;-------------------------------------------------------------------------------------
+;-------------------------------------Optimising-------------------------------------
+;-------------------------------------------------------------------------------------
+  ifelse (strategy = "Optimising")
+  [; start optimising loop
+    ifelse (T_b > T_opt_upper) or (T_b < T_opt_lower)
+  [
+    ask turtle 0
+    [;set label "Resting"
+      set activity-state "R"
+        if [patch-type] of patch-here != "Shade"
+      [shade-search]
+      if ([patch-type] of patch-here = "Shade") and (T_b < T_b_basking_)
+      [set in-shade? TRUE]
+      ]
+    if (activity-state = "R") and (T_b >= T_b_basking_) and (T_b < T_opt_upper) ; Basking behaviour
+    [set in-shade? FALSE
+ ;      set transcount transcount + 1 ; Outcomment to include basking behaviour as activity state
+ ;      plotxy xcor ycor
+    ]
+ set restcount restcount + 1
+    ]
+     [; else optimising loop
+        if (activity-state = "R")
+    [
+        set restcount restcount + 1
+       ; set label "Resting"
+      if ((T_b <= T_opt_upper) and (T_b >= T_opt_lower)); and reserve-level < search-energy
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "S"]
+     ; [set activity-state "R"]
+    ]
+
+                               
+    if (activity-state = "F"); 
+    [                          
+      ifelse (gutfull < gutthresh) ;and ([patch-type] of patch-here = "Food") ; if gut is not full, keep feeding
+      [
+      ask turtle 0
+      [handle-food
+        ;set label "Feeding"
+        set has-been-feeding? TRUE]
+      if [patch-type] of patch-here != "Food" ; if patch isn not food, search for food
+      [set activity-state "S"
+        set transcount transcount + 1
+        plotxy xcor ycor
+        set energy-gain 0]
+      if reserve-level >= Maximum-reserve ; 
+      [set transcount transcount + 1
+        plotxy xcor ycor
+;        ifelse (strategy = "Optimising")
+;        [set activity-state "S"]
+        set activity-state "R"
+        stop]
+      ]
+      [;set label "Gut is full" ; otherwise, turtle moves during active hours of the day
+        socialise
+        set searchcount searchcount + 1
+        plotxy xcor ycor
+        ]
+    ]
+
+    if (activity-state = "S")
+    [
+      ask turtle 0
+      [search
+       ; set label "Searching for food"
+       ]
+      set searchcount searchcount + 1
+      if ([patch-type] of patch-here = "Food") and (gutfull < gutthresh)
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "F"]
+      ]
+  ]
+  ]; end optimising loop
+
+
+;-------------------------------------------------------------------------------------
+;-------------------------------------Satisficing-------------------------------------
+;-------------------------------------------------------------------------------------
+
+  [; else satisfice, i.e. move only when gutfull is below the gut threshold
+  ifelse (T_b > T_opt_upper) or (T_b < T_opt_lower) or (gutfull >= gutthresh); 'gutfull' is DEB.R input
+  [
+    ask turtle 0
+    [;set label "Resting"
+      set activity-state "R"
+      ifelse gutfull >= gutthresh and T_b < T_opt_upper and T_b > T_opt_lower
+      [;set label "Full gut"
+        stop ]
+      [if [patch-type] of patch-here != "Shade"
+      [shade-search]]
+      if ([patch-type] of patch-here = "Shade") and (T_b < T_b_basking_)
+      [set in-shade? TRUE]
+      ]
+    if (activity-state = "R") and (T_b >= T_b_basking_) and (T_b < T_opt_upper) ; Basking behaviour
+    [set in-shade? FALSE
+ ;      set transcount transcount + 1 ; Outcomment to include basking behaviour as activity state
+ ;      plotxy xcor ycor
+    ]
+ set restcount restcount + 1
+    ]
+
+  [
+        if (activity-state = "R")
+    [
+        set restcount restcount + 1
+       ; set label "Resting"
+      if ((T_b <= T_opt_upper) and (T_b >= T_opt_lower)); and reserve-level < search-energy
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "S"]
+     ; [set activity-state "R"]
+    ]
+
+                              
+    if (activity-state = "F")
+    [                         
+      ifelse (gutfull < gutthresh) ;and ([patch-type] of patch-here = "Food") ; if gut is not full, keep feeding, else stop.
+      [
+      ask turtle 0
+      [handle-food
+        ;set label "Feeding"
+        set has-been-feeding? TRUE]
+      if [patch-type] of patch-here != "Food"
+      [set activity-state "S"
+        set transcount transcount + 1
+        plotxy xcor ycor
+        set energy-gain 0]
+      if reserve-level >= Maximum-reserve ; Turtle will fight between feeding and resting if DEB model not activated i.e. reserve incurs no cost.
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "R"
+        stop]
+      ]
+      [;set label "Gut is full"
+        stop]
+    ]
+
+    if (activity-state = "S")
+    [
+      ask turtle 0
+      [search
+       ; set label "Searching for food"
+       ]
+      set searchcount searchcount + 1
+      if ([patch-type] of patch-here = "Food")  ;and ([food-level] of patch-here > min-energy)
+      [set transcount transcount + 1
+        plotxy xcor ycor
+        set activity-state "F"]
+      ]
+    ]
+  ]; end satisficing loop
+end
+\end{verbatim}
+
+\subsubsection{search}\label{search}
+
+\begin{verbatim}
+to search
+  set reserve-level reserve-level - Movement-cost 
+  set movelist lput Movement-cost movelist
+  bounce
+  let local-food-patches patches with [(distance myself < [vision-range] of turtle 0) and (patch-type = "Food")]
+  ifelse any? local-food-patches
+  [let my-food-patch local-food-patches with-min [distance myself] ;with-max [food-level]
+  face one-of my-food-patch]
+  [lt random 180 - 90 ]
+  fd 1
+  if [patch-type] of patch-here = "Food"
+  [set activity-state "F"]
+end
+\end{verbatim}
+
+\subsubsection{bounce}\label{bounce}
+
+\begin{verbatim}
+to bounce
+; Turtles turn a random angle ~180 when encountering a wall
+  ask turtle 0
+ [ if abs pxcor = abs max-pxcor or
+      abs pycor = abs max-pycor
+    [lt random-float 180 ]
+ ]
+end
+\end{verbatim}
+
+\subsubsection{handle food}\label{handle-food}
+
+\begin{verbatim}
+to handle-food
+  set energy-gain Low-food-gain
+  ;set in-food? TRUE
+  set feedcount feedcount + 1
+  set-current-plot "Spatial coordinates of transition between activity states"
+  set-current-plot-pen "Feeding"
+  ifelse [pcolor] of patch-here = 45
+  [set-plot-pen-color 45]
+  [set-plot-pen-color 55]
+  plotxy xcor ycor
+end
+\end{verbatim}
+
+\subsubsection{shade search}\label{shade-search}
+
+\begin{verbatim}
+to shade-search
+  set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
+  set movelist lput Movement-cost movelist
+  let local-shade-patches patches with [(distance myself < [vision-range] of turtle 0) and (patch-type = "Shade")]
+  ifelse any? local-shade-patches
+  [let my-shade-patch local-shade-patches with-min [distance myself] with-max [shade-level]
+    face one-of my-shade-patch
+    set shadecount shadecount + 1]
+  [lt random 180 - 90]
+  fd 1
+end
+\end{verbatim}
+
+\subsubsection{rest}\label{rest}
+
+\begin{verbatim}
+to rest
+  ifelse strategy = "Optimising"
+  [set activity-state "S"]
+  [set activity-state "R"]
+end
+\end{verbatim}
+
+\subsubsection{socialise}\label{socialise}
+
+\begin{verbatim}
+to socialise
+  set reserve-level reserve-level - Movement-cost ; add miniscule movement cost to avoid turtle exiting green food patches for one time step when feeding
+  set movelist lput Movement-cost movelist
+  bounce
+  lt random 180 - 90
+  fd 1
+  if gutfull < gutthresh
+  [set activity-state "S"]
+end
+\end{verbatim}
+
+\subsubsection{update food levels}\label{update-food-levels}
+
+\begin{verbatim}
+to update-food-levels
+  let food-deplete food-level - Low-food-gain
+  if (count turtles-here with [activity-state = "F"] > 0) and (gutfull < gutthresh)
+; [ifelse food-level < Large-food-initial
+  [set food-level food-deplete ; yellow food
+    set in-food? TRUE
+    print "In food"]
+;  [set food-level food-level - (Low-food-gain * 2)] ; green food
+;  ]
+  if food-level < Small-food-initial
+    [set patch-type "Sun"]
+set pcolor PatchColor
+end
+\end{verbatim}
+
+\subsubsection{report patch color}\label{report-patch-color}
+
+\begin{verbatim}
+to-report PatchColor
+  let PatColor 0
+  ifelse food-level >= Large-food-initial
+  [set PatColor green]
+  [ifelse food-level >= Small-food-initial
+    [set PatColor yellow]
+    [set PatColor brown]
+  ]
+  report PatColor
+end
+\end{verbatim}
+
+\subsubsection{report patch type}\label{report-patch-type}
+
+\begin{verbatim}
+to report-patch-type
+ifelse [patch-type] of patch-here = "Food"
+    [set in-food? TRUE]
+    [
+      ifelse [patch-type] of patch-here = "Shade"
+      [set in-shade? TRUE]
+      [set in-shade? FALSE
+        set in-food? FALSE]
+    ]
+end
+\end{verbatim}
+
+\subsubsection{report results}\label{report-results}
+
+\begin{verbatim}
+to report-results
+    output-print (word "Number of real days:,, " precision (ticks * 2 / 60 / 24) 5)
+    output-print ""
+    output-print (word "Time spent searching for food (mins/days):, " (searchcount * 2) " , " precision (searchcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent feeding (mins/days):, " (feedcount * 2) " , " precision (feedcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent searching for shade  (mins/days):, " (shadecount * 2) " , " precision (shadecount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent resting in shade (mins/days):, " (restcount * 2) " , " precision (restcount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Time spent in critical starvation (mins/days):, " (starvecount * 2) " , " precision (starvecount * 2 / 60 / 24) 3 "")
+    output-print ""
+    output-print (word "Number of transitions between activity states:, " transcount)
+    output-print ""
+    ifelse has-been-feeding? = TRUE
+    [output-print (word "Proportion of feeding to searching:, " precision (feedcount / searchcount) 3)]
+    [output-print (word "Proportion of feeding to searching:, " 0)]
+    output-print ""
+    ifelse has-been-starving? = TRUE
+    [output-print (word "Proportion of feeding to starving:, " precision (feedcount / starvecount) 3)]
+    [output-print (word "Proportion of feeding to starving:, " 0)]
+    output-print ""
+    output-print (word "Patches with pcolor = brown (eaten): " patches with [pcolor = 35])
+    stop;die
+end
+\end{verbatim}
+
+\subsubsection{to save world}\label{to-save-world}
+
+\begin{verbatim}
+to save-world ; This procedure saves the model world. The file output procedure then outputs the saved model world as a .txt file to the local dir.
+  let world user-new-file
+  if ( world != false )
+  [
+    file-write world
+    ask patches
+    [
+      file-write pxcor
+      file-write pycor
+       if patch-type = "Food"
+       [file-write pxcor and pycor and (patch-type = "Food") and food-level]
+       if patch-type = "Shade"
+       [file-write pxcor and pycor and (patch-type = "Shade") and shade-level]
+    ]
+    file-close
+  ]
+end
+\end{verbatim}
+
+\subsubsection{spatial plot}\label{spatial-plot}
+
+\begin{verbatim}
+
+to setup-spatial-plot
+  set-current-plot "Spatial coordinates of transition between activity states"
+  set-plot-x-range min-pxcor max-pxcor
+  set-plot-y-range min-pycor max-pycor
+  clear-plot
+end
+\end{verbatim}
+
+\subsubsection{get home range}\label{get-home-range}
+
+\begin{verbatim}
+to get-homerange
+draw-homerange
+end
+\end{verbatim}
+
+\subsubsection{draw home range}\label{draw-home-range}
+
+\begin{verbatim}
+to draw-homerange
+  clear-drawing
+  if any? turtles [
+    ask turtle 0
+  [pu
+   hatch-homeranges 1
+   [hide-turtle
+ ;  set ID [ID] of myself
+     set color red
+     ]
+   ; draw the homerange
+   foreach tempXY
+   [ask homeranges
+     [move-to patch (item 0 ?) (item 1 ?)
+       pd
+       ]
+     ]
+   ; close the homerange polygon
+   ask homeranges
+   [let lastpoint first tempXY
+     move-to patch (item 0 lastpoint) (item 1 lastpoint)
+     ]
+   ]
+ ]
+end
+\end{verbatim}
+
+\subparagraph{}\label{section-5}
+
+\section{Appendix 2}\label{appendix-2}
+
+Energy and heat budget models, including microclimate model (.R).
+Available on
+\href{https://github.com/darwinanddavis/MalishevBullKearney}{\textbf{Github}}.
+
+\subsubsection{Initial setup}\label{initial-setup}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# RNL_new trans model_with DEB_1.6.2}
+
+\CommentTok{# ----------------------------------------------------------------}
+\CommentTok{# ------------------- initial Mac OS and R config ----------------}
+\CommentTok{# ----------------------------------------------------------------}
+
+\CommentTok{#if using Mac OSX Mountain Lion + and not already in JQR, download and open JGR }
+\CommentTok{# after downloading, load JGR}
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"JGR"}\NormalTok{)}
+\KeywordTok{Sys.setenv}\NormalTok{(}\DataTypeTok{NOAWT=}\DecValTok{1}\NormalTok{)}
+\KeywordTok{library}\NormalTok{(JGR)}
+\KeywordTok{Sys.unsetenv}\NormalTok{(}\StringTok{"NOAWT"}\NormalTok{)}
+\KeywordTok{JGR}\NormalTok{()}
+
+\CommentTok{# in JGR onwards}
+\CommentTok{# if already loaded, uninstall RNetlogo and rJava}
+\NormalTok{p<-}\KeywordTok{c}\NormalTok{(}\StringTok{"rJava"}\NormalTok{, }\StringTok{"RNetLogo"}\NormalTok{)}
+\KeywordTok{remove.packages}\NormalTok{(p)}
+
+\CommentTok{# install Netlogo and rJava from source if haven't already by downloading from CRAN}
+\CommentTok{# RNetlogo: https://cran.r-project.org/web/packages/RNetLogo/index.html}
+\CommentTok{# rJava: https://cran.r-project.org/web/packages/rJava/index.html}
+\NormalTok{dir<-}\StringTok{ "<directory where RNetlogo and rjava package sources are downloaded>"}
+\NormalTok{rnl <-}\StringTok{ "<RNetLogo package file name>"} \CommentTok{# e.g. "RNetLogo_1.0-4.tar.gz" }
+\NormalTok{rj <-}\StringTok{ "<rJava package file name>"} \CommentTok{# e.g. "rJava_0.9-8.tar.gz" }
+\KeywordTok{install.packages}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(dir,}\StringTok{"/"}\NormalTok{,rnl, }\DataTypeTok{repos =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{type=}\StringTok{"source"}\NormalTok{))}
+\KeywordTok{install.packages}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(dir,}\StringTok{"/"}\NormalTok{,rj, }\DataTypeTok{repos =} \OtherTok{NULL}\NormalTok{, }\DataTypeTok{type=}\StringTok{"source"}\NormalTok{))}
+\KeywordTok{library}\NormalTok{(RNetLogo); }\KeywordTok{library}\NormalTok{(rJava)}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{For PC and working Mac OSX}\label{for-pc-and-working-mac-osx}
+
+Source \texttt{DEB.R} and \texttt{onelump\_varenv.R} from
+\href{\%22https://github.com/darwinanddavis/MalishevBullKearney\%22}{\textbf{Github}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# ------------------- for PC and working Mac OSX ---------------------------}
+\CommentTok{# ------------------- model setup ---------------------------}
+\CommentTok{# get packages}
+\NormalTok{packages <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"NicheMapR"}\NormalTok{,}\StringTok{"adehabitatHR"}\NormalTok{,}\StringTok{"rgeos"}\NormalTok{,}\StringTok{"sp"}\NormalTok{, }\StringTok{"maptools"}\NormalTok{, }\StringTok{"raster"}\NormalTok{,}\StringTok{"rworldmap"}\NormalTok{,}\StringTok{"rgdal"}\NormalTok{,}\StringTok{"dplyr"}\NormalTok{)}
+\KeywordTok{install.packages}\NormalTok{(packages,}\DataTypeTok{dependencies =}\NormalTok{ T)}
+\KeywordTok{lapply}\NormalTok{(packages,library,}\DataTypeTok{character.only=}\NormalTok{T)}
+
+\CommentTok{#source DEB and heat budget models from https://github.com/darwinanddavis/MalishevBullKearney}
+\KeywordTok{source}\NormalTok{(}\StringTok{'DEB.R'}\NormalTok{)}
+\KeywordTok{source}\NormalTok{(}\StringTok{'onelump_varenv.R'}\NormalTok{)}
+
+\CommentTok{# set dirs}
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"<your working dir>"}\NormalTok{) }\CommentTok{# set wd}
+\NormalTok{results.path<-}\StringTok{ "<dir path to store result outputs>"} \CommentTok{# set results path}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Read in microclimate
+data}\label{read-in-microclimate-data}
+
+Source \texttt{metout}, \texttt{soil}, \texttt{shadmet}, and
+\texttt{shadsoil} from
+\href{\%22https://github.com/darwinanddavis/MalishevBullKearney\%22}{\textbf{Github}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# read in microclimate data (metout, soil, shadmet, and shadsoil)}
+\NormalTok{tzone<-}\KeywordTok{paste}\NormalTok{(}\StringTok{"Etc/GMT-"}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+\NormalTok{metout<-}\KeywordTok{read.csv}\NormalTok{(}\StringTok{'metout.csv'}\NormalTok{)}
+\NormalTok{soil<-}\KeywordTok{read.csv}\NormalTok{(}\StringTok{'soil.csv'}\NormalTok{)}
+\NormalTok{shadmet<-}\KeywordTok{read.csv}\NormalTok{(}\StringTok{'shadmet.csv'}\NormalTok{)}
+\NormalTok{shadsoil<-}\KeywordTok{read.csv}\NormalTok{(}\StringTok{'shadsoil.csv'}\NormalTok{)}
+\NormalTok{micro_sun_all<-}\KeywordTok{cbind}\NormalTok{(metout[,}\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{],metout[,}\DecValTok{9}\NormalTok{],soil[,}\DecValTok{6}\NormalTok{],metout[,}\DecValTok{14}\OperatorTok{:}\DecValTok{16}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(micro_sun_all)<-}\KeywordTok{c}\NormalTok{(}\StringTok{'dates'}\NormalTok{,}\StringTok{'JULDAY'}\NormalTok{,}\StringTok{'TIME'}\NormalTok{,}\StringTok{'TALOC'}\NormalTok{,}\StringTok{'VLOC'}\NormalTok{,}\StringTok{'TS'}\NormalTok{,}\StringTok{'ZEN'}\NormalTok{,}\StringTok{'SOLR'}\NormalTok{,}\StringTok{'TSKYC'}\NormalTok{)}
+\NormalTok{micro_shd_all<-}\KeywordTok{cbind}\NormalTok{(shadmet[,}\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{],shadmet[,}\DecValTok{9}\NormalTok{],shadsoil[,}\DecValTok{6}\NormalTok{],shadmet[,}\DecValTok{14}\OperatorTok{:}\DecValTok{16}\NormalTok{])}
+\KeywordTok{colnames}\NormalTok{(micro_shd_all)<-}\KeywordTok{c}\NormalTok{(}\StringTok{'dates'}\NormalTok{,}\StringTok{'JULDAY'}\NormalTok{,}\StringTok{'TIME'}\NormalTok{,}\StringTok{'TALOC'}\NormalTok{,}\StringTok{'VLOC'}\NormalTok{,}\StringTok{'TS'}\NormalTok{,}\StringTok{'ZEN'}\NormalTok{,}\StringTok{'SOLR'}\NormalTok{,}\StringTok{'TSKYC'}\NormalTok{)}
+
+\CommentTok{# choose a day(s) to simulate}
+\NormalTok{daystart<-}\KeywordTok{paste}\NormalTok{(}\StringTok{'09/09/05'}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# yy/mm/dd}
+\NormalTok{dayfin<-}\KeywordTok{paste}\NormalTok{(}\StringTok{'10/12/31'}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{) }\CommentTok{# yy/mm/dd}
+\NormalTok{micro_sun<-}\KeywordTok{subset}\NormalTok{(micro_sun_all, }\KeywordTok{format}\NormalTok{(}\KeywordTok{as.POSIXlt}\NormalTok{(micro_sun_all}\OperatorTok{$}\NormalTok{dates), }\StringTok{"%y/%m/%d"}\NormalTok{)}\OperatorTok{>=}\NormalTok{daystart }\OperatorTok{&}\StringTok{ }\KeywordTok{format}\NormalTok{(}\KeywordTok{as.POSIXlt}\NormalTok{(micro_sun_all}\OperatorTok{$}\NormalTok{dates), }\StringTok{"%y/%m/%d"}\NormalTok{)}\OperatorTok{<=}\NormalTok{dayfin)}
+\NormalTok{micro_shd<-}\KeywordTok{subset}\NormalTok{(micro_shd_all, }\KeywordTok{format}\NormalTok{(}\KeywordTok{as.POSIXlt}\NormalTok{(micro_shd_all}\OperatorTok{$}\NormalTok{dates), }\StringTok{"%y/%m/%d"}\NormalTok{)}\OperatorTok{>=}\NormalTok{daystart }\OperatorTok{&}\StringTok{ }\KeywordTok{format}\NormalTok{(}\KeywordTok{as.POSIXlt}\NormalTok{(micro_shd_all}\OperatorTok{$}\NormalTok{dates), }\StringTok{"%y/%m/%d"}\NormalTok{)}\OperatorTok{<=}\NormalTok{dayfin)}
+\NormalTok{days<-}\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{as.POSIXlt}\NormalTok{(dayfin)}\OperatorTok{-}\KeywordTok{as.POSIXlt}\NormalTok{(daystart))}
+
+\CommentTok{# create time vectors}
+\NormalTok{time<-}\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,(days}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\DecValTok{60}\OperatorTok{*}\DecValTok{24}\NormalTok{,}\DecValTok{60}\NormalTok{) }\CommentTok{#60 minute intervals from microclimate output}
+\NormalTok{time<-time[}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{times2<-}\KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,(days}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{*}\DecValTok{60}\OperatorTok{*}\DecValTok{24}\NormalTok{,}\DecValTok{2}\NormalTok{) }\CommentTok{#two minute intervals for prediction}
+\NormalTok{time<-time}\OperatorTok{*}\DecValTok{60} \CommentTok{# minutes to seconds}
+\NormalTok{times2<-times2}\OperatorTok{*}\DecValTok{60} \CommentTok{# minutes to seconds}
+
+\CommentTok{# apply interpolation functions}
+\NormalTok{velfun<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_sun[,}\DecValTok{5}\NormalTok{], }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Zenfun<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_sun[,}\DecValTok{7}\NormalTok{], }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Qsolfun_sun<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_sun[,}\DecValTok{8}\NormalTok{], }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Tradfun_sun<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, }\KeywordTok{rowMeans}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(micro_sun[,}\DecValTok{6}\NormalTok{],micro_sun[,}\DecValTok{9}\NormalTok{])), }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Tairfun_sun<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_sun[,}\DecValTok{4}\NormalTok{], }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Qsolfun_shd<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_shd[,}\DecValTok{8}\NormalTok{]}\OperatorTok{*}\NormalTok{.}\DecValTok{1}\NormalTok{, }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Tradfun_shd<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, }\KeywordTok{rowMeans}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(micro_shd[,}\DecValTok{6}\NormalTok{],micro_shd[,}\DecValTok{9}\NormalTok{])), }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+\NormalTok{Tairfun_shd<-}\StringTok{ }\KeywordTok{approxfun}\NormalTok{(time, micro_shd[,}\DecValTok{4}\NormalTok{], }\DataTypeTok{rule =} \DecValTok{2}\NormalTok{)}
+
+\CommentTok{# upper and lower activity thermal limits}
+\NormalTok{VTMIN<-}\StringTok{ }\DecValTok{26} 
+\NormalTok{VTMAX<-}\StringTok{ }\DecValTok{35}  
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Read in DEB parameters}\label{read-in-deb-parameters}
+
+Source \texttt{DEB\_pars\_Tiliqua\_rugosa.csv} from
+\href{\%22https://github.com/darwinanddavis/MalishevBullKearney\%22}{\textbf{Github}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# *************************** read in DEB parameters ***************************}
+
+\NormalTok{debpars=}\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{read.csv}\NormalTok{(}\StringTok{'DEB_pars_Tiliqua_rugosa.csv'}\NormalTok{,}\DataTypeTok{header=}\OtherTok{FALSE}\NormalTok{))}\OperatorTok{$}\NormalTok{V1 }\CommentTok{# read in DEB pars}
+
+\CommentTok{# set core parameters}
+\NormalTok{z=debpars[}\DecValTok{8}\NormalTok{] }\CommentTok{# zoom factor (cm)}
+\NormalTok{F_m =}\StringTok{ }\DecValTok{13290} \CommentTok{# max spec searching rate (l/h.cm^2)}
+\NormalTok{kap_X=debpars[}\DecValTok{11}\NormalTok{] }\CommentTok{# digestion efficiency of food to reserve (-)}
+\NormalTok{v=debpars[}\DecValTok{13}\NormalTok{] }\CommentTok{# energy conductance (cm/h)}
+\NormalTok{kap=debpars[}\DecValTok{14}\NormalTok{] }\CommentTok{# kappa, fraction of mobilised reserve to growth/maintenance (-)}
+\NormalTok{kap_R=debpars[}\DecValTok{15}\NormalTok{] }\CommentTok{# reproduction efficiency (-)}
+\NormalTok{p_M=debpars[}\DecValTok{16}\NormalTok{] }\CommentTok{# specific somatic maintenance (J/cm3)}
+\NormalTok{k_J=debpars[}\DecValTok{18}\NormalTok{] }\CommentTok{# maturity maint rate coefficient (1/h)}
+\NormalTok{E_G=debpars[}\DecValTok{19}\NormalTok{] }\CommentTok{# specific cost for growth (J/cm3)}
+\NormalTok{E_Hb=debpars[}\DecValTok{20}\NormalTok{] }\CommentTok{# maturity at birth (J)}
+\NormalTok{E_Hp=debpars[}\DecValTok{21}\NormalTok{] }\CommentTok{# maturity at puberty (J)}
+\NormalTok{h_a=debpars[}\DecValTok{22}\NormalTok{]}\OperatorTok{*}\DecValTok{10}\OperatorTok{^-}\DecValTok{1} \CommentTok{# Weibull aging acceleration (1/h^2)}
+\NormalTok{s_G=debpars[}\DecValTok{23}\NormalTok{] }\CommentTok{# Gompertz stress coefficient (-)}
+
+\CommentTok{# set thermal respose curve paramters}
+\NormalTok{T_REF =}\StringTok{ }\NormalTok{debpars[}\DecValTok{1}\NormalTok{]}\OperatorTok{-}\DecValTok{273}
+\NormalTok{TA =}\StringTok{ }\NormalTok{debpars[}\DecValTok{2}\NormalTok{] }\CommentTok{# Arrhenius temperature (K)}
+\NormalTok{TAL =}\StringTok{ }\NormalTok{debpars[}\DecValTok{5}\NormalTok{] }\CommentTok{# low Arrhenius temperature (K)}
+\NormalTok{TAH =}\StringTok{ }\NormalTok{debpars[}\DecValTok{6}\NormalTok{] }\CommentTok{# high Arrhenius temperature (K)}
+\NormalTok{TL =}\StringTok{ }\NormalTok{debpars[}\DecValTok{3}\NormalTok{] }\CommentTok{# low temp boundary (K)}
+\NormalTok{TH =}\StringTok{ }\NormalTok{debpars[}\DecValTok{4}\NormalTok{] }\CommentTok{# hight temp boundary (K)}
+
+\CommentTok{# set auxiliary parameters}
+\NormalTok{del_M=debpars[}\DecValTok{9}\NormalTok{] }\CommentTok{# shape coefficient (-) }
+\NormalTok{E_}\DecValTok{0}\NormalTok{=debpars[}\DecValTok{24}\NormalTok{] }\CommentTok{# energy of an egg (J)}
+\NormalTok{mh =}\StringTok{ }\DecValTok{1} \CommentTok{# survivorship of hatchling in first year}
+\NormalTok{mu_E =}\StringTok{ }\DecValTok{585000} \CommentTok{# molar Gibbs energy (chemical potential) of reserve (J/mol)}
+\NormalTok{E_sm=}\FloatTok{186.03}\OperatorTok{*}\DecValTok{6}
+\NormalTok{gutfull <-}\StringTok{ }\DecValTok{1}
+\CommentTok{# set initial state}
+\NormalTok{E_pres_init =}\StringTok{ }\NormalTok{(debpars[}\DecValTok{16}\NormalTok{]}\OperatorTok{*}\NormalTok{debpars[}\DecValTok{8}\NormalTok{]}\OperatorTok{/}\NormalTok{debpars[}\DecValTok{14}\NormalTok{])}\OperatorTok{/}\NormalTok{(debpars[}\DecValTok{13}\NormalTok{]) }\CommentTok{# initial reserve}
+\NormalTok{E_m <-}\StringTok{ }\NormalTok{E_pres_init}
+\NormalTok{E_H_init =}\StringTok{ }\NormalTok{debpars[}\DecValTok{21}\NormalTok{] }\OperatorTok{+}\StringTok{ }\DecValTok{5}
+
+\NormalTok{#### change inital size here by multiplying by < 0.85 ####}
+\NormalTok{V_pres_init =}\StringTok{ }\NormalTok{(debpars[}\DecValTok{26}\NormalTok{] }\OperatorTok{^}\StringTok{ }\DecValTok{3}\NormalTok{) }\OperatorTok{*}\StringTok{ }\FloatTok{0.85} 
+\NormalTok{d_V<-}\FloatTok{0.3}
+\NormalTok{mass <-}\StringTok{ }\NormalTok{V_pres_init }\OperatorTok{+}\StringTok{ }\NormalTok{V_pres_init}\OperatorTok{*}\NormalTok{E_pres_init}\OperatorTok{/}\NormalTok{mu_E}\OperatorTok{/}\NormalTok{d_V}\OperatorTok{*}\FloatTok{23.9}
+
+\CommentTok{# ***************** end TRANSIENT MODEL SETUP ***************}
+\CommentTok{# ***********************************************************}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Initialise decision-making and DEB
+models}\label{initialise-decision-making-and-deb-models}
+
+Source Netlogo model from
+\href{\%22https://github.com/darwinanddavis/MalishevBullKearney\%22}{\textbf{Github}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# ********************** start NETLOGO SIMULATION  ***********************}
+
+\NormalTok{nl.path<-}\StringTok{ "<dir path to Netlogo program>"}
+\KeywordTok{NLStart}\NormalTok{(nl.path)}
+\NormalTok{model.path<-}\StringTok{ "<dir path to Netlogo model>"}
+\KeywordTok{NLLoadModel}\NormalTok{(model.path)}
+
+\CommentTok{# ************************ setup NETLOGO MODEL *************************}
+
+\CommentTok{# 1. update animal and env traits}
+\NormalTok{month<-}\StringTok{"sep"}
+\NormalTok{NL_days<-}\DecValTok{117}       \CommentTok{# No. of days simulated}
+\NormalTok{NL_gutthresh<-}\FloatTok{0.75}
+\NormalTok{gutfull<-}\FloatTok{0.8}
+
+\CommentTok{# set resource density}
+\ControlFlowTok{if}\NormalTok{(density}\OperatorTok{==}\StringTok{"high"}\NormalTok{)\{}
+\NormalTok{    NL_shade<-100000L       }\CommentTok{# Shade patches}
+\NormalTok{    NL_food<-100000L         }\CommentTok{# Food patches}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{ }
+\NormalTok{    NL_shade<-1000L     }\CommentTok{# Shade patches}
+\NormalTok{    NL_food<-1000L  }\CommentTok{# Food patches}
+\NormalTok{\}}
+
+\CommentTok{# 2. update initial conditions for DEB model }
+\NormalTok{Es_pres_init<-(E_sm}\OperatorTok{*}\NormalTok{gutfull)}\OperatorTok{*}\NormalTok{V_pres_init}
+\NormalTok{acthr<-}\DecValTok{1}
+\NormalTok{Tb_init<-}\DecValTok{20}
+\NormalTok{step =}\StringTok{ }\DecValTok{1}\OperatorTok{/}\DecValTok{24}
+\NormalTok{debout<-}\KeywordTok{DEB}\NormalTok{(}\DataTypeTok{step =}\NormalTok{ step, }\DataTypeTok{z =}\NormalTok{ z, }\DataTypeTok{del_M =}\NormalTok{ del_M, }\DataTypeTok{F_m =}\NormalTok{ F_m }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{kap_X =}\NormalTok{ kap_X, }\DataTypeTok{v =}\NormalTok{ v }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{kap =}\NormalTok{ kap, }\DataTypeTok{p_M =}\NormalTok{ p_M }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{E_G =}\NormalTok{ E_G, }\DataTypeTok{kap_R =}\NormalTok{ kap_R, }\DataTypeTok{k_J =}\NormalTok{ k_J }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{E_Hb =}\NormalTok{ E_Hb, }
+    \DataTypeTok{E_Hj =}\NormalTok{ E_Hb, }\DataTypeTok{E_Hp =}\NormalTok{ E_Hp, }\DataTypeTok{h_a =}\NormalTok{ h_a}\OperatorTok{/}\NormalTok{(step}\OperatorTok{^}\DecValTok{2}\NormalTok{), }\DataTypeTok{s_G =}\NormalTok{ s_G, }
+    \DataTypeTok{T_REF =}\NormalTok{ T_REF, }\DataTypeTok{TA =}\NormalTok{ TA, }\DataTypeTok{TAL =}\NormalTok{ TAL, }\DataTypeTok{TAH =}\NormalTok{ TAH, }\DataTypeTok{TL =}\NormalTok{ TL, }
+    \DataTypeTok{TH =}\NormalTok{ TH, }\DataTypeTok{E_0 =}\NormalTok{ E_}\DecValTok{0}\NormalTok{, }\DataTypeTok{E_pres=}\NormalTok{E_pres_init, }\DataTypeTok{V_pres=}\NormalTok{V_pres_init, }\DataTypeTok{E_H_pres=}\NormalTok{E_H_init, }\DataTypeTok{acthr =}\NormalTok{ acthr, }\DataTypeTok{breeding =} \DecValTok{1}\NormalTok{, }\DataTypeTok{Es_pres =}\NormalTok{ Es_pres_init, }\DataTypeTok{E_sm =}\NormalTok{ E_sm)}
+
+\CommentTok{# 3. calc direct movement cost}
+\NormalTok{V_pres<-debout[}\DecValTok{2}\NormalTok{]}
+\NormalTok{step<-}\DecValTok{1}\OperatorTok{/}\DecValTok{24} \CommentTok{#hourly}
+
+\NormalTok{p_M2<-p_M}\OperatorTok{*}\NormalTok{step }\CommentTok{#J/h}
+\NormalTok{p_M2<-p_M2}\OperatorTok{*}\NormalTok{V_pres }\CommentTok{# loco cost * structure}
+\KeywordTok{names}\NormalTok{(p_M2)<-}\OtherTok{NULL} \CommentTok{# remove V_pres name attribute from p_M}
+
+\CommentTok{# movement cost for time period}
+\NormalTok{VO2<-}\FloatTok{0.45} \CommentTok{# O2/g/h JohnAdler etal 1986}
+
+\CommentTok{# multiple p_M by structure = movement cost (diff between p_M with loco cost and structure for movement period)}
+\CommentTok{# p_M with loco cost }
+\NormalTok{loco<-VO2}\OperatorTok{*}\NormalTok{mass}\OperatorTok{*}\FloatTok{20.1} \CommentTok{# convert ml O2 to J = J/h }
+\NormalTok{loco<-loco}\OperatorTok{+}\NormalTok{p_M2 }\CommentTok{# add to p_M = J/h}
+\NormalTok{loco<-loco}\OperatorTok{/}\DecValTok{30}\OperatorTok{/}\NormalTok{V_pres ; loco }\CommentTok{#J/cm3/2min}
+
+\NormalTok{Es_pres_init<-(E_sm}\OperatorTok{*}\NormalTok{gutfull)}\OperatorTok{*}\NormalTok{V_pres_init}
+\NormalTok{X_food<-}\DecValTok{3000}
+\NormalTok{V_pres<-debout[}\DecValTok{2}\NormalTok{]}
+\NormalTok{wetgonad<-debout[}\DecValTok{19}\NormalTok{]}
+\NormalTok{wetstorage<-debout[}\DecValTok{20}\NormalTok{]}
+\NormalTok{wetfood<-debout[}\DecValTok{21}\NormalTok{]}
+\NormalTok{ctminthresh<-}\DecValTok{120000}
+\NormalTok{Tairfun<-Tairfun_shd}
+\NormalTok{Tc_init<-}\KeywordTok{Tairfun}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{+}\FloatTok{0.1} \CommentTok{# Initial core temperature}
+
+\NormalTok{NL_T_b<-Tc_init       }\CommentTok{# Initial T_b}
+\NormalTok{NL_T_b_min<-VTMIN         }\CommentTok{# Min foraging T_b}
+\NormalTok{NL_T_b_max<-VTMAX        }\CommentTok{# Max foraging T_b}
+\NormalTok{NL_ctminthresh<-ctminthresh }\CommentTok{# No. of consecutive hours below CTmin that leads to death}
+\NormalTok{NL_reserve<-E_m        }\CommentTok{# Initial reserve density}
+\NormalTok{NL_max_reserve<-E_m    }\CommentTok{# Maximum reserve level}
+\NormalTok{NL_maint<-}\KeywordTok{round}\NormalTok{(p_M, }\DecValTok{3}\NormalTok{)               }\CommentTok{# Maintenance cost}
+\NormalTok{NL_move<-}\KeywordTok{round}\NormalTok{(loco, }\DecValTok{3}\NormalTok{)               }\CommentTok{# Movement cost}
+\NormalTok{NL_zen<-}\KeywordTok{Zenfun}\NormalTok{(}\DecValTok{1}\OperatorTok{*}\DecValTok{60}\OperatorTok{*}\DecValTok{60}\NormalTok{)     }\CommentTok{# Zenith angle}
+
+\NormalTok{strategy<-}\ControlFlowTok{function}\NormalTok{(strategy)\{ }\CommentTok{# set movement strategy }
+  \ControlFlowTok{if}\NormalTok{ (strategy }\OperatorTok{==}\StringTok{ "O"}\NormalTok{)\{}
+    \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set strategy }\CharTok{\textbackslash{}"}\StringTok{Optimising}\CharTok{\textbackslash{}"}\StringTok{ "}\NormalTok{) }
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+    \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set strategy }\CharTok{\textbackslash{}"}\StringTok{Satisficing}\CharTok{\textbackslash{}"}\StringTok{ "}\NormalTok{) }
+\NormalTok{    \}}
+\NormalTok{  \}}
+\KeywordTok{strategy}\NormalTok{(}\StringTok{"O"}\NormalTok{) }\CommentTok{# "S"}
+
+\NormalTok{shadedens<-}\ControlFlowTok{function}\NormalTok{(shadedens)\{ }\CommentTok{# set movement strategy }
+  \ControlFlowTok{if}\NormalTok{ (shadedens }\OperatorTok{==}\StringTok{ "Random"}\NormalTok{)\{}
+    \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set Shade-density }\CharTok{\textbackslash{}"}\StringTok{Random}\CharTok{\textbackslash{}"}\StringTok{ "}\NormalTok{) }
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+    \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set Shade-density }\CharTok{\textbackslash{}"}\StringTok{Clumped}\CharTok{\textbackslash{}"}\StringTok{ "}\NormalTok{) }
+\NormalTok{    \}}
+\NormalTok{  \}}
+\KeywordTok{shadedens}\NormalTok{(}\StringTok{"Clumped"}\NormalTok{) }\CommentTok{# set clumped resources}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Run simulation}\label{run-simulation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sc<-}\DecValTok{1} \CommentTok{# set no. of desired simualations---for automating writing of each sim results to file. N = N runs}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{sc)\{ }\CommentTok{# start sc sim loop}
+
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set Shade-patches"}\NormalTok{,NL_shade,}\StringTok{"set Food-patches"}\NormalTok{,NL_food,}\StringTok{"set No.-of-days"}\NormalTok{,NL_days,}\StringTok{"set T_b precision"}\NormalTok{,}
+\NormalTok{NL_T_b, }\StringTok{"2"}\NormalTok{,}\StringTok{"set T_opt_lower precision"}\NormalTok{, NL_T_b_min, }\StringTok{"2"}\NormalTok{,}\StringTok{"set T_opt_upper precision"}\NormalTok{, NL_T_b_max, }\StringTok{"2"}\NormalTok{,}
+\StringTok{"set reserve-level"}\NormalTok{, NL_reserve, }\StringTok{"set Maximum-reserve"}\NormalTok{, NL_max_reserve, }\StringTok{"set Maintenance-cost"}\NormalTok{, NL_maint,}
+\StringTok{"set Movement-cost precision"}\NormalTok{, NL_move, }\StringTok{"3"}\NormalTok{, }\StringTok{"set zenith"}\NormalTok{, NL_zen, }\StringTok{"set ctminthresh"}\NormalTok{, NL_ctminthresh, }
+\StringTok{"set gutthresh"}\NormalTok{, NL_gutthresh, }\StringTok{'set gutfull'}\NormalTok{, gutfull, }\StringTok{'set V_pres precision'}\NormalTok{, V_pres, }\StringTok{"5"}\NormalTok{, }\StringTok{'set wetstorage precision'}\NormalTok{, wetstorage, }\StringTok{"5"}\NormalTok{, }
+\StringTok{'set wetfood precision'}\NormalTok{, wetfood, }\StringTok{"5"}\NormalTok{, }\StringTok{'set wetgonad precision'}\NormalTok{, wetgonad, }\StringTok{"5"}\NormalTok{,}\StringTok{"setup"}\NormalTok{)}
+
+\CommentTok{#NLCommand("inspect turtle 0")}
+
+\NormalTok{NL_ticks<-NL_days }\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{60} \OperatorTok{/}\StringTok{ }\DecValTok{24}\NormalTok{) }\CommentTok{# No. of NL ticks (measurement of days)}
+\NormalTok{NL_T_opt_l<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[T_opt_lower] of turtle 0"}\NormalTok{)}
+\NormalTok{NL_T_opt_u<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[T_opt_upper] of turtle 0"}\NormalTok{)}
+
+\CommentTok{# data frame setup for homerange polygon}
+\NormalTok{turtles<-}\KeywordTok{data.frame}\NormalTok{() }\CommentTok{# make an empty data frame}
+\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[X] of turtle 0"}\NormalTok{); }\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[Y] of turtle 0"}\NormalTok{)}
+\NormalTok{who<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[who] of turtle 0"}\NormalTok{)}
+
+\CommentTok{# ************************************************************************}
+\CommentTok{# ******************** start NETLOGO SIMULATION  *************************}
+
+\NormalTok{debcall<-}\DecValTok{0} \CommentTok{# check for first call to DEB}
+\NormalTok{stepcount<-}\DecValTok{0} \CommentTok{# DEB model step count}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{NL_ticks)\{}
+\NormalTok{stepcount<-stepcount}\OperatorTok{+}\DecValTok{1}
+\KeywordTok{NLDoCommand}\NormalTok{(}\DecValTok{1}\NormalTok{, }\StringTok{"go"}\NormalTok{)}
+
+\NormalTok{######### Reporting presence of shade}
+\NormalTok{shade<-}\KeywordTok{NLGetAgentSet}\NormalTok{(}\StringTok{"in-shade?"}\NormalTok{,}\StringTok{"turtles"}\NormalTok{, }\DataTypeTok{as.data.frame=}\NormalTok{T); shade<-}\KeywordTok{as.numeric}\NormalTok{(shade) }\CommentTok{# returns an agentset of whether turtle is currently on shade patch}
+
+\CommentTok{# choose sun or shade}
+\NormalTok{tick<-i}
+\NormalTok{times3<-}\KeywordTok{c}\NormalTok{(times2[tick],times2[tick}\OperatorTok{+}\DecValTok{1}\NormalTok{])}
+
+\ControlFlowTok{if}\NormalTok{(shade}\OperatorTok{==}\DecValTok{0}\NormalTok{)\{}
+\NormalTok{  Qsolfun<-Qsolfun_sun}
+\NormalTok{  Tradfun<-Tradfun_sun}
+\NormalTok{  Tairfun<-Tairfun_sun}
+\NormalTok{\}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{  Qsolfun<-Qsolfun_shd}
+\NormalTok{  Tradfun<-Tradfun_shd}
+\NormalTok{  Tairfun<-Tairfun_shd}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{(i}\OperatorTok{==}\DecValTok{1}\NormalTok{)\{}
+\NormalTok{Tc_init<-}\KeywordTok{Tairfun}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{+}\FloatTok{0.1} \CommentTok{#initial core temperature}
+\NormalTok{\}}
+
+\CommentTok{# one_lump_trans params}
+\NormalTok{Qsol<-}\KeywordTok{Qsolfun}\NormalTok{(}\KeywordTok{mean}\NormalTok{(times3)); Qsol}
+\NormalTok{vel<-}\KeywordTok{velfun}\NormalTok{(}\KeywordTok{mean}\NormalTok{(times3)) ;vel}
+\NormalTok{Tair<-}\KeywordTok{Tairfun}\NormalTok{(}\KeywordTok{mean}\NormalTok{(times3));Tair}
+\NormalTok{Trad<-}\KeywordTok{Tradfun}\NormalTok{(}\KeywordTok{mean}\NormalTok{(times3)); Trad}
+\NormalTok{Zen<-}\KeywordTok{Zenfun}\NormalTok{(}\KeywordTok{mean}\NormalTok{(times3)); Zen}
+
+\CommentTok{# calc Tb params at 2 mins interval}
+\NormalTok{Tbs<-}\KeywordTok{onelump_varenv}\NormalTok{(}\DataTypeTok{t=}\DecValTok{120}\NormalTok{,}\DataTypeTok{time=}\NormalTok{times3[}\DecValTok{2}\NormalTok{],}\DataTypeTok{Tc_init=}\NormalTok{Tc_init,}\DataTypeTok{thresh =} \DecValTok{30}\NormalTok{, }\DataTypeTok{AMASS =}\NormalTok{ mass, }\DataTypeTok{lometry =} \DecValTok{3}\NormalTok{, }\DataTypeTok{Tairf=}\NormalTok{Tairfun,}\DataTypeTok{Tradf=}\NormalTok{Tradfun,}\DataTypeTok{velf=}\NormalTok{velfun,}\DataTypeTok{Qsolf=}\NormalTok{Qsolfun,}\DataTypeTok{Zenf=}\NormalTok{Zenfun)}
+\NormalTok{Tb<-Tbs}\OperatorTok{$}\NormalTok{Tc}
+\NormalTok{rate<-Tbs}\OperatorTok{$}\NormalTok{dTc}
+\NormalTok{Tc_init<-Tb}
+
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set T_b precision"}\NormalTok{, Tb, }\StringTok{"2"}\NormalTok{) }\CommentTok{# Updating Tb}
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set zenith"}\NormalTok{, }\KeywordTok{Zenfun}\NormalTok{(times3[}\DecValTok{2}\NormalTok{])) }\CommentTok{# Updating zenith}
+
+\CommentTok{# time spent below VTMIN}
+\NormalTok{ctminhours<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[ctmincount] of turtle 0"}\NormalTok{) }\OperatorTok{*}\StringTok{ }\DecValTok{2}\OperatorTok{/}\DecValTok{60} \CommentTok{# ticks to hours}
+\ControlFlowTok{if}\NormalTok{ (ctminhours }\OperatorTok{==}\StringTok{ }\NormalTok{NL_ctminthresh) \{}\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"ask turtle 0 [stop]"}\NormalTok{)\}}
+
+\CommentTok{# ******************** start DEB SIMULATION  ****************************}
+
+\ControlFlowTok{if}\NormalTok{(stepcount}\OperatorTok{==}\DecValTok{1}\NormalTok{) \{ }\CommentTok{# run DEB loop every time step (2 mins)}
+\NormalTok{stepcount<-}\DecValTok{0}
+
+\CommentTok{# report activity state}
+\NormalTok{actstate<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[activity-state] of turtle 0"}\NormalTok{)}
+ \CommentTok{# Reports true if turtle is in food }
+\NormalTok{actfeed<-}\KeywordTok{NLGetAgentSet}\NormalTok{(}\StringTok{"in-food?"}\NormalTok{,}\StringTok{"turtles"}\NormalTok{, }\DataTypeTok{as.data.frame=}\NormalTok{T); actfeed<-}\KeywordTok{as.numeric}\NormalTok{(actfeed)}
+ 
+\NormalTok{n<-}\DecValTok{1} \CommentTok{# time steps}
+\NormalTok{step<-}\DecValTok{2}\OperatorTok{/}\DecValTok{1440} \CommentTok{# step size (2 mins). For hourly: 1/24}
+\CommentTok{# update direct movement cost}
+\ControlFlowTok{if}\NormalTok{(actstate }\OperatorTok{==}\StringTok{ "S"}\NormalTok{)\{}
+    \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set Movement-cost"}\NormalTok{, NL_move)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+        \KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set Movement-cost"}\NormalTok{, }\FloatTok{1e-09}\NormalTok{)}
+\NormalTok{        \} }
+\CommentTok{# if within activity range, it's daytime, and gut below threshold }
+\ControlFlowTok{if}\NormalTok{(Tbs}\OperatorTok{$}\NormalTok{Tc}\OperatorTok{>=}\NormalTok{VTMIN }\OperatorTok{&}\StringTok{ }\NormalTok{Tbs}\OperatorTok{$}\NormalTok{Tc}\OperatorTok{<=}\NormalTok{VTMAX }\OperatorTok{&}\StringTok{ }\NormalTok{Zen}\OperatorTok{!=}\DecValTok{90} \OperatorTok{&}\StringTok{ }\NormalTok{gutfull}\OperatorTok{<=}\NormalTok{NL_gutthresh)\{ }
+\NormalTok{  acthr=}\DecValTok{1} \CommentTok{# activity state = 1 }
+\ControlFlowTok{if}\NormalTok{(actfeed}\OperatorTok{==}\DecValTok{1}\NormalTok{)\{ }\CommentTok{# if in food patch}
+\NormalTok{    X_food<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[energy-gain] of turtle 0"}\NormalTok{) }\CommentTok{# report joules intake}
+\NormalTok{    \}}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        X_food =}\StringTok{ }\DecValTok{0} 
+\NormalTok{        acthr=}\DecValTok{0}
+\NormalTok{        \}}
+
+\CommentTok{# calculate DEB output }
+\ControlFlowTok{if}\NormalTok{(debcall}\OperatorTok{==}\DecValTok{0}\NormalTok{)\{}
+    \CommentTok{# initialise DEB}
+\NormalTok{    debout<-}\KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \DecValTok{0}\NormalTok{, }\DataTypeTok{nrow =}\NormalTok{ n, }\DataTypeTok{ncol =} \DecValTok{26}\NormalTok{)}
+\NormalTok{    deb.names<-}\KeywordTok{c}\NormalTok{(}\StringTok{"E_pres"}\NormalTok{,}\StringTok{"V_pres"}\NormalTok{,}\StringTok{"E_H_pres"}\NormalTok{,}\StringTok{"q_pres"}\NormalTok{,}\StringTok{"hs_pres"}\NormalTok{,}\StringTok{"surviv_pres"}\NormalTok{,}\StringTok{"Es_pres"}\NormalTok{,}\StringTok{"cumrepro"}\NormalTok{,}\StringTok{"cumbatch"}\NormalTok{,}\StringTok{"p_B_past"}\NormalTok{,}\StringTok{"O2FLUX"}\NormalTok{,}\StringTok{"CO2FLUX"}\NormalTok{,}\StringTok{"MLO2"}\NormalTok{,}\StringTok{"GH2OMET"}\NormalTok{,}\StringTok{"DEBQMET"}\NormalTok{,}\StringTok{"DRYFOOD"}\NormalTok{,}\StringTok{"FAECES"}\NormalTok{,}\StringTok{"NWASTE"}\NormalTok{,}\StringTok{"wetgonad"}\NormalTok{,}\StringTok{"wetstorage"}\NormalTok{,}\StringTok{"wetfood"}\NormalTok{,}\StringTok{"wetmass"}\NormalTok{,}\StringTok{"gutfreemass"}\NormalTok{,}\StringTok{"gutfull"}\NormalTok{,}\StringTok{"fecundity"}\NormalTok{,}\StringTok{"clutches"}\NormalTok{)}
+    \KeywordTok{colnames}\NormalTok{(debout)<-deb.names}
+    \CommentTok{# initial conditions}
+\NormalTok{    debout<-}\KeywordTok{DEB}\NormalTok{(}\DataTypeTok{E_pres=}\NormalTok{E_pres_init, }\DataTypeTok{V_pres=}\NormalTok{V_pres_init, }\DataTypeTok{E_H_pres=}\NormalTok{E_H_init, }\DataTypeTok{acthr =}\NormalTok{ acthr, }\DataTypeTok{Tb =}\NormalTok{ Tb_init, }\DataTypeTok{breeding =} \DecValTok{1}\NormalTok{, }\DataTypeTok{Es_pres =}\NormalTok{ Es_pres_init, }\DataTypeTok{E_sm =}\NormalTok{ E_sm, }\DataTypeTok{step =}\NormalTok{ step, z, }\DataTypeTok{del_M =}\NormalTok{ del_M, }\DataTypeTok{F_m =}\NormalTok{ F_m }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{kap_X =}\NormalTok{ kap_X, }\DataTypeTok{v =}\NormalTok{ v }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{kap =}\NormalTok{ kap, }\DataTypeTok{p_M =}\NormalTok{ p_M }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{E_G =}\NormalTok{ E_G, }\DataTypeTok{kap_R =}\NormalTok{ kap_R, }\DataTypeTok{k_J =}\NormalTok{ k_J }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{E_Hb =}\NormalTok{ E_Hb, }
+    \DataTypeTok{E_Hj =}\NormalTok{ E_Hb, }\DataTypeTok{E_Hp =}\NormalTok{ E_Hp, }\DataTypeTok{h_a =}\NormalTok{ h_a}\OperatorTok{/}\NormalTok{(step}\OperatorTok{^}\DecValTok{2}\NormalTok{), }\DataTypeTok{s_G =}\NormalTok{ s_G, }
+    \DataTypeTok{T_REF =}\NormalTok{ T_REF, }\DataTypeTok{TA =}\NormalTok{ TA, }\DataTypeTok{TAL =}\NormalTok{ TAL, }\DataTypeTok{TAH =}\NormalTok{ TAH, }\DataTypeTok{TL =}\NormalTok{ TL, }
+    \DataTypeTok{TH =}\NormalTok{ TH, }\DataTypeTok{E_0 =}\NormalTok{ E_}\DecValTok{0}\NormalTok{)}
+\NormalTok{    debcall<-}\DecValTok{1}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        debout<-}\KeywordTok{DEB}\NormalTok{(}\DataTypeTok{step =}\NormalTok{ step, }\DataTypeTok{z =}\NormalTok{ z, }\DataTypeTok{del_M =}\NormalTok{ del_M, }\DataTypeTok{F_m =}\NormalTok{ F_m }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{kap_X =}\NormalTok{ kap_X, }\DataTypeTok{v =}\NormalTok{ v }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{kap =}\NormalTok{ kap, }\DataTypeTok{p_M =}\NormalTok{ p_M }\OperatorTok{*}\StringTok{ }
+\StringTok{    }\NormalTok{step, }\DataTypeTok{E_G =}\NormalTok{ E_G, }\DataTypeTok{kap_R =}\NormalTok{ kap_R, }\DataTypeTok{k_J =}\NormalTok{ k_J }\OperatorTok{*}\StringTok{ }\NormalTok{step, }\DataTypeTok{E_Hb =}\NormalTok{ E_Hb, }
+    \DataTypeTok{E_Hj =}\NormalTok{ E_Hb, }\DataTypeTok{E_Hp =}\NormalTok{ E_Hp, }\DataTypeTok{h_a =}\NormalTok{ h_a}\OperatorTok{/}\NormalTok{(step}\OperatorTok{^}\DecValTok{2}\NormalTok{), }\DataTypeTok{s_G =}\NormalTok{ s_G, }
+    \DataTypeTok{T_REF =}\NormalTok{ T_REF, }\DataTypeTok{TA =}\NormalTok{ TA, }\DataTypeTok{TAL =}\NormalTok{ TAL, }\DataTypeTok{TAH =}\NormalTok{ TAH, }\DataTypeTok{TL =}\NormalTok{ TL, }
+    \DataTypeTok{TH =}\NormalTok{ TH, }\DataTypeTok{E_0 =}\NormalTok{ E_}\DecValTok{0}\NormalTok{, }
+          \DataTypeTok{X=}\NormalTok{X_food,}\DataTypeTok{acthr =}\NormalTok{ acthr, }\DataTypeTok{Tb =}\NormalTok{ Tbs}\OperatorTok{$}\NormalTok{Tc, }\DataTypeTok{breeding =} \DecValTok{1}\NormalTok{, }\DataTypeTok{E_sm =}\NormalTok{ E_sm, }\DataTypeTok{E_pres=}\NormalTok{debout[}\DecValTok{1}\NormalTok{],}\DataTypeTok{V_pres=}\NormalTok{debout[}\DecValTok{2}\NormalTok{],}\DataTypeTok{E_H_pres=}\NormalTok{debout[}\DecValTok{3}\NormalTok{],}\DataTypeTok{q_pres=}\NormalTok{debout[}\DecValTok{4}\NormalTok{],}\DataTypeTok{hs_pres=}\NormalTok{debout[}\DecValTok{5}\NormalTok{],}\DataTypeTok{surviv_pres=}\NormalTok{debout[}\DecValTok{6}\NormalTok{],}\DataTypeTok{Es_pres=}\NormalTok{debout[}\DecValTok{7}\NormalTok{],}\DataTypeTok{cumrepro=}\NormalTok{debout[}\DecValTok{8}\NormalTok{],}\DataTypeTok{cumbatch=}\NormalTok{debout[}\DecValTok{9}\NormalTok{],}\DataTypeTok{p_B_past=}\NormalTok{debout[}\DecValTok{10}\NormalTok{])}
+\NormalTok{        \}}
+\NormalTok{mass<-debout[}\DecValTok{22}\NormalTok{]}
+\NormalTok{gutfull<-debout[}\DecValTok{24}\NormalTok{]}
+\NormalTok{NL_reserve<-debout[}\DecValTok{1}\NormalTok{]}
+\NormalTok{V_pres<-debout[}\DecValTok{2}\NormalTok{]}
+\NormalTok{wetgonad<-debout[}\DecValTok{19}\NormalTok{]}
+\NormalTok{wetstorage<-debout[}\DecValTok{20}\NormalTok{]}
+\NormalTok{wetfood<-debout[}\DecValTok{21}\NormalTok{] }
+
+\CommentTok{#update NL wetmass properties }
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set V_pres precision"}\NormalTok{, V_pres, }\StringTok{"5"}\NormalTok{)}
+\KeywordTok{NLDoCommand}\NormalTok{(}\StringTok{"plot xcor ycor"}\NormalTok{)}
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set wetgonad precision"}\NormalTok{, wetgonad, }\StringTok{"5"}\NormalTok{)}
+\KeywordTok{NLDoCommand}\NormalTok{(}\StringTok{"plot xcor ycor"}\NormalTok{)}
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set wetstorage precision"}\NormalTok{, wetstorage, }\StringTok{"5"}\NormalTok{)}
+\KeywordTok{NLDoCommand}\NormalTok{(}\StringTok{"plot xcor ycor"}\NormalTok{)}
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set wetfood precision"}\NormalTok{, wetfood, }\StringTok{"5"}\NormalTok{)}
+\KeywordTok{NLDoCommand}\NormalTok{(}\StringTok{"plot xcor ycor"}\NormalTok{) }
+ 
+
+\NormalTok{\} }\CommentTok{#--- end DEB loop}
+
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set reserve-level"}\NormalTok{, NL_reserve) }\CommentTok{# update reserve}
+\KeywordTok{NLCommand}\NormalTok{(}\StringTok{"set gutfull"}\NormalTok{, debout[}\DecValTok{24}\NormalTok{])}\CommentTok{# update gut level}
+
+\CommentTok{# ******************** end DEB SIMULATION *************************}
+
+\CommentTok{# generate results, with V_pres, wetgonad, wetstorage, and wetfood from debout}
+\ControlFlowTok{if}\NormalTok{(i}\OperatorTok{==}\DecValTok{1}\NormalTok{)\{}
+\NormalTok{    results<-}\KeywordTok{cbind}\NormalTok{(tick,Tb,rate,shade,V_pres,wetgonad,wetstorage,wetfood,NL_reserve) }
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        results<-}\KeywordTok{rbind}\NormalTok{(results,}\KeywordTok{c}\NormalTok{(tick,Tb,rate,shade,V_pres,wetgonad,wetstorage,wetfood,NL_reserve))}
+\NormalTok{        \}}
+\NormalTok{results<-}\KeywordTok{as.data.frame}\NormalTok{(results)}
+
+\CommentTok{# generate data frames for homerange polygon}
+\ControlFlowTok{if}\NormalTok{ (tick }\OperatorTok{==}\StringTok{ }\NormalTok{NL_ticks }\OperatorTok{-}\StringTok{ }\DecValTok{1}\NormalTok{)\{}
+\NormalTok{    X<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[X] of turtle 0"}\NormalTok{); }\KeywordTok{head}\NormalTok{(X)}
+\NormalTok{    Y<-}\KeywordTok{NLReport}\NormalTok{(}\StringTok{"[Y] of turtle 0"}\NormalTok{); }\KeywordTok{head}\NormalTok{(Y)}
+\NormalTok{    turtles<-}\KeywordTok{data.frame}\NormalTok{(X,Y)}
+\NormalTok{    who1<-}\KeywordTok{rep}\NormalTok{(who,NL_ticks); who }\CommentTok{# who1<-rep(who,NL_ticks - 1); who }
+\NormalTok{    turtledays<-}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\NormalTok{NL_days,}\DataTypeTok{length.out=}\NormalTok{NL_ticks,}\DataTypeTok{each=}\DecValTok{720}\NormalTok{) }
+\NormalTok{    turtle<-}\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{ID =}\NormalTok{ who1,}\DataTypeTok{days=}\NormalTok{turtledays)}
+\NormalTok{    turtles<-}\KeywordTok{cbind}\NormalTok{(turtles,turtle)}
+\NormalTok{    \}}
+
+\NormalTok{\} }\CommentTok{# ************************** end NL loop *********************************}
+
+\CommentTok{# get hr data}
+\NormalTok{spdf<-}\KeywordTok{SpatialPointsDataFrame}\NormalTok{(turtles[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{], turtles[}\DecValTok{3}\NormalTok{]) }\CommentTok{# creates a spatial points data frame (adehabitatHR package)}
+\NormalTok{homerange<-}\KeywordTok{mcp}\NormalTok{(spdf,}\DataTypeTok{percent=}\DecValTok{95}\NormalTok{)}
+
+\CommentTok{# writing new results}
+\ControlFlowTok{if}\NormalTok{ (}\KeywordTok{exists}\NormalTok{(}\StringTok{"results"}\NormalTok{))\{  }\CommentTok{#if results exist}
+\NormalTok{    sc<-sc}\OperatorTok{-}\DecValTok{1} 
+\NormalTok{    nam <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"results"}\NormalTok{, sc, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{) }\CommentTok{# generate new name with added sc count}
+\NormalTok{    rass<-}\KeywordTok{assign}\NormalTok{(nam,results) }\CommentTok{#assign new name to results. call 'results1, results2 ... resultsN'}
+\NormalTok{    namh <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"turtles"}\NormalTok{, sc, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{)  }\CommentTok{#generate new name with added sc count}
+\NormalTok{    rassh<-}\KeywordTok{assign}\NormalTok{(namh,turtles) }\CommentTok{#assign new name to results. call 'results1, results2 ... resultsN'}
+\NormalTok{    nams <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"spdf"}\NormalTok{, sc, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{) }
+\NormalTok{    rasss<-}\KeywordTok{assign}\NormalTok{(nams,spdf) }
+\NormalTok{    namhr <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"homerange"}\NormalTok{, sc, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{)  }
+\NormalTok{    rasshr<-}\KeywordTok{assign}\NormalTok{(namhr,homerange) }
+
+\NormalTok{    fh<-results.path; fh}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ rass)\{}
+        \CommentTok{# export all results}
+        \KeywordTok{write.table}\NormalTok{(results,}\DataTypeTok{file=}\KeywordTok{paste}\NormalTok{(fh,nam,}\StringTok{".R"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{        \}}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ rassh)\{}
+        \CommentTok{# export turtle location data}
+        \KeywordTok{write.table}\NormalTok{(turtles,}\DataTypeTok{file=}\KeywordTok{paste}\NormalTok{(fh,namh,}\StringTok{".R"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{        \}}
+        \CommentTok{#export NL plots}
+\NormalTok{        month<-}\StringTok{"sep"}
+        \CommentTok{#spatial plot}
+\NormalTok{        sfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_move"}\NormalTok{,}\StringTok{""}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);sfh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Spatial coordinates of transition between activity states}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,sfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#temp plot }
+\NormalTok{        tfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_temp"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{)}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Body temperature (T_b)}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,tfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#activity budget}
+\NormalTok{        afh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_act"}\NormalTok{,}\StringTok{""}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);afh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Global time budget}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,afh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#text output}
+\NormalTok{        xfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_txt"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);xfh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-output }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,xfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#gut level}
+\NormalTok{        gfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_gut"}\NormalTok{,}\StringTok{""}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);gfh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Gutfull}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,gfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#wet mass }
+\NormalTok{        mfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_wetmass"}\NormalTok{,}\StringTok{""}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);mfh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Total wetmass plot}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,mfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+        \CommentTok{#movement cost (loco) }
+\NormalTok{        lfh<-}\KeywordTok{paste}\NormalTok{(month,NL_days,}\KeywordTok{round}\NormalTok{(mass,}\DecValTok{0}\NormalTok{),NL_shade,}\KeywordTok{as.integer}\NormalTok{(NL_food}\OperatorTok{*}\DecValTok{10}\NormalTok{),}\StringTok{"_"}\NormalTok{,sc,}\StringTok{"_loco"}\NormalTok{,}\StringTok{""}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{);lfh}
+        \KeywordTok{NLCommand}\NormalTok{(}\KeywordTok{paste}\NormalTok{(}\StringTok{"export-plot }\CharTok{\textbackslash{}"}\StringTok{Movement costs}\CharTok{\textbackslash{}"}\StringTok{ }\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,results.path,lfh,}\StringTok{".csv}\CharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}\DataTypeTok{sep=}\StringTok{""}\NormalTok{))}
+\NormalTok{    \}}
+\NormalTok{\} }\CommentTok{# ********************** end sc sim loop *****************************}
+
+\CommentTok{#*********************** end NETLOGO SIMULATION ****************************}
+\CommentTok{#***************************************************************************}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{Example of data output files from
+simulation}\label{example-of-data-output-files-from-simulation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# example files of results output in results.path}
+\KeywordTok{list.files}\NormalTok{(results.path)}
+\CommentTok{# [1] "results0.R"                    "sep572310001000_0_act.csv"    }
+\CommentTok{# [3] "sep572310001000_0_gut.csv"     "sep572310001000_0_loco.csv"   }
+\CommentTok{# [5] "sep572310001000_0_move.csv"    "sep572310001000_0_temp.csv"   }
+\CommentTok{# [7] "sep572310001000_0_txt.csv"     "sep572310001000_0_wetmass.csv"}
+\CommentTok{# [9] "turtles0.R"   }
+\end{Highlighting}
+\end{Shaded}
+
+\subparagraph{}\label{section-6}
+
+\section{Appendix 3}\label{appendix-3}
+
+\subsubsection{Summary of DEB parameters and primary metabolic
+pathways.}\label{summary-of-deb-parameters-and-primary-metabolic-pathways.}
+
+In DEB theory, flows of energy \((\dot{p})\) and mass \((\dot{J})\) from
+food are tracked through time to predict the individual state in terms
+of growth (structure, \(V\), i.e.~volume of body tissue built during
+growth and which requires maintenance), body condition (reserve, \(E\),
+the chemical intermediary between the transformation of food and the
+growth and maintenance of structure), and maturity (\(E_H\), the energy
+invested in increasing the maturation state, i.e.~energetic costs of
+development, all of which is dissipated) (Kooijman 2010). Temperature
+\((T)\) influences all rates according to the Arrhenius model. Food
+\((X)\) is eaten \((\dot{p_X})\) then converted \((\dot{p}_A)\) to
+reserve, which is subsequently mobilized to fuel the rest of the
+metabolism. Reserve is readily available pools of generalised compounds,
+rather than simply energy or fat storage, contained within individual
+body cells and collectively, per structural volume, measured as reserve
+density, \([E]\). Food intake scales with food density following a
+functional response \(f\) (Table 1), whereby either searching or
+handling limits individuals as \(f\) increases from 0 to 1,
+respectively. Following an allocation rule (\(\kappa\) rule), reserves
+are mobilised \((\kappa \dot{p}_C)\) to structure via the natural
+hierarchy of cell metabolism---first to somatic maintenance
+\((\dot{p}_M)\) then to growth \((\dot{p}_G)\). The remaining fixed
+fraction \(((1 - \kappa)\dot{p}_C)\) of mobilised energy \((\dot{p}_R)\)
+then fuels maturation and reproduction. Animals switch between three
+maturity stages---embryo, juvenile, and adult---defined by maturity
+thresholds representing the cumulative energy invested in maturation.
+Energy is also invested in maintenance of a given level of maturity
+\((\dot{p}_J)\) and, once reaching puberty, excess energy beyond
+maturity maintenance costs is invested in reproductive biomass
+\((\dot{p}_R)\). See Fig. 4 in Kearney et al. (2013) for a schematic
+breakdown of the above processes.
+
+In DEB theory, reserve dynamics drive metabolism. The rate of
+assimilated food into energy \(\dot{p}_A\) follows the Holling Type II
+functional response \(f\)
+
+\[
+  [\dot{p}_A] = \frac
+  {f \dot{\{p}_{Am}\}}
+  {L}
+\]
+
+where \{\(\dot{p}_{Am}\)\} is the maximum assimilation rate and the
+volumetric body length \(L \equiv V^\frac{1}{3}\). Parameters surrounded
+by square {[}*{]} and curly \{*\} parentheses are per volume and surface
+area, respectively. Energy is then mobilised from reserves with a
+constant fraction going to somatic maintenance and somatic growth
+
+\[
+  \kappa[\dot{p}_C] = \frac
+  {\dot{v}[E]}
+  {L}
+  - \dot{r}[E]
+\]
+
+where \(\dot{v}\) is energy conductance of mobilised reserve and
+\(\dot{r}\) is specific growth rate, i.e.~change in structure \(V\) over
+time
+
+\[
+  \frac 
+  {\delta V}
+  {\delta t}
+  = V\dot{r} 
+  = V \frac
+    {\frac 
+    {[E]\dot{v}}
+    {L} - \frac
+    {[\dot {p}_M]}
+    {\kappa}
+    }
+    {[E] + \frac
+    {[E_G]}
+    {\kappa}
+    }
+\]
+
+with \([\dot{p}_M]\) the somatic maintenance cost \textbf{(Eq. 5)} and
+\([E_G]\) the cost of producing structural tissue (both biomass and
+overhead costs). This relationship means growth \((\dot{r})\) dilutes
+reserve levels, measured as reserve density per volume \([E]\), as it
+rises and falls with incoming energy \([\dot{p}_A]\) minus energy used
+for metabolic processes \([\dot{p}_C]\), giving the reserve dynamics
+equation
+
+\[
+  \frac 
+  {\delta [E]}
+  {\delta t} 
+  = [\dot{p}_A] - [\dot{p}_C]
+\]
+
+\emph{Maintenance}\\
+Heat, water, and CO\textsubscript{2} are expelled as products from the
+costs of maintaining the volume \([\dot{p}_M]\) and surface
+\(\dot{\{p}_T\}\) of structure
+
+\[
+  [\dot{p}_M] 
+  = \left(
+  [\dot{p}_M] + \frac
+  {\dot{\{p}_T\}}
+  {L}
+  \right)
+\]
+
+Further costs include the overheads of reproduction, feeding (heat
+increment of \(f\)), and growth \(\dot{p}_G\), including growth overhead
+costs and tissue biomass
+
+\[
+  [\dot{p}_G] = \kappa [\dot{p}_C] - V [\dot{p}_M]
+\]
+
+while maturity maintenance \(\dot{p}_J\) from
+\((1 - \kappa)\dot{p}_C = \dot{p}_J + \dot{p}_R\), measured by energy
+dissipated as heat, contributes to maintaining the current and
+transitioning to the next maturity level
+
+\[
+  \dot{p}_J = 
+    \begin{cases}
+      E_H \dot{k}_J, & E_H ≤ E^p_H \\
+      E^p_H \dot{k}_J, & E_H > E^p_H
+    \end{cases}
+\]
+
+where \(\dot{k}_J\) is a coefficient controlling the rate of maturity
+maintenance. The organism first pays maturity maintenance and, in an
+immature individual, the remaining flux feeds further increases in
+maturity
+
+\[
+  \dot{p}_R = (1 - \kappa)\dot{p}_C - \dot{p}_J
+\]
+
+\emph{Growth}\\
+Animals grow in structural length \(L\) (\textasciitilde{} maximum
+\(L_m\)) with \(\dot{r}\) \textbf{(Eq. 3)} only after paying maintenance
+\(\dot{p}_M\); maintaining and growing cells incurs growth costs of new
+biovolume, calculated as an energy investment ratio \(g\)
+
+\[
+  g = \frac
+  {[E_G]}
+  {\kappa[E_m]}
+\]
+
+where \([E_m]\) is maximum reserve density \([E]\) when \(f = 1\).
+Reserve density \([E]\) is scaled to \(e\) to interpret changes in \(f\)
+as animals encounter food at different densities over time, giving
+
+\[
+  \frac
+    {\delta e}
+    {\delta t} 
+    = \frac
+      {\delta \frac
+        {[E]}
+        {[E_m]}
+        }
+      {\delta t}
+      = \frac
+      {\dot{v}(f - e)}
+      {L}
+\]
+
+so under steady state, i.e.~when food is constant, \(f = e\). In the
+standard DEB model, body shape remains constant (isomorphic) during
+growth. Therefore, the body surface area is proportional to volume
+\(V^\frac{2}{3}\). Following \textbf{Eq. 3} so that
+\(\frac{\delta L}{\delta V} = \frac {L\dot{r}}{3}\) given
+\(L \equiv V^\frac{1}{3}\), an isomorphic animal increases in body
+length under constant food following
+
+\[
+  \frac 
+    {\delta L}
+    {\delta t}
+    = \frac
+      {\dot{v}}
+      {3} \cdot \frac 
+        {e - \frac
+          {L}
+          {L_m}
+        }
+        {e + g}
+\]
+
+\subparagraph{}\label{section-7}
+
+\section{Figures}\label{figures}
+
+\begin{figure}
+\centering
+\includegraphics{/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S1.png}
+\caption{Figure S1. Distributions of home range area
+(km\textsuperscript{2}) of real animals (pink) and simulated optimising
+(orange) and satisficing (blue) movement strategies under (A) dense and
+(B) sparse resource distribution (food and shade). Insets (L--R): Home
+range polygons in space showing overlap of simulated satisficing (blue)
+and optimising (orange) movement strategies, and examples of (upper)
+dense and (lower) sparse resource distributions in the study site.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{/Users/malishev/Documents/Manuscripts/MalBullKearney/Resubmission/Draft 1/Supp/MalishevBullKearney_S2.png}
+\caption{Figure S2. Rates of Tb change (ºC 2 min\textsuperscript{--1})
+comparing (A) observed active (orange; \#11885) and passive (blue;
+\#11533) movement and (B) simulated optimising (orange) and satisficing
+(blue) movement for the morning hours (heating period; 06:00--12:00).
+(C) Observed active (orange) and passive (blue) movement and (D)
+simulated optimising (orange) and satisficing (blue) movement for the
+afternoon hours (cooling period; 12:00--18:00) throughout the breeding
+season. Animal graphics represent the most probable activity state of
+the animal (from Fig. 2).}
+\end{figure}
+
+\subparagraph{}\label{section-8}
+
+\section{References}\label{references}
+
+Auburn, Z. M., Bull, C. M. and Kerr G. D. (2009) The visual perceptual
+range of a lizard, \emph{Tiliqua rugosa}, Journal of Ethology, 27:
+75-81.
+
+Brown, G. W. (1991) Ecological feeding analysis of south-eastern
+Australian Scincids (Reptilia--Lacertilia), Australian Journal of
+Zoology, 39: 9-29.
+
+Kearney, M. R., Simpson, S. J., Raubenheimer, D. \& Kooijman, S. A. L.
+M. (2012) Balancing heat, water and nutrients under environmental
+change: a thermodynamic niche framework. Functional Ecology, 27(4):
+950--966.
+
+Kooijman, S.A.L.M., (2010). Dynamic Energy Budget Theory, Cambridge, UK:
+Cambridge University Press.
+
+Pamula, Y. (1997) Ecological and physiological aspects of reproduction
+in the viviparous skink \emph{Tiliqua rugosa}, Ph.D.~thesis, Flinders
+University, South Australia, Australia.
+
+\end{document}

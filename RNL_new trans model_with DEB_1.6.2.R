@@ -264,9 +264,6 @@ NLStart(nl.path)
 NLStart(nl.path, nl.jarname = paste0("netlogo-",ver,".jar"))
 model.path<- "<dir path to Netlogo model>"
 NLLoadModel(model.path)
-?NLStart
-# set results path
-results.path<- "<dir path to store result outputs>"
 
 # ****************************************** setup NETLOGO MODEL **********************************
 
