@@ -136,17 +136,22 @@ JGR()
 p<-c("rJava", "RNetLogo")
 remove.packages(p)
 
-# install Netlogo and rJava from source if haven't already
-dir<- "<your working directory>"
-install.packages(paste0(dir,"/RNetLogo_1.0-2.tar.gz", repos = NULL, type="source"))
-install.packages(paste0(dir,"/rJava_0.9-8.tar.gz", repos = NULL, type="source"))
-library(RNetlogo); library(rJava)
+# install Netlogo and rJava from source if haven't already by downloading from CRAN
+# RNetlogo: https://cran.r-project.org/web/packages/RNetLogo/index.html
+# rJava: https://cran.r-project.org/web/packages/rJava/index.html
+dir<- "<directory where RNetlogo and rjava package sources are downloaded>"
+rnl <- "<RNetLogo package file name>" # e.g. "RNetLogo_1.0-4.tar.gz" 
+rj <- "<rJava package file name>" # e.g. "rJava_0.9-8.tar.gz" 
+install.packages(paste0(dir,"/",rnl, repos = NULL, type="source"))
+install.packages(paste0(dir,"/",rj, repos = NULL, type="source"))
+library(RNetLogo); library(rJava)
 
 # ------------------- for PC and working Mac OSX ---------------------------
 # ------------------- model setup ---------------------------
 # get packages
-install.packages(c("NicheMapR","adehabitatHR","rgeos","sp", "maptools", "raster","rworldmap","rgdal","dplyr"))
-library(NicheMapR); library(adehabitatHR); library(rgeos); library(sp); library(maptools); library(raster); library(rworldmap); library(rgdal); library(dplyr)
+packages <- c("NicheMapR","adehabitatHR","rgeos","sp", "maptools", "raster","rworldmap","rgdal","dplyr")
+install.packages(packages,dependencies = T)
+lapply(packages,library,character.only=T)
 
 #source DEB and heat budget models from https://github.com/darwinanddavis/MalishevBullKearney
 source('DEB.R')
@@ -251,13 +256,15 @@ mass <- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
 
 # ****************************************** open NETLOGO *****************************************
 
-nl.path<- "<dir path to Netlogo program>"
-# if error, try adding "/app" to end of dir path for running in El Capitan for OSX
+nl.path<- "<dir path to Netlogo program>" 
+ver <-"<version number of Netlogo>" # type in version of Netlogo e.g. "6.0.1"
+# if error, try adding "/app" to end of dir path for running in Windows and El Capitan for OSX
 # nl.path<-"<dir path to Netlogo program>/app" 
 NLStart(nl.path)
+NLStart(nl.path, nl.jarname = paste0("netlogo-",ver,".jar"))
 model.path<- "<dir path to Netlogo model>"
 NLLoadModel(model.path)
-
+?NLStart
 # set results path
 results.path<- "<dir path to store result outputs>"
 
