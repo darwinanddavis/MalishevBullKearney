@@ -1559,32 +1559,31 @@ end
 <h3>Initial setup</h3>
 <pre class="r"><code># RNL_new trans model_with DEB_1.6.2
 
-# ----------------------------------------------------------------
-# ------------------- initial Mac OS and R config ----------------
-# ----------------------------------------------------------------
-
-#if using Mac OSX Mountain Lion + and not already in JQR, download and open JGR 
-# after downloading, load JGR
-install.packages(&quot;JGR&quot;)
-Sys.setenv(NOAWT=1)
-library(JGR)
-Sys.unsetenv(&quot;NOAWT&quot;)
-JGR()
-
-# in JGR onwards
+# ---------------------------------------------------------------------------
+# ------------------- initial Mac OS and R config ---------------------------
+# ---------------------------------------------------------------------------
 # if already loaded, uninstall RNetlogo and rJava
 p&lt;-c(&quot;rJava&quot;, &quot;RNetLogo&quot;)
 remove.packages(p)
 
-# install Netlogo and rJava from source if haven't already by downloading from CRAN
-# RNetlogo: https://cran.r-project.org/web/packages/RNetLogo/index.html
-# rJava: https://cran.r-project.org/web/packages/rJava/index.html
-dir&lt;- &quot;&lt;directory where RNetlogo and rjava package sources are downloaded&gt;&quot;
-rnl &lt;- &quot;&lt;RNetLogo package file name&gt;&quot; # e.g. &quot;RNetLogo_1.0-4.tar.gz&quot; 
-rj &lt;- &quot;&lt;rJava package file name&gt;&quot; # e.g. &quot;rJava_0.9-8.tar.gz&quot; 
-install.packages(paste0(dir,&quot;/&quot;,rnl, repos = NULL, type=&quot;source&quot;))
-install.packages(paste0(dir,&quot;/&quot;,rj, repos = NULL, type=&quot;source&quot;))
-library(RNetLogo); library(rJava)</code></pre>
+# if using Mac OSX El Capitan+ and not already in JQR, download and open JGR 
+
+# for a rJava error, run the following in terminal (src: https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite)
+# sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
+# then install rJava from source
+install.packages(&quot;rJava&quot;, repos = &quot;https://cran.r-project.org/&quot;, type=&quot;source&quot;)
+library(rJava)
+
+# load JGR after downloading 
+Sys.setenv(NOAWT=1)
+install.packages(&quot;JGR&quot;)
+library(JGR)
+Sys.unsetenv(&quot;NOAWT&quot;)
+JGR() # open JGR
+
+# ------------------------- JGR onwards ----------------------------
+# install RNetlogo from source if haven't already
+install.packages(&quot;RNetLogo&quot;, repos = &quot;https://cran.r-project.org/&quot;, type=&quot;source&quot;)</code></pre>
 <div id="for-pc-and-working-mac-osx" class="section level4">
 <h4>For PC and working Mac OSX</h4>
 <p>Source <code>DEB.R</code> and <code>onelump_varenv.R</code> from <a href="%22https://github.com/darwinanddavis/MalishevBullKearney%22"><strong>Github</strong></a></p>
@@ -1700,7 +1699,6 @@ mass &lt;- V_pres_init + V_pres_init*E_pres_init/mu_E/d_V*23.9
 <h3>Initialise decision-making and DEB models</h3>
 <p>Source Netlogo model from <a href="%22https://github.com/darwinanddavis/MalishevBullKearney%22"><strong>Github</strong></a></p>
 <pre class="r"><code># ********************** start NETLOGO SIMULATION  ***********************
-
 
 nl.path&lt;- &quot;&lt;dir path to Netlogo program&gt;&quot; 
 ver &lt;-&quot;&lt;version number of Netlogo&gt;&quot; # type in version of Netlogo e.g. &quot;6.0.1&quot;

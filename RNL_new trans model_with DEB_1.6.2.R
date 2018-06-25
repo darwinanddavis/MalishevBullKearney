@@ -1,5 +1,13 @@
 # RNL_new trans model_with DEB_1.6.2
 
+# 25-6-18
+# updates
+# R 3.5.0
+# RStudio 1.1.453
+# JGR 3.4.1
+# fixed rJava installation error for Mac OSX El Capitan 10.11.+ 
+# fixed JGR installation and loading error from rJava error
+
 #19-6-18
 # time stamp for updated file RNL_new trans model_with DEB_1.6.2
 
@@ -122,29 +130,29 @@
 # ---------------------------------------------------------------------------
 # ------------------- initial Mac OS and R config ---------------------------
 # ---------------------------------------------------------------------------
-
-#if using Mac OSX Mountain Lion + and not already in JQR, download and open JGR 
-# after downloading, load JGR
-install.packages("JGR")
-Sys.setenv(NOAWT=1)
-library(JGR)
-Sys.unsetenv("NOAWT")
-JGR()
-
-# in JGR onwards
 # if already loaded, uninstall RNetlogo and rJava
 p<-c("rJava", "RNetLogo")
 remove.packages(p)
 
-# install Netlogo and rJava from source if haven't already by downloading from CRAN
-# RNetlogo: https://cran.r-project.org/web/packages/RNetLogo/index.html
-# rJava: https://cran.r-project.org/web/packages/rJava/index.html
-dir<- "<directory where RNetlogo and rjava package sources are downloaded>"
-rnl <- "<RNetLogo package file name>" # e.g. "RNetLogo_1.0-4.tar.gz" 
-rj <- "<rJava package file name>" # e.g. "rJava_0.9-8.tar.gz" 
-install.packages(paste0(dir,"/",rnl, repos = NULL, type="source"))
-install.packages(paste0(dir,"/",rj, repos = NULL, type="source"))
-library(RNetLogo); library(rJava)
+# if using Mac OSX El Capitan+ and not already in JQR, download and open JGR 
+
+# for a rJava error, run the following in terminal (src: https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite)
+# sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
+# then install rJava from source
+install.packages("rJava", repos = "https://cran.r-project.org/", type="source")
+library(rJava)
+
+# load JGR after downloading 
+Sys.setenv(NOAWT=1)
+install.packages("JGR")
+library(JGR)
+Sys.unsetenv("NOAWT")
+JGR() # open JGR
+
+# ------------------------- JGR onwards ----------------------------
+# install RNetlogo from source if haven't already
+# install.packages("/Users/malishev/Documents/Melbourne Uni/Programs/R code/RNetlogo/RNetLogo_1.0-4.tar.gz", repos = NULL, type="source")
+install.packages("RNetLogo", repos = "https://cran.r-project.org/", type="source")
 
 # ------------------- for PC and working Mac OSX ---------------------------
 # ------------------- model setup ---------------------------
