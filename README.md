@@ -29,7 +29,9 @@ File extensions:
 .csv    
 .pdf  
 .rtf  
-.html    
+.html  
+
+******  
 
 :pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com  
   
