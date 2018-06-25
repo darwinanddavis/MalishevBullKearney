@@ -31,6 +31,13 @@ File extensions:
 .rtf  
 .html    
 
-:pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com
+:pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com  
+  
+For Mac OSX > 10 (El Capitan):  
+:one: override user access to java system files 
+``` unix
+sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
+```  
 
-/play yeah
+:two: Install $RNetLogo$ and $rJava$ packages from source  
+:three: Open JGR  
