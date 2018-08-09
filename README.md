@@ -43,3 +43,7 @@ sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
 
 :two: Install `RNetLogo` and `rJava` packages from source  
 :three: Open and run JGR to run model simulation  
+
+This model is optimised to run on Netlogo 5.3.1.  
+
+
