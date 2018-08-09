@@ -1,10 +1,10 @@
 # RNL_new trans model_with DEB_1.6.2
 
-# 25-6-18
 # updates
 # R 3.5.0
 # RStudio 1.1.453
 # JGR 3.4.1
+# Netlogo 5.3.1
 # fixed rJava installation error for Mac OSX El Capitan 10.11.+ 
 # fixed JGR installation and loading error from rJava error
 
