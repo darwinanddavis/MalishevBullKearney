@@ -1,5 +1,4 @@
-# MalishevBullKearney
-## An individual-based model of ectotherm movement integrating metabolic and microclimatic constraints’
+# An individual-based model of ectotherm movement integrating metabolic and microclimatic constraints’
 ### Matthew Malishev<sup>1,2*</sup>, C. Michael Bull<sup>3</sup> & Michael R. Kearney<sup>2</sup>  
 
 ##### _<sup>1</sup> Centre of Excellence for Biosecurity Risk Analysis, <sup>2</sup> School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia_ 
