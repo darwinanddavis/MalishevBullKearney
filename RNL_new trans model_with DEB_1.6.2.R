@@ -1,5 +1,6 @@
 # RNL_new trans model_with DEB_1.6.2
 
+# 30-8-18
 # updates
 # R 3.5.0
 # RStudio 1.1.453
@@ -153,6 +154,7 @@ JGR() # open JGR
 # install RNetlogo from source if haven't already
 # install.packages("/Users/malishev/Documents/Melbourne Uni/Programs/R code/RNetlogo/RNetLogo_1.0-4.tar.gz", repos = NULL, type="source")
 install.packages("RNetLogo", repos = "https://cran.r-project.org/", type="source")
+library(RNetLogo)
 
 # ------------------- for PC and working Mac OSX ---------------------------
 # ------------------- model setup ---------------------------
