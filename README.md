@@ -38,7 +38,7 @@ File extensions:
 
 ******  
 
-### :pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com   
+## :pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com   
   
 For Mac OSX > 10 (El Capitan):  
 :one: Override user access to java system files (see [https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite](https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite))
