@@ -152,7 +152,6 @@ JGR() # open JGR
 
 # ------------------------- JGR onwards ----------------------------
 # install RNetlogo from source if haven't already
-# install.packages("/Users/malishev/Documents/Melbourne Uni/Programs/R code/RNetlogo/RNetLogo_1.0-4.tar.gz", repos = NULL, type="source")
 install.packages("RNetLogo", repos = "https://cran.r-project.org/", type="source")
 library(RNetLogo)
 
