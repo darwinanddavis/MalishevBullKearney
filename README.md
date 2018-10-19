@@ -51,4 +51,10 @@ sudo ln -s $(/usr/libexec/java_home)/jre/lib/server/libjvm.dylib /usr/local/lib
 
 This model is optimised to run on Netlogo 5.3.1.  
 
+## Maintainer  
+**Matt Malishev**   
+:mag: [Website](https://www.researchgate.net/profile/Matt_Malishev)    
+:bird: [@darwinanddavis](https://twitter.com/darwinanddavis)  
+:email: matthew.malishev [at] gmail.com 
+
 
