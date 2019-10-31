@@ -38,10 +38,10 @@ Abstract
 * Representing geolocation data in 3D space to show limits to dispersal and residence times in space  
 
 <img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/sleepyibm_future.png" alt=" " width=1000 height=600>
-Figure 1. Geolocation data of an adult individual at the field site in Bundey Bore, South Australia.    
+Figure 1. Geolocation data of an adult individual at the field site in Bundey Bore, South Australia.  
+  
 
-
-File extensions:     
+File extensions:       
 .R  
 .Rmd  
 .nlogo     
@@ -52,7 +52,9 @@ File extensions:
 
 ******  
 
-## :pig: Troubleshooting for running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev@gmail.com   
+## :pig: Troubleshooting   
+
+Running JGR and the rJava package in R for Mac OSX El Capitan 10.11.+ is specified in the R model file. If problems persist, feel free to contact me at matthew.malishev [at] gmail.com       
   
 For Mac OSX > 10 (El Capitan):  
 :one: Override user access to java system files (see [https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite](https://stackoverflow.com/questions/30738974/rjava-load-error-in-rstudio-r-after-upgrading-to-osx-yosemite))
