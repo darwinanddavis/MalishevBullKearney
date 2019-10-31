@@ -1,4 +1,5 @@
-# An individual-based model of ectotherm movement integrating metabolic and microclimatic constraints
+<img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/mee_header.jpg" alt=" " width=1000 height=600>  
+
 ### Matthew Malishev<sup>1,2*</sup>, C. Michael Bull<sup>3</sup> & Michael R. Kearney<sup>2</sup>  
 
 ##### _<sup>1</sup> Centre of Excellence for Biosecurity Risk Analysis, <sup>2</sup> School of BioSciences, University of Melbourne, Parkville, Melbourne, 3010, Australia_ 
@@ -25,7 +26,19 @@ Abstract
 4.	This framework for predicting physical constraints to individual movement can be extended to individual-level interactions with the same or different species and provides new capabilities for forecasting future responses to novel resource and weather scenarios.
 
 
-Model files and code, data inputs, and appendices   
+## Media  
+
+[Where do Animals Spend Their Time and Energy? Theory, Simulations and GPS Trackers Can Help Us Find Out](https://methodsblog.com/2019/05/22/movement-metabolism-microclimate/), Methods Blog, May 22, 2019.  
+
+[British Ecological Society Robert May Prize 2018 shorlisted article](https://besjournals.onlinelibrary.wiley.com/doi/toc/10.1111/(ISSN)2041-210x.ECRAward2018)  
+
+## Future work   
+
+* Predicting how habitat constraints change across life stage  
+* Representing geolocation data in 3D space to show limits to dispersal and residence times in space  
+
+<img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/sleepyibm_future.png" alt=" " width=1000 height=600>
+Figure 1. Geolocation data of an adult individual at the field site in Bundey Bore, South Australia.  
 
 File extensions:   
 .R  
@@ -34,7 +47,7 @@ File extensions:
 .csv    
 .pdf  
 .rtf  
-.html  
+.html    
 
 ******  
 
