@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/mee_header.jpg" alt=" " width=1000 height=600>  
+<img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/mee_header.jpg" alt=" " width=1000 height=400>  
 
 ### Matthew Malishev<sup>1,2*</sup>, C. Michael Bull<sup>3</sup> & Michael R. Kearney<sup>2</sup>  
 
@@ -38,9 +38,10 @@ Abstract
 * Representing geolocation data in 3D space to show limits to dispersal and residence times in space  
 
 <img src="https://raw.githubusercontent.com/darwinanddavis/MalishevBullKearney/master/img/sleepyibm_future.png" alt=" " width=1000 height=600>
-Figure 1. Geolocation data of an adult individual at the field site in Bundey Bore, South Australia.  
+Figure 1. Geolocation data of an adult individual at the field site in Bundey Bore, South Australia.    
 
-File extensions:   
+
+File extensions:     
 .R  
 .Rmd  
 .nlogo     
